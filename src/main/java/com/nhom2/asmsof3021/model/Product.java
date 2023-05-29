@@ -13,9 +13,9 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 
 @AllArgsConstructor
-@Data
-@ToString
-@EqualsAndHashCode
+@Getter
+@Setter
+@NoArgsConstructor
 public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -40,7 +40,5 @@ public abstract class Product {
     @OneToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     private ProductLine productLine;
-    public Product() {
 
-    }
 }

@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
-import static com.nhom2.asmsof3021.utils.Router.routeToPage;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -26,7 +26,7 @@ public class AuthenticationController {
 
     @GetMapping("/register")
     public ModelAndView getRegister() {
-        ModelAndView modelAndView = routeToPage("RegisterPage");
+        ModelAndView modelAndView = new ModelAndView("RegisterPage");
         RegisterRequest request=new RegisterRequest();
         request.setRole(Role.USER);
         modelAndView.addObject("registerUser",request);
@@ -38,7 +38,7 @@ public class AuthenticationController {
         if (response == null) {
             return new ModelAndView("redirect:/register");
         }
-        return routeToPage("redirect:/home");
+        return new ModelAndView("redirect:/home");
     }
 
     @PostMapping("/authenticate")

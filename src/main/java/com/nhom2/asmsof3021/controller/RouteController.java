@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-import static com.nhom2.asmsof3021.utils.Router.routeToPage;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class RouteController {
 //    }
     @GetMapping({"/","/index","/home"})
     public ModelAndView getHomePage(){
-        ModelAndView modelAndView=routeToPage("Home");
+        ModelAndView modelAndView=new ModelAndView("index");
         List<Product> laptops= service.findProductCategoryById(1);
         modelAndView.addObject("laptops",laptops);
 
@@ -34,9 +34,9 @@ public class RouteController {
     }
     @GetMapping("/login")
     public ModelAndView routeToLoginPage( @RequestParam(value = "error", required = false) String error){
-        ModelAndView modelAndView=routeToPage("LoginPage");
+        ModelAndView modelAndView=new ModelAndView("LoginPage");
         if(error!=null){
-            return routeToPage("redirect:/login?error=failed");
+            return new ModelAndView("redirect:/login?error="+error);
         }
         modelAndView.addObject("loginUser",new AuthenticationRequest());
 

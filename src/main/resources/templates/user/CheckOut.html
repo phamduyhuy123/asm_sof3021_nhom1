@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,336 +8,335 @@
     <title>Document</title>
 </head>
 <body>
+<section>
+  <form ng-controller="checkoutctrl" action="" class="needs-validation">
+    <div class="container-fluid pt-3 pb-3">
 
-
-
-<form ng-controller="checkoutctrl" action="" class="needs-validation">
-  <div class="container-fluid pt-3 pb-3">
-
-    <div class="container bg-light p-lg-3 p-1 shadow mb-3">
-      <div class="fw-bolder">ĐỊA CHỈ GIAO HÀNG</div>
-      <div>
-        <hr>
-        <div class="form-check">
-          <input class="form-check-input " type="radio" name="diachi" id="diachiRadioButton" checked>
-          <label class="form-check-label" for="diachiRadioButton">
-            Phạm Duy Huy | khu 2, Hoàng Cương, Thanh Ba, Phú Thọ | 0773726533
-          </label>
-        </div>
-        <div class="form-check">
+      <div class="container bg-light p-lg-3 p-1 shadow mb-3">
+        <div class="fw-bolder">ĐỊA CHỈ GIAO HÀNG</div>
+        <div>
+          <hr>
+          <div class="form-check">
+            <input class="form-check-input " type="radio" name="diachi" id="diachiRadioButton" checked>
+            <label class="form-check-label" for="diachiRadioButton">
+              Phạm Duy Huy | khu 2, Hoàng Cương, Thanh Ba, Phú Thọ | 0773726533
+            </label>
+          </div>
+          <div class="form-check">
                         <span class=""><i role="button" id="themDiaChiRadioButton"
                                           class="text-danger form-check-input border-0 bi bi-plus-circle"></i></span>
-          <label class="form-check-label" for="themDiaChiRadioButton">Giao đến địa chỉ khác</label>
+            <label class="form-check-label" for="themDiaChiRadioButton">Giao đến địa chỉ khác</label>
 
-        </div>
-
-      </div>
-    </div>
-    <div class="container bg-light p-lg-3 p-1 shadow mb-3">
-      <div class="fw-bolder">PHƯƠNG THỨC VẬN CHUYỂN
-      </div>
-      <div>
-        <hr>
-        <div class="form-check">
-          <input class="form-check-input " type="radio" name="shipping" id="shippingRadioButton" checked>
-          <label class="form-check-label" for="shippingRadioButton">
-            <div class="fw-bold">Giao hàng tiêu chuẩn: 18.000 ₫</div>
-            <div>Thứ Tư - 01/02</div>
-
-          </label>
-        </div>
-
-
-      </div>
-    </div>
-    <div class="container bg-light p-lg-3 p-1 shadow mb-3">
-      <div class="fw-bolder">PHƯƠNG THỨC THANH TOÁN</div>
-      <div>
-        <hr>
-        <div class="form-check my-3">
-          <input class="form-check-input " type="radio" name="payment"  checked>
-
-          <div class="d-flex form-check-label">
-            <div class=""
-                 style="width: 40px;height: 25px; background: url(icon/svg-icons/ico_airpay.svg) no-repeat center center;">
-
-            </div>
-            <div class="ms-2">
-              Ví Shopeepay
-            </div>
           </div>
-        </div>
-        <div class="form-check my-3">
-          <input class="form-check-input " type="radio" name="payment" checked>
 
-          <div class="d-flex form-check-label">
-            <div class=""
-                 style="width: 40px;height: 25px; background: url(icon/svg-icons/ico_mocapay.svg) no-repeat center center;">
-
-            </div>
-            <div class="ms-2">
-              Ví Moca trên ứng dụng Grab
-            </div>
-          </div>
-        </div>
-        <div class="form-check my-3">
-          <input class="form-check-input " type="radio" name="payment"  checked>
-
-          <div class="d-flex form-check-label">
-            <div class=""
-                 style="width: 40px;height: 25px; background: url(icon/svg-icons/ico_zalopayapp.svg) no-repeat center center;">
-
-            </div>
-            <div class="ms-2">
-              Ví ZaloPay
-            </div>
-          </div>
-        </div>
-        <div class="form-check my-3">
-          <input class="form-check-input " type="radio" name="payment"  checked>
-
-          <div class="d-flex form-check-label">
-            <div class=""
-                 style="width: 40px;height: 25px; background: url(icon/svg-icons/ico_momopay.svg) no-repeat center center;">
-
-            </div>
-            <div class="ms-2">
-              Ví Momo
-            </div>
-          </div>
-        </div>
-        <div class="form-check my-3">
-          <input class="form-check-input " type="radio" name="payment"  checked>
-
-          <div class="d-flex form-check-label">
-            <div class=""
-                 style="width: 40px;height: 25px; background: url(icon/svg-icons/ico_zalopayatm.svg) no-repeat center center;">
-
-            </div>
-            <div class="ms-2">
-              ATM / Internet Banking
-            </div>
-          </div>
-        </div>
-        <div class="form-check my-3">
-          <input class="form-check-input " type="radio" name="payment"  checked>
-
-          <div class="d-flex form-check-label">
-            <div class=""
-                 style="width: 40px;height: 25px; background: url(icon/svg-icons/ico_cashondelivery.svg) no-repeat center center;">
-
-            </div>
-            <div class="ms-2">
-              Thanh toán bằng tiền mặt khi nhận hàng
-            </div>
-          </div>
         </div>
       </div>
-    </div>
-    <div class="container bg-light p-lg-3 p-1 shadow mb-3">
-      <div class="fw-bolder">MÃ KHUYẾN MÃI/MÃ QUÀ TẶNG</div>
-      <div>
-        <hr>
-        <div class="mb-3">
+      <div class="container bg-light p-lg-3 p-1 shadow mb-3">
+        <div class="fw-bolder">PHƯƠNG THỨC VẬN CHUYỂN
+        </div>
+        <div>
+          <hr>
+          <div class="form-check">
+            <input class="form-check-input " type="radio" name="shipping" id="shippingRadioButton" checked>
+            <label class="form-check-label" for="shippingRadioButton">
+              <div class="fw-bold">Giao hàng tiêu chuẩn: 18.000 ₫</div>
+              <div>Thứ Tư - 01/02</div>
+
+            </label>
+          </div>
 
 
-          <div class="row">
-            <label for="inputEmail3" class="col-sm-2 col-form-label col-lg-2">Mã KM/Quà tặng</label>
-            <div class="col-sm-8 col-lg-10">
-              <input type="text" placeholder="Nhập mã khuyến mãi" class="form-control rounded-start w-50"
-                     id="inputEmail">
-              <div class="mt-3">
-                <button type="button" class=" btn btn-primary rounded-end">Áp dụng</button>
-                <span role="button" class="mx-2 text-primary text-decoration-underline"
-                      data-bs-toggle="modal" data-bs-target="#selectVoucher">Chọn mã khuyến mãi</span>
+        </div>
+      </div>
+      <div class="container bg-light p-lg-3 p-1 shadow mb-3">
+        <div class="fw-bolder">PHƯƠNG THỨC THANH TOÁN</div>
+        <div>
+          <hr>
+          <div class="form-check my-3">
+            <input class="form-check-input " type="radio" name="payment"  checked>
+
+            <div class="d-flex form-check-label">
+              <div class=""
+                   style="width: 40px;height: 25px; background: url(/icon/svg-icons/ico_airpay.svg) no-repeat center center;">
+
+              </div>
+              <div class="ms-2">
+                Ví Shopeepay
               </div>
             </div>
-
-
           </div>
-          <div class="modal fade" id="selectVoucher" tabindex="-1" aria-labelledby="selectVoucherLabel"
-               aria-hidden="true" style="">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
-              <div class="modal-content" style="height: 300px;">
-                <div class="modal-header text-primary position-relative">
+          <div class="form-check my-3">
+            <input class="form-check-input " type="radio" name="payment" checked>
 
-                  <div class="mx-auto" style="top: 25px">
-                    <div class="">
-                      <img src="~/assets/icon/svg-icons/ico_coupon.svg" alt="">
-                      <span class="fw-bold " style="font-size: small;">
+            <div class="d-flex form-check-label">
+              <div class=""
+                   style="width: 40px;height: 25px; background: url(/icon/svg-icons/ico_mocapay.svg) no-repeat center center;">
+
+              </div>
+              <div class="ms-2">
+                Ví Moca trên ứng dụng Grab
+              </div>
+            </div>
+          </div>
+          <div class="form-check my-3">
+            <input class="form-check-input " type="radio" name="payment"  checked>
+
+            <div class="d-flex form-check-label">
+              <div class=""
+                   style="width: 40px;height: 25px; background: url(/icon/svg-icons/ico_zalopayapp.svg) no-repeat center center;">
+
+              </div>
+              <div class="ms-2">
+                Ví ZaloPay
+              </div>
+            </div>
+          </div>
+          <div class="form-check my-3">
+            <input class="form-check-input " type="radio" name="payment"  checked>
+
+            <div class="d-flex form-check-label">
+              <div class=""
+                   style="width: 40px;height: 25px; background: url(/icon/svg-icons/ico_momopay.svg) no-repeat center center;">
+
+              </div>
+              <div class="ms-2">
+                Ví Momo
+              </div>
+            </div>
+          </div>
+          <div class="form-check my-3">
+            <input class="form-check-input " type="radio" name="payment"  checked>
+
+            <div class="d-flex form-check-label">
+              <div class=""
+                   style="width: 40px;height: 25px; background: url(/icon/svg-icons/ico_zalopayatm.svg) no-repeat center center;">
+
+              </div>
+              <div class="ms-2">
+                ATM / Internet Banking
+              </div>
+            </div>
+          </div>
+          <div class="form-check my-3">
+            <input class="form-check-input " type="radio" name="payment"  checked>
+
+            <div class="d-flex form-check-label">
+              <div class=""
+                   style="width: 40px;height: 25px; background: url(/icon/svg-icons/ico_cashondelivery.svg) no-repeat center center;">
+
+              </div>
+              <div class="ms-2">
+                Thanh toán bằng tiền mặt khi nhận hàng
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container bg-light p-lg-3 p-1 shadow mb-3">
+        <div class="fw-bolder">MÃ KHUYẾN MÃI/MÃ QUÀ TẶNG</div>
+        <div>
+          <hr>
+          <div class="mb-3">
+
+
+            <div class="row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label col-lg-2">Mã KM/Quà tặng</label>
+              <div class="col-sm-8 col-lg-10">
+                <input type="text" placeholder="Nhập mã khuyến mãi" class="form-control rounded-start w-50"
+                       id="inputEmail">
+                <div class="mt-3">
+                  <button type="button" class=" btn btn-primary rounded-end">Áp dụng</button>
+                  <span role="button" class="mx-2 text-primary text-decoration-underline"
+                        data-bs-toggle="modal" data-bs-target="#selectVoucher">Chọn mã khuyến mãi</span>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="modal fade" id="selectVoucher" tabindex="-1" aria-labelledby="selectVoucherLabel"
+                 aria-hidden="true" style="">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable ">
+                <div class="modal-content" style="height: 300px;">
+                  <div class="modal-header text-primary position-relative">
+
+                    <div class="mx-auto" style="top: 25px">
+                      <div class="">
+                        <img src="~/assets/icon/svg-icons/ico_coupon.svg" alt="">
+                        <span class="fw-bold " style="font-size: small;">
                                                     CHỌN MÃ KHUYẾN MÃI</span>
-                      <span class="lead text-black " style="font-size: 12px;">Có thể áp
-                                                    dụng đồng thời nhiều mã <img src="~/assets/icon/svg-icons/ico-alert-grey.svg"
+                        <span class="lead text-black " style="font-size: 12px;">Có thể áp
+                                                    dụng đồng thời nhiều mã <img src="/icon/svg-icons/ico-alert-grey.svg"
                                                                                  alt="" srcset="">
                                                 </span>
-                    </div>
-                    <div class="input-group mt-2">
-                      <input placeholder="Nhập mã khuyến mãi" type="text"
-                             class="form-control rounded-start" >
-                      <button class=" btn btn-primary rounded-end">Áp dụng</button>
+                      </div>
+                      <div class="input-group mt-2">
+                        <input placeholder="Nhập mã khuyến mãi" type="text"
+                               class="form-control rounded-start" >
+                        <button class=" btn btn-primary rounded-end">Áp dụng</button>
 
+                      </div>
                     </div>
+                    <button type="button" class="btn-close position-absolute " style="top: 10px; right: 5px" data-bs-dismiss="modal" aria-label="Close"></button>
+
                   </div>
-                  <button type="button" class="btn-close position-absolute " style="top: 10px; right: 5px" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <div class="modal-body">
+                    <!-- <div class="voucher_card p-1 position-relative " >
+                            <img class="position-absolute top-0 start-0  img-fluid"   style=" filter: drop-shadow(rgba(0, 0, 0, 0.15) 0px 1px 3px);" src="icon/svg-icons/ico_voucher.svg" alt="" srcset="">
+                            <div class="position-absolute start-0 " style="width: 40px; background: url(icon/svg-icons/Frame_icon_web_light_yellow.svg) no-repeat center center; ">
+
+                            </div>
+                        </div> -->
+
+                  </div>
 
                 </div>
-                <div class="modal-body">
-                  <!-- <div class="voucher_card p-1 position-relative " >
-                          <img class="position-absolute top-0 start-0  img-fluid"   style=" filter: drop-shadow(rgba(0, 0, 0, 0.15) 0px 1px 3px);" src="icon/svg-icons/ico_voucher.svg" alt="" srcset="">
-                          <div class="position-absolute start-0 " style="width: 40px; background: url(icon/svg-icons/Frame_icon_web_light_yellow.svg) no-repeat center center; ">
-
-                          </div>
-                      </div> -->
-
-                </div>
-
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container bg-light p-lg-3 p-1 shadow mb-3">
-      <div class="fw-bolder">THÔNG TIN KHÁC</div>
-      <div>
-        <hr>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
-                 data-bs-toggle="collapse" data-bs-target="#collapseGhiChu" aria-expanded="false"
-                 aria-controls="collapseGhiChu">
-          <label class="form-check-label" for="flexCheckDefault">
-            Ghi chú
-          </label>
-        </div>
-        <div class="my-3 collapse" id="collapseGhiChu">
-          <div class="form-floating w-50">
-            <textarea class="form-control" placeholder="Nhập ghi chú" id="floatingTextarea"></textarea>
-            <label for="floatingTextarea">Ghi chú</label>
+      <div class="container bg-light p-lg-3 p-1 shadow mb-3">
+        <div class="fw-bolder">THÔNG TIN KHÁC</div>
+        <div>
+          <hr>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                   data-bs-toggle="collapse" data-bs-target="#collapseGhiChu" aria-expanded="false"
+                   aria-controls="collapseGhiChu">
+            <label class="form-check-label" for="flexCheckDefault">
+              Ghi chú
+            </label>
           </div>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"
-                 aria-describedby="defaultCheck1Feedback" required>
-          <label class="form-check-label text-decoration-none" for="defaultCheck1">
+          <div class="my-3 collapse" id="collapseGhiChu">
+            <div class="form-floating w-50">
+              <textarea class="form-control" placeholder="Nhập ghi chú" id="floatingTextarea"></textarea>
+              <label for="floatingTextarea">Ghi chú</label>
+            </div>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1"
+                   aria-describedby="defaultCheck1Feedback" required>
+            <label class="form-check-label text-decoration-none" for="defaultCheck1">
                             <span class="text-danger">Bằng việc tiến hành Đặt Mua, khách hàng đồng ý với các Điều Kiện
                                 Giao Dịch Chung được ban hành bởi Xgear: </span>
-            <a href="">Điều khoản sử dụng</a> | <a href="">Chính sách bảo mật thanh toán</a> | <a
-                  href="">Chính sách bảo mật thông tin cá nhân</a>
-            | <a href="">Chính sách vận chuyển</a> | <a href="">Chính sách đổi trả - hoàn tiền</a>
-          </label>
-          <div id="defaultCheck1Feedback" class="invalid-feedback">
-            You must agree before submitting.
+              <a href="">Điều khoản sử dụng</a> | <a href="">Chính sách bảo mật thanh toán</a> | <a
+                    href="">Chính sách bảo mật thông tin cá nhân</a>
+              | <a href="">Chính sách vận chuyển</a> | <a href="">Chính sách đổi trả - hoàn tiền</a>
+            </label>
+            <div id="defaultCheck1Feedback" class="invalid-feedback">
+              You must agree before submitting.
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="container bg-light p-lg-3 p-1 shadow mb-3">
+        <div class="fw-bold">KIỂM TRA LẠI ĐƠN HÀNG</div>
+        <div>
+          <hr>
+          <div class="d-flex p-3 row border-bottom">
+            <div class="col-12 col-lg-6 d-flex justify-content-start mt-3 ">
+              <img class="img-fluid w-auto d-none d-sm-block d-sm-none d-md-block " src="images/katana-gf66-684vn-ava-280x280.jpeg" alt="">
+              <span class="mx-2 ">
+                                Laptop Gaming MSI Katana GF66 12UD 684VN Geforce RTX 3050Ti 4GB Intel Core
+                                i7 12650H 16GB 512GB 15.6” FHD IPS 144Hz RGB Win 11
+                            </span>
+            </div>
+            <div class="col col-lg-6 text-end mt-3">
+              <span class="mx-2">25,490,000 ₫</span>
+              <span class="mx-2">1</span>
+              <span class="text-warning mx-2">25,490,000 ₫</span>
+            </div>
+          </div>
+          <div class="d-flex p-3 row border-bottom">
+            <div class="col-12 col-lg-6 d-flex justify-content-start mt-3 ">
+              <img class="img-fluid w-auto d-none d-sm-block d-sm-none d-md-block " src="images/katana-gf66-684vn-ava-280x280.jpeg" alt="">
+              <span class="mx-2 ">
+                                Laptop Gaming MSI Katana GF66 12UD 684VN Geforce RTX 3050Ti 4GB Intel Core
+                                i7 12650H 16GB 512GB 15.6” FHD IPS 144Hz RGB Win 11
+                            </span>
+            </div>
+            <div class="col col-lg-6 text-end mt-3">
+              <span class="mx-2">25,490,000 ₫</span>
+              <span class="mx-2">1</span>
+              <span class="text-warning mx-2">25,490,000 ₫</span>
+            </div>
+          </div>
+          <div class="d-flex p-3 row border-bottom">
+            <div class="col-12 col-lg-6 d-flex justify-content-start mt-3 ">
+              <img class="img-fluid w-auto d-none d-sm-block d-sm-none d-md-block " src="images/katana-gf66-684vn-ava-280x280.jpeg" alt="">
+              <span class="mx-2 ">
+                                Laptop Gaming MSI Katana GF66 12UD 684VN Geforce RTX 3050Ti 4GB Intel Core
+                                i7 12650H 16GB 512GB 15.6” FHD IPS 144Hz RGB Win 11
+                            </span>
+            </div>
+            <div class="col col-lg-6 text-end mt-3">
+              <span class="mx-2">25,490,000 ₫</span>
+              <span class="mx-2">1</span>
+              <span class="text-warning mx-2">25,490,000 ₫</span>
+            </div>
+          </div>
+          <div class="d-flex p-3 row border-bottom">
+            <div class="col-12 col-lg-6 d-flex justify-content-start mt-3 ">
+              <img class="img-fluid w-auto d-none d-sm-block d-sm-none d-md-block " src="images/katana-gf66-684vn-ava-280x280.jpeg" alt="">
+              <span class="mx-2 ">
+                                Laptop Gaming MSI Katana GF66 12UD 684VN Geforce RTX 3050Ti 4GB Intel Core
+                                i7 12650H 16GB 512GB 15.6” FHD IPS 144Hz RGB Win 11
+                            </span>
+            </div>
+            <div class="col col-lg-6 text-end mt-3">
+              <span class="mx-2">25,490,000 ₫</span>
+              <span class="mx-2">1</span>
+              <span class="text-warning mx-2">25,490,000 ₫</span>
+            </div>
           </div>
         </div>
-
       </div>
+
     </div>
-    <div class="container bg-light p-lg-3 p-1 shadow mb-3">
-      <div class="fw-bold">KIỂM TRA LẠI ĐƠN HÀNG</div>
-      <div>
+    <div class="position-sticky bottom-0 shadow w-100 bg-light bg-opacity-75">
+      <div class=" container p-2">
+        <div class="text-end">
+          <div class="d-none d-md-block  d-none d-lg-block ">
+            <div class="w-100 d-flex my-2">
+              <div class="w-75">Thành tiền:
+              </div>
+              <div class="w-25">41,980,000₫</div>
+            </div>
+            <div class="w-100 d-flex my-2">
+              <div class="w-75">Phí vận chuyển (Giao hàng tiêu chuẩn):
+              </div>
+              <div class="w-25">18.000₫</div>
+            </div>
+          </div>
+          <div class="w-100 d-flex my-2">
+            <div class="w-75 fw-bold fs-4">Tổng Số Tiền (gồm VAT):
+            </div>
+            <div class="w-25 text-warning fs-5">41,998,000₫</div>
+          </div>
+        </div>
         <hr>
-        <div class="d-flex p-3 row border-bottom">
-          <div class="col-12 col-lg-6 d-flex justify-content-start mt-3 ">
-            <img class="img-fluid w-auto d-none d-sm-block d-sm-none d-md-block " src="images/katana-gf66-684vn-ava-280x280.jpeg" alt="">
-            <span class="mx-2 ">
-                                Laptop Gaming MSI Katana GF66 12UD 684VN Geforce RTX 3050Ti 4GB Intel Core
-                                i7 12650H 16GB 512GB 15.6” FHD IPS 144Hz RGB Win 11
-                            </span>
-          </div>
-          <div class="col col-lg-6 text-end mt-3">
-            <span class="mx-2">25,490,000 ₫</span>
-            <span class="mx-2">1</span>
-            <span class="text-warning mx-2">25,490,000 ₫</span>
-          </div>
-        </div>
-        <div class="d-flex p-3 row border-bottom">
-          <div class="col-12 col-lg-6 d-flex justify-content-start mt-3 ">
-            <img class="img-fluid w-auto d-none d-sm-block d-sm-none d-md-block " src="images/katana-gf66-684vn-ava-280x280.jpeg" alt="">
-            <span class="mx-2 ">
-                                Laptop Gaming MSI Katana GF66 12UD 684VN Geforce RTX 3050Ti 4GB Intel Core
-                                i7 12650H 16GB 512GB 15.6” FHD IPS 144Hz RGB Win 11
-                            </span>
-          </div>
-          <div class="col col-lg-6 text-end mt-3">
-            <span class="mx-2">25,490,000 ₫</span>
-            <span class="mx-2">1</span>
-            <span class="text-warning mx-2">25,490,000 ₫</span>
-          </div>
-        </div>
-        <div class="d-flex p-3 row border-bottom">
-          <div class="col-12 col-lg-6 d-flex justify-content-start mt-3 ">
-            <img class="img-fluid w-auto d-none d-sm-block d-sm-none d-md-block " src="images/katana-gf66-684vn-ava-280x280.jpeg" alt="">
-            <span class="mx-2 ">
-                                Laptop Gaming MSI Katana GF66 12UD 684VN Geforce RTX 3050Ti 4GB Intel Core
-                                i7 12650H 16GB 512GB 15.6” FHD IPS 144Hz RGB Win 11
-                            </span>
-          </div>
-          <div class="col col-lg-6 text-end mt-3">
-            <span class="mx-2">25,490,000 ₫</span>
-            <span class="mx-2">1</span>
-            <span class="text-warning mx-2">25,490,000 ₫</span>
-          </div>
-        </div>
-        <div class="d-flex p-3 row border-bottom">
-          <div class="col-12 col-lg-6 d-flex justify-content-start mt-3 ">
-            <img class="img-fluid w-auto d-none d-sm-block d-sm-none d-md-block " src="images/katana-gf66-684vn-ava-280x280.jpeg" alt="">
-            <span class="mx-2 ">
-                                Laptop Gaming MSI Katana GF66 12UD 684VN Geforce RTX 3050Ti 4GB Intel Core
-                                i7 12650H 16GB 512GB 15.6” FHD IPS 144Hz RGB Win 11
-                            </span>
-          </div>
-          <div class="col col-lg-6 text-end mt-3">
-            <span class="mx-2">25,490,000 ₫</span>
-            <span class="mx-2">1</span>
-            <span class="text-warning mx-2">25,490,000 ₫</span>
+        <div>
+          <div class=" d-flex my-2">
+            <div class="d-none d-md-block  d-none d-lg-block">
+              <i role="button" class="bi bi-arrow-left "></i></span> Quay về giỏ hàng
+            </div>
+            <button type="submit" class="btn btn-danger  ms-auto ">Xác nhận thanh toán</button>
+
           </div>
         </div>
       </div>
     </div>
-
-  </div>
-  <div class="position-sticky bottom-0 shadow w-100 bg-light bg-opacity-75">
-    <div class=" container p-2">
-      <div class="text-end">
-        <div class="d-none d-md-block  d-none d-lg-block ">
-          <div class="w-100 d-flex my-2">
-            <div class="w-75">Thành tiền:
-            </div>
-            <div class="w-25">41,980,000₫</div>
-          </div>
-          <div class="w-100 d-flex my-2">
-            <div class="w-75">Phí vận chuyển (Giao hàng tiêu chuẩn):
-            </div>
-            <div class="w-25">18.000₫</div>
-          </div>
-        </div>
-        <div class="w-100 d-flex my-2">
-          <div class="w-75 fw-bold fs-4">Tổng Số Tiền (gồm VAT):
-          </div>
-          <div class="w-25 text-warning fs-5">41,998,000₫</div>
-        </div>
-      </div>
-      <hr>
-      <div>
-        <div class=" d-flex my-2">
-          <div class="d-none d-md-block  d-none d-lg-block">
-            <i role="button" class="bi bi-arrow-left "></i></span> Quay về giỏ hàng
-          </div>
-          <button type="submit" class="btn btn-danger  ms-auto ">Xác nhận thanh toán</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
+  </form>
 
 
-<style>
-  .stickContact{
-    bottom: 30%!important;
-  }
-</style>
+  <style>
+    .stickContact{
+      bottom: 30%!important;
+    }
+  </style>
+</section>
 
 </body>
 </html>

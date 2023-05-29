@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 public class MechanicalKeyboard extends Product {
     private String keyboardType;
-    private String[] versions;
+
     private String switchType;
     private String keycap;
     private String nKey;
@@ -21,6 +21,6 @@ public class MechanicalKeyboard extends Product {
     private String cableLength;
     private String battery;
     private String backlight;
-    private String[] size;
+
     private int warranty;
 }

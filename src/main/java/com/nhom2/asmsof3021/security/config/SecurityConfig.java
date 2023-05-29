@@ -38,18 +38,19 @@ public class SecurityConfig  {
         http
                 .csrf()
                 .disable()
-                .authorizeHttpRequests()
-
-                .requestMatchers("/admin","/admin/**").hasRole(ADMIN.name())
-                .requestMatchers("/user/**","/user").hasRole(USER.name())
-                .anyRequest()
-                .permitAll()
+                .authorizeRequests()
+                .requestMatchers("/admin/**").hasAnyRole("ADMIN","ROLE_ADMIN")
+                .requestMatchers("/user/**").hasAnyRole("USER","ROLE_USER")
+                .requestMatchers("/**").permitAll()
                 .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(customizeFormlogin())
                 .logout(customizeLogout())
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter,UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
 
 
         ;
@@ -64,8 +65,6 @@ public class SecurityConfig  {
                 formLoginConfigurer.loginPage("/login")
                         .loginProcessingUrl("/authenticate")
                         .failureUrl("/login?error=true")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
                         .successHandler(savedRequestAwareAuthenticationSuccessHandler());
             }
         };
