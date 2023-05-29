@@ -12,7 +12,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Webcam extends Product {
-    private String brand;
     private String resolution;
     private boolean autofocus;
     private boolean builtInMicrophone;
