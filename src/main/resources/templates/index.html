@@ -1,0 +1,16 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{MainHead}">
+
+
+</head>
+<body>
+    <div th:replace="~{Navbar}"></div>
+    <div th:include="~{${viewName}}">
+
+    </div>
+    <div th:replace="~{Contact}"></div>
+    <div th:replace="~{MainFooter}"></div>
+</body>
+</html>

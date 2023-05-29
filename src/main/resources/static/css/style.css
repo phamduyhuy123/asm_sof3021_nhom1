@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 0px;
+    margin: 0 auto;
+    /* background-color: lightgray; */
+    font-family: "Roboto", Sans-serif;
+    background-color: #f1f1f1;
+    overflow-x: hidden;
+}
+
+footer {
+    background-color: rgb(212, 212, 212);
+}
+
+.nav-link:hover {
+    color: cornflowerblue;
+}
+
+.voucher_card:hover {
+    background-color: cyan;
+
+}
+
+a {
+    text-decoration: none;
+}
+
+/* .dropdown:hover > .dropdown-menu {
+    display: block;
+} */
+/* .dropend:hover > .dropdown-sub-menu {
+    display: block;
+
+} */
+
+.product-title {
+    font-family: "Roboto", Sans-serif;
+    font-weight: 600;
+    word-spacing: 0px;
+    font-size: 4mm;
+    max-height: 50px;
+    overflow-y: hidden;
+}
+
+.user-btn:hover > .user-card {
+    display: block;
+}
+
+.card-product > .card {
+
+    background: #fff;
+
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+
+    cursor: pointer;
+}
+
+.card-product > .card:hover {
+    transform: scale(1.05);
+    
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
