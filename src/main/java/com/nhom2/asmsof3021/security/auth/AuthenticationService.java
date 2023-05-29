@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -54,12 +55,15 @@ public class AuthenticationService {
         Authentication authentication= authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
-                        request.getPassword()
+                        passwordEncoder.encode(request.getPassword())
                 )
         );
-        System.out.println("is authenticated "+authentication.isAuthenticated());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Authentication authentication1=SecurityContextHolder.getContext().getAuthentication();
+
         var user = repository.findByEmailAndPassword(request.getEmail(),passwordEncoder.encode(request.getPassword()))
                 .orElseThrow();
+        System.out.println(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);

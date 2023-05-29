@@ -1,68 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<section>
+    <div   class="container-fluid bg-light">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="text-decoration-none text-danger"
+                                                   ng-href="#!productCatagory/{{category.catalogId}}">{{category.name}}</a>
+                    </li>
+                    <li  class="breadcrumb-item"><a class="text-decoration-none text-danger" ng-href="#!productCatagory/{{category.catalogId}}/{{brand.brandId}}">{{category.name}} {{brand.name}}</a></li>
+                    <li ng-if="productline" class="breadcrumb-item"><a class="text-decoration-none text-danger" ng-href="#!productCatagory/{{category.catalogId}}/{{brand.brandId}}/{{productline.productLineId}}">{{productline.name}}</a></li>
 
+                </ol>
+            </nav>
+        </div>
+        <div class="container ">
+            <div class="row row-cols-lg-2 row-cols-md-1 row-cols-sm-1 row-cols-1 ">
+                <div class="col-lg-5">
 
+                    <div class="row " >
+                        <div id="carouselExampleIndicators" class="carousel carousel-dark slide " data-bs-ride="true">
 
-<div   class="container-fluid bg-light">
-    <div class="row">
-        <nav style="--bs-breadcrumb-divider: '>>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-decoration-none text-danger"
-                                               ng-href="#!productCatagory/{{category.catalogId}}">{{category.name}}</a>
-                </li>
-                <li  class="breadcrumb-item"><a class="text-decoration-none text-danger" ng-href="#!productCatagory/{{category.catalogId}}/{{brand.brandId}}">{{category.name}} {{brand.name}}</a></li>
-                <li ng-if="productline" class="breadcrumb-item"><a class="text-decoration-none text-danger" ng-href="#!productCatagory/{{category.catalogId}}/{{brand.brandId}}/{{productline.productLineId}}">{{productline.name}}</a></li>
+                            <div class="carousel-inner img-product-detail position-relative ">
+                                <div ng-repeat="img in images" ng-class="{'active': $first}"  class="carousel-item ">
+                                    <img src="images/product/{{img.fileName}}" class="d-block w-100 "
+                                         alt="...">
+                                </div>
 
-            </ol>
-        </nav>
-    </div>
-    <div class="container ">
-        <div class="row row-cols-lg-2 row-cols-md-1 row-cols-sm-1 row-cols-1 ">
-            <div class="col-lg-5">
+                            </div>
+                            <button class="carousel-control-prev" type="button" style="width: 5%;"
+                                    data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" style="width: 5%;"
+                                    data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
 
-                <div class="row " >
-                    <div id="carouselExampleIndicators" class="carousel carousel-dark slide " data-bs-ride="true">
+                            <div class="carousel-indicators text-center">
+                                <button ng-repeat="img in images" ng-class="{'active': $first}" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$index}}"
+                                        aria-current="true" aria-label="Slide {{$index}}"
+                                        style="height: 100px; width: 100px;">
+                                    <img src="images/product/{{img.fileName}}" alt=""
+                                         class="d-block w-100  img-fluid">
+                                </button>
 
-                        <div class="carousel-inner img-product-detail position-relative ">
-                            <div ng-repeat="img in images" ng-class="{'active': $first}"  class="carousel-item ">
-                                <img src="images/product/{{img.fileName}}" class="d-block w-100 "
-                                     alt="...">
                             </div>
 
                         </div>
-                        <button class="carousel-control-prev" type="button" style="width: 5%;"
-                                data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" style="width: 5%;"
-                                data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-
-                        <div class="carousel-indicators text-center">
-                            <button ng-repeat="img in images" ng-class="{'active': $first}" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{$index}}"
-                                    aria-current="true" aria-label="Slide {{$index}}"
-                                    style="height: 100px; width: 100px;">
-                                <img src="images/product/{{img.fileName}}" alt=""
-                                     class="d-block w-100  img-fluid">
-                            </button>
-
-                        </div>
 
                     </div>
+
 
                 </div>
-
-
-            </div>
-            <div class="col-lg-7">
-                <div class="bg-black bg-opacity-10 p-3">
-                    <div class="row">
-                        <h1 class="fw-bold fs-5">
-                            {{laptop.name}}
-                        </h1>
-                    </div>
-                    <p>
+                <div class="col-lg-7">
+                    <div class="bg-black bg-opacity-10 p-3">
+                        <div class="row">
+                            <h1 class="fw-bold fs-5">
+                                {{laptop.name}}
+                            </h1>
+                        </div>
+                        <p>
                             <span class="text-warning">
                                 <i class="bi bi-star-fill "></i>
                                 <i class="bi bi-star-fill "></i>
@@ -70,221 +78,224 @@
                                 <i class="bi bi-star-fill "></i>
                                 <i class="bi bi-star-fill "></i>
                             </span>
-                        <span class="fs-6">(108 lượt bình chọn )</span>
-                        <br>
-                        Thương hiệu: <a ng-href="#!productCatagory/{{category.catalogId}}/{{brand.brandId}}" class="text-danger">{{brand.name}}</a>
-                        <br>
-                        <i class="bi bi-shield-shaded"></i> {{laptop.baohanhDetail}}
-                    </p>
-                    <hr>
-                    <div class="row pt-5 mb-3">
-                        <p>
+                            <span class="fs-6">(108 lượt bình chọn )</span>
+                            <br>
+                            Thương hiệu: <a ng-href="#!productCatagory/{{category.catalogId}}/{{brand.brandId}}" class="text-danger">{{brand.name}}</a>
+                            <br>
+                            <i class="bi bi-shield-shaded"></i> {{laptop.baohanhDetail}}
+                        </p>
+                        <hr>
+                        <div class="row pt-5 mb-3">
+                            <p>
                                 <span class="fs-4"><span
                                         class="text-decoration-line-through text-black text-opacity-50">{{laptop.price | number : 0}}<span>₫</span></span>
                                     <span class="text-decoration-underline "
                                           style="color: red;">{{laptop.giamgia | number : 0}}₫</span></span>
-                            <br>
-                            <span style="font-size: 11px;">*Giá trên đã bao gồm thuế VAT</span>
-                        </p>
+                                <br>
+                                <span style="font-size: 11px;">*Giá trên đã bao gồm thuế VAT</span>
+                            </p>
 
-                    </div>
-                    <div class="">
-                        <input ng-model="amount" class="text-center" value="{{amount}}" type="number" style="max-width: 50px;">
-                        <button ng-click="addToCart(laptop,amount)" class="btn btn-danger">Thêm vào giỏ</button>
-                        <button class="btn btn-danger">Mua ngay</button>
-                    </div>
-                    <div class="card bg-primary mt-2">
-                        <a rel="nofollow" class="text-decoration-none text-light text-center"
-                           href="https://xgear.net/tra-gop/2581-laptop-asus-rog-strix-g15-g513ih-hn015w/?type=bank">
-                            <span>Mua trả góp 0%</span><br> <span class="small" style="font-size: 11px;">Thủ tục đơn
+                        </div>
+                        <div class="">
+                            <input ng-model="amount" class="text-center" value="{{amount}}" type="number" style="max-width: 50px;">
+                            <button ng-click="addToCart(laptop,amount)" class="btn btn-danger">Thêm vào giỏ</button>
+                            <button class="btn btn-danger">Mua ngay</button>
+                        </div>
+                        <div class="card bg-primary mt-2">
+                            <a rel="nofollow" class="text-decoration-none text-light text-center"
+                               href="https://xgear.net/tra-gop/2581-laptop-asus-rog-strix-g15-g513ih-hn015w/?type=bank">
+                                <span>Mua trả góp 0%</span><br> <span class="small" style="font-size: 11px;">Thủ tục đơn
                                     giản</span> </a>
-                    </div>
-                    <div class="mt-3">
+                        </div>
+                        <div class="mt-3">
                             <span style="color: red;"><i class="bi bi-gift-fill fs-3"></i>
                                 <span>Khuyến mãi</span>
                             </span>
-                        <ul>
-                            <li>Balo <strong>MSi</strong></li>
-                            <li>Chuột <strong>Gaming MSI</strong></li>
-                            <li>Túi chống sốc</li>
-                        </ul>
+                            <ul>
+                                <li>Balo <strong>MSi</strong></li>
+                                <li>Chuột <strong>Gaming MSI</strong></li>
+                                <li>Túi chống sốc</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row row-cols-lg-2 row-cols-md-1 row-cols-sm-1 row-cols-1  mt-5">
-            <div class="col">
-                <h1 class="fs-5 fw-bold">Thông số kỹ thuật</h1>
-                <table class="table table-bordered table-striped">
-                    <tr>
-                        <td>
-                            CPU
-                        </td>
-                        <td>
-                            {{laptop.chipDetail}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            VGA
-                        </td>
-                        <td>
-                            {{laptop.cardDetail}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            RAM
-                        </td>
-                        <td>
-                            {{laptop.ramDetail}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            SSD
-                        </td>
-                        <td>
-                            {{laptop.hardDiskDetail}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Màn hình
-                        </td>
-                        <td>
-                            {{laptop.screenSizeDetail}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            OS
-                        </td>
-                        <td>
-                            {{laptop.os}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            LAN
-                        </td>
-                        <td>
-                            {{laptop.lan}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Wireless LAN
-                        </td>
-                        <td>
-                            {{laptop.wireLessLan}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Connector
-                        </td>
-                        <td>
-                            {{laptop.connector}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Bàn phím
-                        </td>
-                        <td>
-                            {{laptop.banPhim}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Pin
-                        </td>
-                        <td>
-                            {{laptop.pin}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Trọng lượng
-                        </td>
-                        <td>
-                            {{laptop.weight}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Bảo hành
-                        </td>
-                        <td>
-                            {{laptop.baohanhDetail}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Kích thước
-                        </td>
-                        <td>
-                            {{laptop.size}}
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-mota-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-mota" type="button" role="tab" aria-controls="nav-mota"
-                                aria-selected="true">Mô tả
-                        </button>
-                        <button class="nav-link " id="nav-danhgia-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-danhgia" type="button" role="tab" aria-controls="nav-danhgia"
-                                aria-selected="false">Đánh giá
-                        </button>
-
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active p-4" id="nav-mota" role="tabpanel"
-                         aria-labelledby="nav-mota-tab" tabindex="0">
-                        <h1 class="fs-4 fw-bold">Mô tả</h1>
-                        <h1 class="fs-4 text-center fw-bold">MSI KATANA GF66 12UD 684VN</h1>
-                        <img class="img-fluid " src="images/kv-warrior.png" alt="">
-                        <br>
-                        <div class="text-center">
-                            <a class="text-decoration-none" href="" data-bs-toggle="collapse" aria-expanded="false"
-                               aria-controls="collapseProductDetail" data-bs-target="#collapseProductDetail">
-                                <span class="text-success">Xem thêm <i class="bi bi-caret-down-fill"></i></span>
-                            </a>
-                        </div>
-                        <div class="collapse mt-5" id="collapseProductDetail">
-                            MSI Katana GF66 12UD 684VN với vi xử lí Intel® Core™ i7 thế hệ 12 mới nhất và card đồ
-                            họa NVIDIA® GeForce RTX™ 30 series, MSI Katana GF66 12UD 684VN được thiết kế tối ưu để
-                            phát huy trọn vẹn sức mạnh khi chơi game. Chiếc MSI Katana GF66 12UD 684VN mới được trau
-                            chuốt tỉ mỉ như cách những người thợ rèn rèn nên những lưỡi kiếm sắc bén. Sở hữu hiệu
-                            năng vượt trội để chiến thắng trên mọi đấu trường.
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-danhgia" role="tabpanel" aria-labelledby="nav-danhgia-tab"
-                         tabindex="0">
-
-                    </div>
-
+            <div class="row row-cols-lg-2 row-cols-md-1 row-cols-sm-1 row-cols-1  mt-5">
+                <div class="col">
+                    <h1 class="fs-5 fw-bold">Thông số kỹ thuật</h1>
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <td>
+                                CPU
+                            </td>
+                            <td>
+                                {{laptop.chipDetail}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                VGA
+                            </td>
+                            <td>
+                                {{laptop.cardDetail}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                RAM
+                            </td>
+                            <td>
+                                {{laptop.ramDetail}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                SSD
+                            </td>
+                            <td>
+                                {{laptop.hardDiskDetail}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Màn hình
+                            </td>
+                            <td>
+                                {{laptop.screenSizeDetail}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                OS
+                            </td>
+                            <td>
+                                {{laptop.os}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                LAN
+                            </td>
+                            <td>
+                                {{laptop.lan}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Wireless LAN
+                            </td>
+                            <td>
+                                {{laptop.wireLessLan}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Connector
+                            </td>
+                            <td>
+                                {{laptop.connector}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Bàn phím
+                            </td>
+                            <td>
+                                {{laptop.banPhim}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Pin
+                            </td>
+                            <td>
+                                {{laptop.pin}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Trọng lượng
+                            </td>
+                            <td>
+                                {{laptop.weight}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Bảo hành
+                            </td>
+                            <td>
+                                {{laptop.baohanhDetail}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Kích thước
+                            </td>
+                            <td>
+                                {{laptop.size}}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
+                <div class="col">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <button class="nav-link active" id="nav-mota-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-mota" type="button" role="tab" aria-controls="nav-mota"
+                                    aria-selected="true">Mô tả
+                            </button>
+                            <button class="nav-link " id="nav-danhgia-tab" data-bs-toggle="tab"
+                                    data-bs-target="#nav-danhgia" type="button" role="tab" aria-controls="nav-danhgia"
+                                    aria-selected="false">Đánh giá
+                            </button>
+
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active p-4" id="nav-mota" role="tabpanel"
+                             aria-labelledby="nav-mota-tab" tabindex="0">
+                            <h1 class="fs-4 fw-bold">Mô tả</h1>
+                            <h1 class="fs-4 text-center fw-bold">MSI KATANA GF66 12UD 684VN</h1>
+                            <img class="img-fluid " src="images/kv-warrior.png" alt="">
+                            <br>
+                            <div class="text-center">
+                                <a class="text-decoration-none" href="" data-bs-toggle="collapse" aria-expanded="false"
+                                   aria-controls="collapseProductDetail" data-bs-target="#collapseProductDetail">
+                                    <span class="text-success">Xem thêm <i class="bi bi-caret-down-fill"></i></span>
+                                </a>
+                            </div>
+                            <div class="collapse mt-5" id="collapseProductDetail">
+                                MSI Katana GF66 12UD 684VN với vi xử lí Intel® Core™ i7 thế hệ 12 mới nhất và card đồ
+                                họa NVIDIA® GeForce RTX™ 30 series, MSI Katana GF66 12UD 684VN được thiết kế tối ưu để
+                                phát huy trọn vẹn sức mạnh khi chơi game. Chiếc MSI Katana GF66 12UD 684VN mới được trau
+                                chuốt tỉ mỉ như cách những người thợ rèn rèn nên những lưỡi kiếm sắc bén. Sở hữu hiệu
+                                năng vượt trội để chiến thắng trên mọi đấu trường.
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-danhgia" role="tabpanel" aria-labelledby="nav-danhgia-tab"
+                             tabindex="0">
+
+                        </div>
+
+                    </div>
+                </div>
+
+
             </div>
-
-
         </div>
     </div>
-</div>
-<style>
-    .carousel-indicators {
-        position: unset;
+    <style>
+        .carousel-indicators {
+            position: unset;
 
 
-    }
+        }
 
-    .carousel-dark .carousel-indicators [data-bs-target] {
-        background-color: white;
-    }
-</style>
+        .carousel-dark .carousel-indicators [data-bs-target] {
+            background-color: white;
+        }
+    </style>
+</section>
+</body>
+</html>

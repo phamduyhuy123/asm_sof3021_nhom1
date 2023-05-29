@@ -15,7 +15,17 @@ body {
 footer {
     background-color: rgb(212, 212, 212);
 }
+#collapseCart, .collapsing {
+    transition: none;
+}
 
+#navHotline {
+    color: ghostwhite;
+}
+
+#navHotline:hover {
+    color: #0dcaf0;
+}
 .nav-link:hover {
     color: cornflowerblue;
 }
@@ -24,7 +34,10 @@ footer {
     background-color: cyan;
 
 }
-
+.contactIconImg {
+    height: 40px;
+    width: 40px;
+}
 a {
     text-decoration: none;
 }

@@ -1,16 +1,229 @@
-
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{MainHead}">
-
-
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>XGear</title>
 </head>
 <body>
-    <div th:replace="~{Navbar}"></div>
-    <div th:include="~{${viewName}}">
+<section  class="container-lg  container-fluid" style="width: 95%;">
+    <!-- Carousel -->
+    <h1 th:text="${statusMessage}"></h1>
+    <div class="row mt-3">
+        <div class="col-12  col-lg-9">
+            <div id="carouselExampleIndicators" class="carousel slide h-auto" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="10000">
+                        <img th:src="@{/images/Laptop-Gaming-MSI-Katana-GF66-12UD-684VN-resize.png}" class="d-block w-100 " alt="...">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="10000">
+                        <img th:src="@{/images/banner-poster-3-resize.png}" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="10000">
+                        <img th:src="@{/images/Laptop-Gaming-Asus-TUF-A15-FA506ICB-HN355W-resize-1.png}" class="d-block w-100"
+                             alt="...">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="10000">
+                        <img th:src="@{/images/banner-poster-2-resize.png}" class="d-block w-100"
+                             alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" style="width: 70px;" type="button"
+                        data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" style="width: 70px;" type="button"
+                        data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-auto  col-lg-3 mt-5  mt-lg-auto ">
+            <div class="flex-row">
+                <div class="mb-2">
+                    <a href="#" >
+                        <img class="rounded-2 w-100 h-25 d-inline-block" th:src="@{/images/Freebuild.jpg}" alt="" srcset="">
+                    </a>
+                </div>
+                <div class="mb-2"><a href="#" class="mb-2">
+                    <img class="rounded-2 w-100 h-25 d-inline-block" th:src="@{/images/Best-Gear.jpg}" alt="" srcset="">
+                </a></div>
+                <div class="mb-2"><a href="#" class="mb-2">
+                    <img class="rounded-2 w-100 h-25 d-inline-block" th:src="@{/images/Xgear-News-1.png}" alt="" srcset="">
+                </a></div>
+            </div>
+
+        </div>
 
     </div>
-    <div th:replace="~{Contact}"></div>
-    <div th:replace="~{MainFooter}"></div>
+
+    <div class="container-fluid justify-content-center my-3 py-2" style="background: #F3F3F3">
+        <div class="row row-cols-2 row-cols-lg-4 row-cols-md-2 justify-content-center ">
+            <div class="col row my-auto ">
+                <div class="col-2  ">
+                    <i class="bi bi-shield-shaded " style="font-size: 2em;"></i>
+                </div>
+                <div class="col-10 ">
+                    <p><Strong>Bảo hành</Strong><br>Chính hãng 100%</p>
+                </div>
+            </div>
+            <div class="col row my-auto">
+                <div class="col-2 ">
+                    <i class="bi bi-arrow-left-right" style="font-size: 2em;"></i>
+                </div>
+                <div class="col-10 my-auto">
+                    <p><Strong>Đổi mới</Strong><br>Trong 7 ngày</p>
+                </div>
+            </div>
+            <div class="col row my-auto">
+                <div class="col-2 ">
+                    <i class="bi bi-wallet" style="font-size: 2em;"></i>
+                </div>
+                <div class="col-10 my-auto">
+                    <p><Strong>Hỗ trợ</Strong><br>Trả góp 100%</p>
+                </div>
+            </div>
+            <div class="col row my-auto">
+                <div class="col-2 ">
+                    <i class="bi bi-truck" style="font-size: 2em;"></i>
+                </div>
+                <div class="col-10 my-auto">
+                    <p><Strong>Giao nhanh 2h</Strong><br>Nội thành HN & HCm</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="">
+        <div class="row justify-content-between p-3 " style="background-color: #75070B">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-5 rounded-2 card ">
+                <h1 style="color: #75070B">LAPTOP</h1>
+            </div>
+            <div class="col-auto col-sm-8 col-md-8 col-lg-7 justify-content-between gap-2 d-flex flex-wrap mt-2 mt-lg-0">
+                <div class="rounded-2 card px-2 text-center justify-content-center">
+                    <a href="#" class="text-black"><span>TUF GAMING</span></a>
+                </div>
+                <div class="rounded-2 card px-2  text-center justify-content-center">
+                    <a href="#" class="text-black"><span>Nitro 5</span></a>
+                </div>
+                <div class="rounded-2 card px-2 text-center justify-content-center">
+                    <a href="#" class="text-black"><span>GF Series</span></a>
+                </div>
+                <div class="rounded-2 card px-2 text-center justify-content-center">
+                    <a href="#" class="text-black"><span>Legion</span></a>
+                </div>
+                <div class="rounded-2 card px-2 text-center justify-content-center">
+                    <a href="#" class="text-black"><span>Strix G</span></a>
+                </div>
+            </div>
+
+        </div>
+        <!-- products-card -->
+        <div  class="container-fluid  mx-auto my-3 bg-light p-2">
+            <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 p-3 align-items-center ">
+                <div  class="col p-2 card-product " th:each="laptop : ${laptops}">
+                    <a  href="#!product/{{laptop.id}}" >
+                        <div class=" card m-0 shadow-sm">
+                        <span th:text="'-' +${laptop.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
+
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                            <img class="card-img-top" th:src="@{/images/product/{img}(img=${laptop.image})}" alt="">
+                            <div class="card-body  pb-1">
+
+                                <div class="text-center">
+                                    <h2 th:text="${laptop.name}" class="text-black product-title">
+
+
+                                    </h2>
+                                    <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(laptop.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
+                                    <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((laptop.price -(laptop.price * laptop.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'">{{laptop.giamgia | number : 0}}</span>
+                                </div>
+                                <table class="table table-borderless table-active table-sm fw-bold mt-2" style="font-size: .8em;">
+                                    <tbody class="">
+                                    <tr>
+                                        <td>
+                                            <i class="bi bi-cpu"></i>
+                                        </td>
+                                        <td class="" th:text="${laptop.chip}">
+
+                                        </td>
+                                        <td>
+                                            <i class="bi bi-gpu-card"></i>
+                                        </td>
+                                        <td th:text="${laptop.card}">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i class="bi bi-memory"></i>
+                                        </td>
+                                        <td th:text="${laptop.ram}">
+
+                                        </td>
+                                        <td>
+                                            <i class="bi bi-device-ssd"></i>
+                                        </td>
+                                        <td th:text="${laptop.hardDisk}">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <i class="fa-solid fa-medal"></i>
+                                        </td>
+                                        <td th:text="${laptop.baohanh}">
+
+                                        </td>
+                                        <td>
+                                            <i class="bi bi-slash-square"></i>
+                                        </td>
+                                        <td th:text="${laptop.screenSize}">
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+
+
+            </div>
+
+            <div class="text-center">
+                <a href="">
+                   <span style="--bs-btn-hover-bg: #a8a7a7 " class="btn">
+
+                    <i class="bi bi-eye-fill"></i>
+                    <span>Xem thêm tất cả >></span>
+                </span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
