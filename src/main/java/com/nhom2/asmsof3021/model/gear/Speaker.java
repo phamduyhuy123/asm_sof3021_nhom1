@@ -12,7 +12,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Speaker extends Product {
-    private String brand;
     private String connectivity;
     private boolean wireless;
     private int powerOutput;

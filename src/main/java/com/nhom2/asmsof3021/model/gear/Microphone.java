@@ -12,7 +12,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Microphone extends Product {
-    private String brand;
     private String connectivity;
     private boolean wireless;
     private String frequencyResponse;
