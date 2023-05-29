@@ -1,0 +1,235 @@
+
+
+    <nav ng-controller="navctrl" class="sticky-top pb-2" style="background-color: #BF0000">
+        <div class="navbar navbar-expand-lg  py-auto " style="height: 80px;">
+            <div class="container-fluid justify-content-lg-center  pt-3">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="d-md-none d-lg-block  ">
+                    <a class="navbar-brand" href="/home">
+                        <img th:src="@{/images/cropped-Logo-Web.png}" alt="Bootstrap" width="65" height="35">
+                    </a>
+                </div>
+                <form class="d-flex w-50 mx-5 d-none d-sm-block d-sm-none d-md-block" role="search">
+                    <div class="input-group ">
+                        <input type="text" class="form-control" placeholder="Bạn cần tìm sản phẩm gì?"
+                               aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <button class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+                <div class="d-flex">
+                    <div class="position-relative ">
+
+                        <button class="btn btn-light d-none d-lg-block toast-btn" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseCart" aria-expanded="false"
+                                aria-controls="collapseCart">
+
+                            <i class="bi bi-bag"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                                  style="background-color: brown;" >
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                        </button>
+
+
+                        <button class="btn btn-light d-lg-none " type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">
+
+                            <i class="bi bi-bag"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                                  style="background-color: brown;">
+                        {{itemsInCart}}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                        </button>
+
+                        <div id="collapseCart" style="width: 350px; top: 220%;"
+                             class="card collapse position-absolute start-0   p-3 translate-middle-x  ">
+
+                            <div class="p-3 overflow-auto" style="max-height: 300px;">
+
+                                <div ng-repeat="item in itemsCart" class="row  my-2 border-bottom">
+                                    <a type="link" href="#!product/{{item.product.id}}">
+                                        <div class="col-3">
+                                            <a  type="link" href="#!product/{{item.product.id}}">
+                                                <img class="img-fluid" src="images/product/{{item.product.image}}" alt="">
+                                            </a>
+                                        </div>
+
+                                        <a type="link"  class="col-7 text-decoration-none text-black"
+                                           href="#!product/{{item.product.id}}">
+                                            <span>{{item.product.name}}</span>
+                                            <div class="fw-bold">{{item.quantity}} x {{item.product.price | number :0}} ₫
+                                            </div>
+                                        </a>
+                                        <div class="col-2 mt-auto">
+                                            <button ng-click="deleteItemFromCart(item)" type="button"
+                                                    class="btn rounded-circle btn-outline-light"><i
+                                                    class="text-danger bi bi-x-circle-fill"></i></button>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                            <div class="border-top total-cart-price text-center fs-5 mx-auto mt-2 pt-3 mb-4">
+                                <Strong>Tạm tính: </Strong><span ng-if="totalPriceFromCart()">{{totalPriceFromCart() | number : 0}}₫</span>
+                            </div>
+                            <div class="border-top align-middle justify-content-center text-center">
+                                <button class="m-3 btn btn-dark fw-bold ">
+                                    <a class="text-light" href="/user/cart">Xem giỏ hàng</a>
+                                </button>
+                                <button class="m-3 btn btn-dark fw-bold">
+                                    <a class="text-light" href="/checkout">Thanh toán</a>
+
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="position-relative">
+                        <button class="mx-3 btn btn-light user-btn" type="button"  data-bs-toggle="collapse"
+                                data-bs-target="#collapseUserAccount" aria-expanded="false"
+                                aria-controls="collapseUserAccount">
+                            <i class="bi bi-person"></i>
+                        </button>
+
+                    </div>
+                </div>
+                <p class="ms-5 text-light d-md-none d-lg-block d-sm-none d-none">Hotline
+                    <br><Strong><a id="navHotline" class="" href="tel:02871081881" target="_blank"><i
+                            class="bi bi-telephone-fill"></i> 02871081881</a></Strong>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="navbar navbar-expand-lg bg-light py-0 mx-2">
+            <div class="container-fluid  bg-dark ">
+                <div class="collapse navbar-collapse main-nav-collapse justify-content-center" id="navbarNavDropdown">
+                    <ul class="navbar-nav text-light ">
+
+                        <li  class="nav-item dropdown  mx-3">
+
+                            <a class="nav-link  text-light" href="#!productCatagory/{{cte.catalogId}}"
+                               data-bs-toggle="dropdown"
+                            >
+
+                            </a>
+                            <ul class="dropdown-menu text-light">
+                                <li >
+                                    <div class="dropend">
+                                        <a target="_blank" class="dropdown-item dropdown-sub"
+                                           ng-href="#!productCatagory/{{cte.catalogId}}/{{b.brandId}}"
+                                           data-bs-toggle="dropdown"
+                                           aria-expanded="false"></a>
+                                        <ul class="dropdown-menu dropdown-sub-menu position-absolute start-100 top-0">
+                                            <li><a class="dropdown-item"
+                                                   href="#"></a></li>
+
+                                        </ul>
+                                    </div>
+                                </li>
+
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="offcanvas offcanvas-end d-lg-none " tabindex="-1" data-bs-scroll="true" data-bs-backdrop="false"
+             id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasResponsiveLabel">Giỏ hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class=" h-75  w-100" style="overflow-y: scroll; overflow-x: hidden">
+
+                    <div ng-repeat="item in itemsCart" class="row  my-2 border-bottom">
+                        <a target="_blank" type="link" href="#!product/{{item.product.id}}">
+                            <div class="col-3">
+                                <a target="_blank" type="link" href="#!product/{{item.product.id}}">
+                                    <img class="img-fluid" src="images/product/{{item.product.image}}" alt="">
+                                </a>
+                            </div>
+
+                            <a type="link" target="_blank" class="col-7 text-decoration-none text-black"
+                               href="#!product/{{item.product.id}}">
+                                <span>{{item.product.name}}</span>
+                                <div class="fw-bold">{{item.quantity}} x {{item.product.price | number :0}} ₫
+                                </div>
+                            </a>
+                            <div class="col-2 mt-auto">
+                                <button ng-click="deleteItemFromCart(item)" type="button"
+                                        class="btn rounded-circle btn-outline-light"><i
+                                        class="text-danger bi bi-x-circle-fill"></i></button>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="border-top total-cart-price text-center fs-5 mx-auto mt-2 pt-3 mb-4">
+                    <Strong>Tạm tính: </Strong><span ng-if="totalPriceFromCart()">{{totalPriceFromCart() | number : 0}}₫</span>
+                </div>
+                <div class="border-top align-middle justify-content-center text-center">
+                    <button class="m-3 btn btn-dark fw-bold ">
+                        <a class="text-light" href="/user/cart">Xem giỏ hàng</a>
+                    </button>
+                    <button class="m-3 btn btn-dark fw-bold">
+                        <a class="text-light" href="/checkout">Thanh toán</a>
+
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+             aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <a href="#!home"><img th:src="@{images/cropped-cropped-cropped-Avata-Xgear-Black.png}" class="mx-auto d-block" alt=""></a>
+                <ul class="navbar-nav text-light ">
+
+                    <li ng-repeat="cte in category" class="nav-item dropdown mx-3">
+                        <a class="nav-link  text-light" href="#" role="button" aria-expanded="false">
+                            {{cte.name}}
+                        </a>
+                        <ul class="dropdown-menu ">
+                            <li><a ng-repeat="b in brands " class="dropdown-item" href="#">{{cte.name}} {{b.name}}</a></li>
+
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <style>
+        #collapseCart, .collapsing {
+            transition: none;
+        }
+
+        #navHotline {
+            color: ghostwhite;
+        }
+
+        #navHotline:hover {
+            color: #0dcaf0;
+        }
+    </style>
