@@ -19,3 +19,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     open-in-view: false
+#  mvc:
+#    view:
+#      suffix: .jsp
+#      prefix: /WEB-INF/views/
+#  thymeleaf:

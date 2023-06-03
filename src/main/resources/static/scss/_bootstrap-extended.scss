@@ -1,0 +1,39 @@
+@import 'scss/_bootstrap-extended/include';
+
+// Import bootstrap extended scss
+@import 'scss/_bootstrap-extended/root';
+@import 'scss/_bootstrap-extended/reboot';
+@import 'scss/_bootstrap-extended/type';
+@import 'scss/_bootstrap-extended/utilities';
+@import 'scss/_bootstrap-extended/tables';
+@import 'scss/_bootstrap-extended/buttons';
+@import 'scss/_bootstrap-extended/button-group';
+@import 'scss/_bootstrap-extended/badge';
+@import 'scss/_bootstrap-extended/dropdown';
+@import 'scss/_bootstrap-extended/nav';
+@import 'scss/_bootstrap-extended/pagination';
+@import 'scss/_bootstrap-extended/alert';
+@import 'scss/_bootstrap-extended/tooltip';
+@import 'scss/_bootstrap-extended/popover';
+@import 'scss/_bootstrap-extended/forms';
+@import 'scss/_bootstrap-extended/modal';
+@import 'scss/_bootstrap-extended/progress';
+@import 'scss/_bootstrap-extended/breadcrumb';
+@import 'scss/_bootstrap-extended/list-group';
+@import 'scss/_bootstrap-extended/navbar';
+@import 'scss/_bootstrap-extended/card';
+@import 'scss/_bootstrap-extended/accordion';
+@import 'scss/_bootstrap-extended/close';
+@import 'scss/_bootstrap-extended/toasts';
+@import 'scss/_bootstrap-extended/carousel';
+@import 'scss/_bootstrap-extended/spinners';
+@import 'scss/_bootstrap-extended/offcanvas';
+
+// Common Utilities
+@import '../node_modules/bootstrap/scss/utilities/api';
+
+// LTR Utilities
+@include ltr-only {
+  @import 'scss/_bootstrap-extended/utilities-ltr';
+  @import '../node_modules/bootstrap/scss/utilities/api';
+}
