@@ -2,12 +2,9 @@ package com.nhom2.asmsof3021.security;
 
 import com.nhom2.asmsof3021.model.Address;
 import com.nhom2.asmsof3021.security.enums.Role;
-import com.nhom2.asmsof3021.security.token.Token;
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,18 +12,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(indexes = {@Index(name = "unique_email_role",columnList = "email, role")})
+
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String username;
+    @Column(unique = true)
     private String email;
     private String password;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
@@ -36,8 +35,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
