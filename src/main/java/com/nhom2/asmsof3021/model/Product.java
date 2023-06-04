@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public abstract class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private int id;
     private String name;
@@ -28,9 +28,9 @@ public abstract class Product {
     @Transient
     private String formattedPrice;
 
-    @OneToMany(mappedBy = "product")
-    @JsonBackReference
-    private List<ProductListImage> productListImages;
+//    @OneToMany(mappedBy = "product")
+//    @JsonBackReference
+//    private List<ProductListImage> productListImages;
     @OneToOne
     @JsonBackReference
     private Brand brand;

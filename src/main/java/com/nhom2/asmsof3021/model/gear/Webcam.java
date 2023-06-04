@@ -13,6 +13,6 @@ import lombok.*;
 @NoArgsConstructor
 public class Webcam extends Product {
     private String resolution;
-    private boolean autofocus;
-    private boolean builtInMicrophone;
+    private Boolean autofocus;
+    private Boolean builtInMicrophone;
 }

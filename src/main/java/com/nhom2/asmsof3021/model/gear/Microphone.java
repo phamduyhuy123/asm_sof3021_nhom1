@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 public class Microphone extends Product {
     private String connectivity;
-    private boolean wireless;
+    private Boolean wireless;
     private String frequencyResponse;
-    private boolean noiseCancelling;
+    private Boolean noiseCancelling;
 }

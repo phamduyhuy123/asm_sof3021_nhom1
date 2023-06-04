@@ -24,3 +24,7 @@ spring:
 #      suffix: .jsp
 #      prefix: /WEB-INF/views/
 #  thymeleaf:
+server:
+  error:
+    whitelabel:
+      enabled: false

@@ -2,8 +2,8 @@
   font-family: "boxicons";
   font-weight: normal;
   font-style: normal;
-  src: url("../fonts/boxicons.eot");
-  src: url("../fonts/boxicons.eot") format("embedded-opentype"), url("../fonts/boxicons.woff2") format("woff2"), url("../fonts/boxicons.woff") format("woff"), url("../fonts/boxicons.ttf") format("truetype"), url("../fonts/boxicons.svg?#boxicons") format("svg");
+  src: url("../fonts/boxicons/boxicons.eot");
+  src: url("../fonts/boxicons/boxicons.eot") format("embedded-opentype"), url("../fonts/boxicons/boxicons.woff2") format("woff2"), url("../fonts/boxicons/boxicons.woff") format("woff"), url("../fonts/boxicons/boxicons.ttf") format("truetype"), url("../fonts/boxicons/boxicons.svg?#boxicons") format("svg");
 }
 .bx {
   font-family: "boxicons" !important;
@@ -6506,6 +6506,6 @@
   font-family: "boxicons";
   font-weight: normal;
   font-style: normal;
-  src: url("assets/vendor/fonts/boxicons/boxicons.eot");
-  src: url("assets/vendor/fonts/boxicons/boxicons.eot") format("embedded-opentype"), url("assets/vendor/fonts/boxicons/boxicons.woff2") format("woff2"), url("assets/vendor/fonts/boxicons/boxicons.woff") format("woff"), url("assets/vendor/fonts/boxicons/boxicons.ttf") format("truetype"), url("assets/vendor/fonts/boxicons/boxicons.svg?#boxicons") format("svg");
+  src: url("../fonts/boxicons/boxicons.eot");
+  src: url("../fonts/boxicons/boxicons.eot") format("embedded-opentype"), url("../fonts/boxicons/boxicons.woff2") format("woff2"), url("../fonts/boxicons/boxicons.woff") format("woff"), url("../fonts/boxicons/boxicons.ttf") format("truetype"), url("../fonts/boxicons/boxicons.svg?#boxicons") format("svg");
 }

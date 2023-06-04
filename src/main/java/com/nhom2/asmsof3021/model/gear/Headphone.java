@@ -17,7 +17,7 @@ public class Headphone extends Product{
     private String connectivity;
     private String frequencyResponse;
     private String impedance;
-    private double weight;
-    private boolean hasMicrophone;
-    private int hardwareWarranty;
+    private Double weight;
+    private Boolean hasMicrophone;
+    private Integer hardwareWarranty;
 }

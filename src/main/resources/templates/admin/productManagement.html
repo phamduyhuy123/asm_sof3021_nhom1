@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace=" admin/base::layout(~{::section})"
+>
+<head>
+
+</head>
+<body>
+<section class="content-wrapper">
+    <!-- Content -->
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4">
+            <th:block th:each="bread,breadStart : ${session.breadcrumbs}">
+                <a th:href="${bread.breadLink}" th:class="${breadStart.first ? 'text-muted fw-light' : ''}"
+                   th:text="${bread.breadName}">
+
+                </a>
+                <span th:if="${not breadStart.last}">/</span>
+            </th:block>
+
+        </h4>
+
+        <!-- Basic Layout -->
+        <div class="row">
+            <div class="col-xl">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Basic Layout</h5>
+                        <select class="form-select float-end w-25 sticky-top" aria-label="Default select example"
+                                onchange="showInputFields(this)">
+                            <option selected>Categories</option>
+                            <option th:each="category : ${categories}" th:value="${category.catalogId}"
+                                    th:text="${category.name}"></option>
+
+                        </select>
+                    </div>
+                    <div class="card-body">
+                        <form id="myForm">
+                            <div class="divider divider-info">
+                                <div class="divider-text">Product</div>
+                            </div>
+                            <div>
+                                <div class="mb-3"><label class="form-label"> id</label>
+                                    <input type="text"
+                                           disabled
+                                           class="form-control"
+                                           name="id"></div>
+                                <div class="mb-3"><label class="form-label"> brand</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="brand"></div>
+                                <div class="mb-3"><label class="form-label"> category</label>
+                                    <input type="text"
+                                            disabled
+                                           id="categoryId"
+                                           class="form-control"
+                                           name="category">
+                                </div>
+                                <div class="mb-3"><label class="form-label"> disCount</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="disCount">
+                                </div>
+                                <div class="mb-3"><label class="form-label"> image</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="image"></div>
+                                <div class="mb-3"><label class="form-label"> name</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="name"></div>
+                                <div class="mb-3"><label class="form-label"> price</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="price"></div>
+                                <div class="mb-3"><label class="form-label"> productLine</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="productLine">
+                                </div>
+                                <div class="mb-3"><label class="form-label"> productListImages</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="productListImages">
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"  id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Default checkbox
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="divider divider-info">
+                                <div class="divider-text" id="categorySelected"></div>
+                            </div>
+                            <div id="inputFieldsContainer">
+
+                            </div>
+
+                            <button type="button" onclick="createProduct()" class="btn btn-primary">Create
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        let category=null;
+        const categoryInputField = document.getElementById('categoryId')
+        function showInputFields(selectElement) {
+            const categoryId = selectElement.value;
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const selectedText = selectedOption.text;
+            const resultDiv = document.getElementById('categorySelected');
+            resultDiv.textContent = selectedText;
+            const url1 = '/admin/product/generate-input-fields/' + categoryId;
+            const url2 = '/admin/product/category/' + categoryId;
+            if (categoryId) {
+
+                $.ajax({
+                    url: url1,
+                    method: 'GET',
+                    success: function (data) {
+                        $('#inputFieldsContainer').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+                $.ajax({
+                    url: url2,
+                    method: 'GET',
+                    success: function (data) {
+                        categoryInputField.value=categoryId;
+                        category=data;
+                        console.log(category)
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                })
+
+            } else {
+                $('#inputFieldsContainer').empty();
+            }
+
+
+        }
+
+        function createProduct() {
+            var form = $('#myForm');
+            var formData = form.serialize(); // Serialize the form data
+            const url='/admin/product/management/'+category+'/create'
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    Swal.fire(
+                        'Good job!',
+                        'You clicked the button!',
+                        'success'
+                    )
+                    setTimeout(()=>{
+                        window.location.href=response;
+                    },3000)
+
+                    // Handle the response
+                },
+                error: function (error) {
+                    if(error){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                            footer: ''
+                        })
+                    }
+                }
+            });
+
+        }
+    </script>
+    <!-- / Content -->
+
+    <!-- Footer -->
+
+    <!-- / Footer -->
+
+
+</section>
+</body>
+</html>

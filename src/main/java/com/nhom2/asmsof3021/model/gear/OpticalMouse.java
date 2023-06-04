@@ -13,15 +13,15 @@ import lombok.*;
 @NoArgsConstructor
 public class OpticalMouse extends Product {
     private String sensorType;
-    private int dpi;
-    private int maxAcceleration;
-    private int maxSpeed;
-    private int weight;
-    private double height;
-    private double width;
-    private double depth;
-    private int buttonCount;
+    private Integer dpi;
+    private Integer maxAcceleration;
+    private Integer maxSpeed;
+    private Integer weight;
+    private Double height;
+    private Double width;
+    private Double depth;
+    private Integer buttonCount;
     private String connectionType;
-    private boolean hasLED;
-    private int hardwareWarranty;
+    private Boolean hasLED;
+    private Integer hardwareWarranty;
 }

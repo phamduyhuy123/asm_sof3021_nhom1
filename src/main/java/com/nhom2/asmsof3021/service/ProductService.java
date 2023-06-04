@@ -1,10 +1,11 @@
 package com.nhom2.asmsof3021.service;
 
 import com.nhom2.asmsof3021.model.*;
-import com.nhom2.asmsof3021.repository.ProductRepo;
+
+import com.nhom2.asmsof3021.repository.ProductRepoAbstract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Service
 public class ProductService {
     @Autowired
-    private ProductRepo repo;
+    private ProductRepoAbstract<Product> repo;
     public List<Product> findAll(){
         return (List<Product>) repo.findAll();
     }
@@ -38,5 +39,9 @@ public class ProductService {
             return product.get();
         }
         return null;
+    }
+
+    public Product createProduct(Product product){
+        return repo.save(product);
     }
 }

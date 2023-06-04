@@ -16,13 +16,13 @@ public class Monitor extends Product {
     private String panelType;
     private String displayColor;
     private String responseTime;
-    private int refreshRate;
-    private boolean flickerFree;
-    private int staticContrastRatio;
+    private Integer refreshRate;
+    private Boolean flickerFree;
+    private Integer staticContrastRatio;
     private String inputConnectors;
     private String powerConsumption;
     private String wallMountPattern;
-    private boolean hasSpeakers;
+    private Boolean hasSpeakers;
 
 
     // Constructors, getters, and setters
