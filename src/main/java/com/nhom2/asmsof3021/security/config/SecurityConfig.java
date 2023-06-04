@@ -1,5 +1,7 @@
 package com.nhom2.asmsof3021.security.config;
 
+import com.nhom2.asmsof3021.security.User;
+import com.nhom2.asmsof3021.security.UserRepository;
 import com.nhom2.asmsof3021.security.enums.Role;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +32,7 @@ import java.io.IOException;
 @Configuration
 public class SecurityConfig {
 
-
+        private final UserRepository userRepository;
         @Bean
         @Order(Ordered.HIGHEST_PRECEDENCE)
         public SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
@@ -75,7 +77,8 @@ public class SecurityConfig {
                            .loginProcessingUrl("/authenticate")
                            .usernameParameter("email")
                            .passwordParameter("password")
-                           .defaultSuccessUrl("/")
+                           .defaultSuccessUrl("/index")
+
                            .failureForwardUrl("/login")
                            .failureHandler(authenticationFailureHandlerUser())
                            .permitAll()

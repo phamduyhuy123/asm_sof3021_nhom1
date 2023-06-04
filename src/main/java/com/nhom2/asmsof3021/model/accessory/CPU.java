@@ -12,15 +12,15 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CPU extends Product {
-    private int numberOfCores;
-    private int numberOfPcores;
-    private int numberOfEcores;
-    private int numberOfThreads;
-    private double maxTurboFrequency;
-    private double maxTurboFrequencyPcore;
-    private double baseFrequencyPcore;
+    private Integer numberOfCores;
+    private Integer numberOfPcores;
+    private Integer numberOfEcores;
+    private Integer numberOfThreads;
+    private Double maxTurboFrequency;
+    private Double maxTurboFrequencyPcore;
+    private Double baseFrequencyPcore;
     private String cacheMemory;
     private String totalL2CacheMemory;
-    private int basePower;
-    private int maxTurboPower;
+    private Integer basePower;
+    private Integer maxTurboPower;
 }

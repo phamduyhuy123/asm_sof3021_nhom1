@@ -15272,7 +15272,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 }
 
 .layout-navbar {
-  position: relative;
+
   padding-top: 0.25rem;
   padding-bottom: 0.2rem;
   height: 3.875rem;
@@ -15328,7 +15328,7 @@ html:not(.layout-menu-fixed) .menu-inner-shadow {
 .layout-menu-collapsed .layout-navbar.navbar-detached, .layout-without-menu .layout-navbar.navbar-detached {
   width: calc(100% - (1.625rem * 2));
 }
-.layout-navbar .search-input-wrapper .search-toggler {
+ .search-input-wrapper .search-toggler {
   position: absolute;
   top: 1.25rem;
   right: 1rem;

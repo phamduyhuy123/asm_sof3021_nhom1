@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 public class Speaker extends Product {
     private String connectivity;
-    private boolean wireless;
-    private int powerOutput;
-    private boolean bassBoost;
+    private Boolean wireless;
+    private Integer powerOutput;
+    private Boolean bassBoost;
 }

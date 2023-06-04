@@ -26,7 +26,7 @@ public class AuthenticationService {
             throw new IllegalArgumentException("Không trùng password");
         }
         var user = User.builder()
-                .username(request.getUsername())
+                .profileName(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())

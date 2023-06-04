@@ -17,15 +17,12 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("hasRole('USER')")
+
 
 public class UserPagesController {
     @GetMapping("/cart")
-    public ModelAndView getCartPage(Authentication authentication){
-        if(authentication!=null){
-            User user=(User) authentication.getPrincipal();
-            System.out.println(user.getEmail());
-        }
+    public ModelAndView getCartPage(){
+
         ModelAndView modelAndView=new ModelAndView("user/Cart");
         return modelAndView;
     }

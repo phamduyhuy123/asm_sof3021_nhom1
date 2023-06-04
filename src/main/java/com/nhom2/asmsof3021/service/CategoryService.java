@@ -14,6 +14,7 @@ public class CategoryService {
     public List<Category> findAll(){
         return (List<Category>) repo.findAll();
     }
+
     public Category finById(int id){
         return repo.findById(id).stream().findFirst().get();
     }

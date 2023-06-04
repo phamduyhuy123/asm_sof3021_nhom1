@@ -24,3 +24,7 @@
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
+server:
+  error:
+    whitelabel:
+      enabled: false

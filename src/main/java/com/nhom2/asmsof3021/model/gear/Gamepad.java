@@ -13,6 +13,6 @@ import lombok.*;
 @NoArgsConstructor
 public class Gamepad extends Product {
     private String connectivity;
-    private boolean wireless;
+    private Boolean wireless;
     private String compatibility;
 }

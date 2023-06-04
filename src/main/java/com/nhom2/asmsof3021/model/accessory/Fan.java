@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Fan extends Product {
-    private int warranty;
+    private Integer warranty;
     private String size;
     private String bearingType;
     private String ledType;
@@ -24,6 +24,6 @@ public class Fan extends Product {
     private String airflow;
     private String airPressure;
     private String lifespan;
-    private int includedFans;
+    private Integer includedFans;
     private String accessories;
 }

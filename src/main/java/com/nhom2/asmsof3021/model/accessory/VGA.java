@@ -15,17 +15,17 @@ public class VGA extends Product {
     private String gpu;
     private String connection;
     private String boostClock;
-    private int cudaCores;
+    private Integer cudaCores;
     private String memorySpeed;
     private String memory;
     private String memoryBus;
     private String displayPorts;
-    private boolean hdcpSupport;
-    private boolean powerConnectors;
-    private int recommendedPSU;
+    private Boolean hdcpSupport;
+    private Boolean powerConnectors;
+    private Integer recommendedPSU;
     private String dimensions;
     private String directXSupport;
     private String openGLSupport;
-    private int multiDisplaySupport;
+    private Integer multiDisplaySupport;
     private String maxResolution;
 }

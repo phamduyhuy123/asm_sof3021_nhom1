@@ -14,7 +14,7 @@ import lombok.*;
 public class Mainboard extends Product {
     private String chipset;
     private String socket;
-    private int ramSlots;
+    private Integer ramSlots;
     private String formFactor;
     private String storageSupport;
 }

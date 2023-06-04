@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 public class MousePad extends Product {
     private String material;
-    private double thickness;
-    private int width;
-    private int length;
+    private Double thickness;
+    private Integer width;
+    private Integer length;
 }

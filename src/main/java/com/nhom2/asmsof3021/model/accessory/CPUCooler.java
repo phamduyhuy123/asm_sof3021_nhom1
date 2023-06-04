@@ -14,17 +14,17 @@ import lombok.*;
 public class CPUCooler extends Product {
     private String productSize;
     private String heatsinkSize;
-    private double weight;
+    private Double weight;
     private String heatpipe;
     private String fanSize;
     private String fanSpeed;
-    private double fanAirflow;
-    private double fanAirPressure;
-    private double fanNoiseLevel;
+    private Double fanAirflow;
+    private Double fanAirPressure;
+    private Double fanNoiseLevel;
     private String fanConnector;
     private String bearingType;
     private String fanRatedVoltage;
-    private double fanRatedCurrent;
-    private double fanPowerConsumption;
+    private Double fanRatedCurrent;
+    private Double fanPowerConsumption;
     private String ledType;
 }

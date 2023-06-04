@@ -18,10 +18,10 @@ public class ComputerCases extends Product {
     private String maxCPUCoolerHeight;
     private String maxVGALength;
     private String ioPorts;
-    private int pciSlots;
+    private Integer pciSlots;
     private String fanSupport;
     private String liquidCoolingSupport;
     private String powerSupplyType;
-    private double weight;
-    private double totalWeight;
+    private Double weight;
+    private Double totalWeight;
 }

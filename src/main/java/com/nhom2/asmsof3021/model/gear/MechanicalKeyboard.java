@@ -22,5 +22,5 @@ public class MechanicalKeyboard extends Product {
     private String battery;
     private String backlight;
 
-    private int warranty;
+    private Integer warranty;
 }

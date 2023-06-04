@@ -12,9 +12,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Ram extends Product {
-    private int capacity;
+    private Integer capacity;
     private String type;
-    private int speed;
+    private Integer speed;
     private String memoryBus;
     private String casLatency;
 }
