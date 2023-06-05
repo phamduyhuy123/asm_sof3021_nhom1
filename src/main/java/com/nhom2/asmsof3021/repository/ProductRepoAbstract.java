@@ -17,5 +17,4 @@ public interface ProductRepoAbstract<T extends Product> extends JpaRepository<T,
     Iterable<T> findAllByProductLine_ProductLineId(int productLineId);
     List<T> findByCategory_CatalogId(int id);
 
-
 }

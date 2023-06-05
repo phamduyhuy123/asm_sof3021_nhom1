@@ -2,17 +2,17 @@
   <input type="number"
          disabled
          class="form-control"
-         name="id"
-         th:field="*{id}">
+         th:field="*{id}"
+         >
 </div>
 <div class="mb-3"><label class="form-label"> brand</label>
-  <input type="number"
+  <input type="text"
          class="form-control"
-         name="brand"
-         th:field="*{brand.brandId}">
+         th:field="*{brand}"
+         >
 </div>
 <div class="mb-3"><label class="form-label"> category</label>
-  <input type="number"
+  <input type="text"
          disabled
          id="categoryId"
          class="form-control"
@@ -41,7 +41,7 @@
          name="price"
          th:field="*{price}"></div>
 <div class="mb-3"><label class="form-label"> productLine</label>
-  <input type="number"
+  <input type="text"
          class="form-control"
          name="productLine"
          th:field="*{productLine}">

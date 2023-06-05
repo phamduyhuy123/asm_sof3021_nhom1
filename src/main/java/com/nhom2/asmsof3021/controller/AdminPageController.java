@@ -3,6 +3,7 @@ package com.nhom2.asmsof3021.controller;
 import com.nhom2.asmsof3021.model.Category;
 import com.nhom2.asmsof3021.model.Product;
 import com.nhom2.asmsof3021.repository.CategoryRepo;
+import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
 import com.nhom2.asmsof3021.security.UserRepository;
 import com.nhom2.asmsof3021.service.CategoryService;
 import com.nhom2.asmsof3021.service.ProductService;
@@ -34,6 +35,7 @@ public class AdminPageController {
     private final CategoryRepo categoryRepository;
     private final UserRepository userRepository;
     private final HttpSession session;
+    private final ProductRepo productRepo;
     @PersistenceContext
     private final EntityManager entityManager;
     @GetMapping("/home")
@@ -45,18 +47,22 @@ public class AdminPageController {
     @GetMapping(value = {"/product/management","/product"})
     public String getProductManagementPage(Model model,Principal principal){
         checkIsAuthenticated(principal,session,userRepository);
-        List<Category> categoryList=categoryRepository.findAllByEntityClassNameExists();
-        model.addAttribute("categories" ,categoryList);
-        List<BreadcrumbLink> breadcrumbLinkList=new ArrayList<>();
-        breadcrumbLinkList.add(new BreadcrumbLink("Product","/admin/product"));
-        breadcrumbLinkList.add(new BreadcrumbLink("Product Management","/admin/product/management"));
-        session.setAttribute("breadcrumbs", breadcrumbLinkList);
-        List<Product> list = productService.findAll();
+        List<Product> list= productManagementDefault(model, categoryRepository, session, productRepo);
         model.addAttribute("product",list.get(0));
         model.addAttribute("categoryViewName","admin/product/"+list.get(0).getCategory().getEntityClassName());
-        model.addAttribute("products",list);
+
         return "admin/productManagement";
     }
 
-
+    public static List<Product> productManagementDefault(Model model,CategoryRepo categoryRepository, HttpSession session, ProductRepo productRepo) {
+        List<Category> categoryList=categoryRepository.findAllByEntityClassNameExists();
+        model.addAttribute("categories" ,categoryList);
+        List<AdminPageController.BreadcrumbLink> breadcrumbLinkList=new ArrayList<>();
+        breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product","/admin/product"));
+        breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product Management","/admin/product/management"));
+        session.setAttribute("breadcrumbs", breadcrumbLinkList);
+        List<Product> list = productRepo.findAll();
+        model.addAttribute("products",list);
+        return list;
+    }
 }
