@@ -106,10 +106,10 @@ public class ProductController  {
         return inputFieldsHtml.toString();
     }
     @GetMapping("/admin/product/category/{id}")
-    @ResponseBody
-    public String getCategory(@PathVariable Integer id){
+    public String getCategory(@PathVariable Integer id,Model model){
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + id));
+        model.addAttribute("categoryViewName","admin/product/"+category.getEntityClassName());
         return category.getEntityClassName();
     }
 
@@ -122,11 +122,12 @@ public class ProductController  {
         breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product","/admin/product"));
         breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product Management","/admin/product/management"));
         session.setAttribute("breadcrumbs", breadcrumbLinkList);
-
         Product product = productRepo.findById(id).orElseThrow();
         model.addAttribute("product",product);
+        model.addAttribute("categoryViewName","admin/product/"+product.getCategory().getEntityClassName());
         List<Product> list = productRepo.findAll();
         model.addAttribute("products",list);
+        System.out.println();
         return "admin/productManagement";
     }
     public String delete(){
