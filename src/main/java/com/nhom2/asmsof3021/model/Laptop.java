@@ -24,12 +24,7 @@ public class Laptop extends Product{
     private String pin;
     private String weight;
     private String size;
-    private String chipDetail;
-    private String cardDetail;
-    private String ramDetail;
-    private String hardDiskDetail;
-    private String baohanhDetail;
-    private String screenSizeDetail;
+
 
     public Laptop() {
 

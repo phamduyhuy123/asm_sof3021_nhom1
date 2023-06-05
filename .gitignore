@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+src/main/resources/static/angular-1.8.2
