@@ -130,7 +130,10 @@ public class ProductController  {
         System.out.println();
         return "admin/productManagement";
     }
-    public String delete(){
+    @GetMapping("/admin/product/category/new")
+    public String newForm(@RequestParam("categoryId") Integer id, Model model){
+        Category category = categoryRepository.findById(id).orElseThrow();
+        model.addAttribute("categoryViewName","admin/product/"+category.getEntityClassName());
 
         return "admin/productManagement";
     }
