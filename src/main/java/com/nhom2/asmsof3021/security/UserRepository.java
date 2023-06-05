@@ -11,7 +11,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByEmailAndPassword(String email,String password);
     @Query("select u from User u where u.email = ?1 or u.profileName = ?1")
-    Optional<User> findByEmailOrUsername(String username);
-//    Optional<User> findByEmail(String username);
+//    Optional<User> findByEmailOrUsername(String username);
+    Optional<User> findByEmail(String username);
     Optional<User> findByEmailAndRole(String email, Role role);
 }

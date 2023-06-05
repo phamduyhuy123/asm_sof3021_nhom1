@@ -28,9 +28,9 @@ public abstract class Product {
     @Transient
     private String formattedPrice;
 
-//    @OneToMany(mappedBy = "product")
-//    @JsonBackReference
-//    private List<ProductListImage> productListImages;
+    @OneToMany(mappedBy = "product")
+    @JsonBackReference
+    private List<ProductListImage> productListImages;
     @OneToOne
     @JsonBackReference
     private Brand brand;
