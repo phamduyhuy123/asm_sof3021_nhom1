@@ -28,15 +28,10 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Basic Layout</h5>
-                        <select th:onchange="'window.location.href = \'' + @{/admin/product/category/}  ' + this.value ' " id="selectCategories" th:field="*{category}" class="form-select float-end w-25 sticky-top" aria-label="Default select example"
-                                 >
-                            <option selected value="">Categories</option>
-                            <option th:each="category : ${categories}" th:value="${category.catalogId}"
-                                    th:text="${category.name}"
 
-                            ></option>
-
-                        </select>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Launch
+                        </button>
                         <button
                                 type="button"
                                 class="btn btn-primary"
@@ -73,7 +68,24 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <select th:onchange="'window.location.href = \'' + @{/admin/product/category/new} + '?categoryId=\' + this.value ' " id="selectCategories" th:field="*{category}" class="form-select float-end w-25 sticky-top" aria-label="Default select example"
+                            >
+                                <option selected value="">Categories</option>
+                                <option th:each="category : ${categories}" th:value="${category.catalogId}"
+                                        th:text="${category.name}"
+                                        data-bs-dismiss="modal"
+                                ></option>
 
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
 
 
