@@ -10,7 +10,7 @@ import java.security.Principal;
 public class AuthenticateUtil {
     public static void checkIsAuthenticated(Principal principal, HttpSession session, UserRepository userRepository){
         if(principal!=null){
-            User user=userRepository.findByEmail(principal.getName()).orElseThrow();
+            User user=userRepository.findByEmailOrUsername(principal.getName()).orElseThrow();
             session.setAttribute("user",user);
         }
     }
