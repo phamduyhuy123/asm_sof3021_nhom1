@@ -23,7 +23,7 @@
         </h4>
 
         <!-- Basic Layout -->
-        <form class="row" id="myForm" th:object="${product}"  >
+        <form class="row" id="myForm" th:object="${product}"  method="post">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
@@ -58,11 +58,11 @@
 
                             </div>
 
-                            <button type="button" onclick="createProduct()" class="btn btn-primary">Create
+                            <button th:if="${param.categoryId}" type="submit" class="btn btn-primary" th:formaction="@{/admin/product/create}">Create
                             </button>
-                            <button type="button" onclick="updateProduct()" class="btn btn-primary">Update
+                            <button type="submit"  class="btn btn-primary">Update
                             </button>
-                            <button type="button" onclick="deleteProduct()" class="btn btn-primary">Delete
+                            <button type="submit"  class="btn btn-primary">Delete
                             </button>
                         </div>
                     </div>
