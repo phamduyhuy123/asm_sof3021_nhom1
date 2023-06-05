@@ -20,19 +20,7 @@ import java.security.Principal;
 
 
 public class UserPagesController {
-    @GetMapping("/cart")
-    public ModelAndView getCartPage(){
 
-        ModelAndView modelAndView=new ModelAndView("user/Cart");
-        return modelAndView;
-    }
-    @GetMapping("/checkout")
-    public ModelAndView getCheckOutPage(Authentication authentication){
-
-        ModelAndView modelAndView=new ModelAndView("user/CheckOut");
-
-        return modelAndView;
-    }
 //    @GetMapping("/product/{id}")
 //    public ModelAndView getProductDetail(@PathVariable Integer id){
 //        ModelAndView modelAndView=new ModelAndView("user/ProductDetail");
