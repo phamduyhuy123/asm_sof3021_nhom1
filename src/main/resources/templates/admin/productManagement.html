@@ -23,7 +23,7 @@
         </h4>
 
         <!-- Basic Layout -->
-        <form class="row" id="myForm" th:object="${product}"  >
+        <form  class="row" id="myForm" th:object="${product}"  action="#" method="post" >
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
@@ -54,15 +54,20 @@
                             <th:block  th:replace="~{/admin/product/product}">
 
                             </th:block>
-                            <div id="inputFieldsContainer" th:include="~{${categoryViewName}}">
+                            <th:block th:if="${categoryViewName}">
+                                <div id="inputFieldsContainer" th:include="~{${categoryViewName}}">
 
-                            </div>
+                                </div>
+                            </th:block>
 
-                            <button th:if="${param.categoryId}" type="button" class="btn btn-primary">Create
+                            <button type="submit" th:if="${param.categoryId}"
+                                    th:formaction="'/admin/product/management/' + ${categoryName}+ 'create'"
+                                    th:formmethod="post"
+                                    class="btn btn-primary">Create
                             </button>
-                            <button type="button"  class="btn btn-primary">Update
+                            <button type="submit"  class="btn btn-primary">Update
                             </button>
-                            <button type="button"  class="btn btn-primary">Delete
+                            <button type="submit"  class="btn btn-primary">Delete
                             </button>
                         </div>
                     </div>

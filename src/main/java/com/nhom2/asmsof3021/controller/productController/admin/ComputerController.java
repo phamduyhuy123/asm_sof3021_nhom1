@@ -24,7 +24,7 @@ public class ComputerController extends CrudMvcMethod<Computer, Integer> {
     }
 
     @Override
-    @DeleteMapping("/DELETE/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         Computer computer=repo.findById(id).orElseThrow();
         if(computer!=null){
@@ -34,7 +34,7 @@ public class ComputerController extends CrudMvcMethod<Computer, Integer> {
     }
 
     @Override
-    @PutMapping("/UPDATE/{id}")
+    @PutMapping("/update/{id}")
     public String update(Computer computer, @PathVariable Integer id, RedirectAttributes redirectAttributes) {
         if(repo.findById(id).isPresent()){
             repo.save(computer);
