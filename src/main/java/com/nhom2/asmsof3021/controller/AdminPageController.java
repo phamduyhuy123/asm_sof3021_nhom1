@@ -26,7 +26,7 @@ import static com.nhom2.asmsof3021.utils.AuthenticateUtil.checkIsAuthenticated;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminPageController {
-    private record BreadcrumbLink(String breadName,String breadLink) {
+    public record BreadcrumbLink(String breadName,String breadLink) {
 
     }
     private final ProductService productService;
@@ -51,9 +51,9 @@ public class AdminPageController {
         breadcrumbLinkList.add(new BreadcrumbLink("Product","/admin/product"));
         breadcrumbLinkList.add(new BreadcrumbLink("Product Management","/admin/product/management"));
         session.setAttribute("breadcrumbs", breadcrumbLinkList);
-        model.addAttribute("product", new Product(){
-
-        });
+        List<Product> list = productService.findAll();
+        model.addAttribute("product",list.get(0));
+        model.addAttribute("products",list);
         return "admin/productManagement";
     }
 
