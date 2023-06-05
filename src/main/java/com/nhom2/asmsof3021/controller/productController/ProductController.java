@@ -1,6 +1,7 @@
 package com.nhom2.asmsof3021.controller.productController;
 
 import com.nhom2.asmsof3021.controller.AdminPageController;
+import com.nhom2.asmsof3021.factory.ProductFactory;
 import com.nhom2.asmsof3021.model.Category;
 import com.nhom2.asmsof3021.model.Laptop;
 import com.nhom2.asmsof3021.model.Product;
@@ -22,7 +23,9 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import static com.nhom2.asmsof3021.controller.AdminPageController.productManagementDefault;
 import static com.nhom2.asmsof3021.utils.AuthenticateUtil.checkIsAuthenticated;
 
 @Controller
@@ -34,6 +37,7 @@ public class ProductController  {
     private final EntityManager entityManager;
     private final ProductRepo productRepo;
     private final UserRepository userRepository;
+    private final Map<Integer, ProductFactory> factoryMap;
     @GetMapping("/admin/product/generate-input-fields/{categoryId}")
     @ResponseBody
     public String generateInputFieldProductDependOnCategory(@PathVariable Integer categoryId){
@@ -116,12 +120,7 @@ public class ProductController  {
     @GetMapping("/admin/product/EDIT/{id}")
     public String edit(@PathVariable Integer id, Model model, Principal principal){
         checkIsAuthenticated(principal,session,userRepository);
-        List<Category> categoryList=categoryRepository.findAllByEntityClassNameExists();
-        model.addAttribute("categories" ,categoryList);
-        List<AdminPageController.BreadcrumbLink> breadcrumbLinkList=new ArrayList<>();
-        breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product","/admin/product"));
-        breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product Management","/admin/product/management"));
-        session.setAttribute("breadcrumbs", breadcrumbLinkList);
+        productManagementDefault(model,categoryRepository,session,productRepo);
         Product product = productRepo.findById(id).orElseThrow();
         model.addAttribute("product",product);
         model.addAttribute("categoryViewName","admin/product/"+product.getCategory().getEntityClassName());
@@ -131,10 +130,21 @@ public class ProductController  {
         return "admin/productManagement";
     }
     @GetMapping("/admin/product/category/new")
-    public String newForm(@RequestParam("categoryId") Integer id, Model model){
-        Category category = categoryRepository.findById(id).orElseThrow();
-        model.addAttribute("categoryViewName","admin/product/"+category.getEntityClassName());
+    public String newForm(@RequestParam("categoryId") Integer id, Model model) {
 
+
+        Category category = categoryRepository.findById(id).orElseThrow();
+        String categoryEntityClassName = category.getEntityClassName();
+        ProductFactory productFactory = factoryMap.get(id);
+        if (productFactory == null) {
+            throw new IllegalArgumentException("Invalid categoryId");
+        }
+        productManagementDefault(model,categoryRepository,session,productRepo);
+        Product product = productFactory.createProduct();
+        model.addAttribute("categoryViewName", "admin/product/" + categoryEntityClassName);
+        model.addAttribute("product", product);
         return "admin/productManagement";
     }
+
+
 }
