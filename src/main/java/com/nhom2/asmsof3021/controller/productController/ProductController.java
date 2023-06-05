@@ -129,8 +129,8 @@ public class ProductController  {
         model.addAttribute("products",list);
         return "admin/productManagement";
     }
-//    public String delete(){
-//
-//        return
-//    }
+    public String delete(){
+
+        return "admin/productManagement";
+    }
 }

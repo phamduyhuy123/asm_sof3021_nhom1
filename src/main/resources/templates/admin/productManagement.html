@@ -3,6 +3,8 @@
       xmlns:th="http://www.thymeleaf.org"
       th:replace=" admin/base::layout(~{::section})"
 >
+
+
 <head>
 
 </head>
@@ -23,16 +25,18 @@
         </h4>
 
         <!-- Basic Layout -->
-        <div class="row">
+        <form id="myForm" th:object="${product}" class="row">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Basic Layout</h5>
-                        <select class="form-select float-end w-25 sticky-top" aria-label="Default select example"
-                                onchange="showInputFields(this)">
+                        <select class="form-select float-end w-25 sticky-top" aria-label="Default select example">
+                            /*th:onchange="showInputFields(this.value)"*/>
                             <option selected>Categories</option>
                             <option th:each="category : ${categories}" th:value="${category.catalogId}"
-                                    th:text="${category.name}"></option>
+                                    th:text="${category.name}">
+                                /*th:selected="${product.category.catalogId == category.catalogId}"*/>
+                            </option>
 
                         </select>
                         <button
@@ -46,7 +50,7 @@
 
                     </div>
                     <div class="card-body">
-                        <form id="myForm" th:object="${product}">
+                        <div>
                             <div class="divider divider-info">
                                 <div class="divider-text">Product</div>
                             </div>
@@ -68,7 +72,7 @@
                                            id="categoryId"
                                            class="form-control"
                                            name="category"
-                                           th:field="*{category}">
+                                           th:field="*{category.catalogId}">
                                 </div>
                                 <div class="mb-3"><label class="form-label"> disCount</label>
                                     <input type="number"
@@ -113,12 +117,12 @@
                             </button>
                             <button type="button" onclick="deleteProduct()" class="btn btn-primary">Delete
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div>
+        </form>
 
 
     </div>
@@ -168,16 +172,20 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <div id="paginationContainer">
+
+                </div>
             </div>
         </div>
     </div>
-    </div>
-    <script>
-        let category=null;
-        let categoryId=null;
+
+    <script th:inline="javascript">
+        let category = null;
+        let categoryId = null;
         const categoryInputField = document.getElementById('categoryId')
+
         function showInputFields(selectElement) {
-            categoryId = selectElement.value;
+            categoryId = selectElement;
             const selectedOption = selectElement.options[selectElement.selectedIndex];
             const selectedText = selectedOption.text;
             const resultDiv = document.getElementById('categorySelected');
@@ -200,8 +208,8 @@
                     url: url2,
                     method: 'GET',
                     success: function (data) {
-                        categoryInputField.value=categoryId;
-                        category=data;
+                        categoryInputField.value = categoryId;
+                        category = data;
                         console.log(category)
                     },
                     error: function (xhr, status, error) {
@@ -219,7 +227,7 @@
         function createProduct() {
             var form = $('#myForm');
             var formData = form.serialize(); // Serialize the form data
-            const url='/admin/product/management/'+category+'/create'
+            const url = '/admin/product/management/' + category + '/create'
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -230,14 +238,14 @@
                         'You clicked the button!',
                         'success'
                     )
-                    setTimeout(()=>{
-                        window.location.href=response;
-                    },3000)
+                    setTimeout(() => {
+                        window.location.href = response;
+                    }, 3000)
 
                     // Handle the response
                 },
                 error: function (error) {
-                    if(error){
+                    if (error) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -249,10 +257,11 @@
             });
 
         }
-        function updateProduct(){
+
+        function updateProduct() {
             var form = $('#myForm');
             var formData = form.serialize(); // Serialize the form data
-            const url='/admin/product/management/'+category+'/UPDATE/'+categoryId;
+            const url = '/admin/product/management/' + category + '/UPDATE/' + categoryId;
             $.ajax({
                 url: url,
                 type: 'PUT',
@@ -263,14 +272,14 @@
                         'You clicked the button!',
                         'success'
                     )
-                    setTimeout(()=>{
-                        window.location.href=response;
-                    },3000)
+                    setTimeout(() => {
+                        window.location.href = response;
+                    }, 3000)
 
                     // Handle the response
                 },
                 error: function (error) {
-                    if(error){
+                    if (error) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -282,10 +291,11 @@
             });
 
         }
-        function deleteProduct(){
+
+        function deleteProduct() {
             var form = $('#myForm');
             var formData = form.serialize(); // Serialize the form data
-            const url='/admin/product/management/'+category+'/DELETE/'+categoryId;
+            const url = '/admin/product/management/' + category + '/DELETE/' + categoryId;
             $.ajax({
                 url: url,
                 type: 'DELETE',
@@ -296,14 +306,14 @@
                         'You clicked the button!',
                         'success'
                     )
-                    setTimeout(()=>{
-                        window.location.href=response;
-                    },3000)
+                    setTimeout(() => {
+                        window.location.href = response;
+                    }, 3000)
 
                     // Handle the response
                 },
                 error: function (error) {
-                    if(error){
+                    if (error) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -315,8 +325,8 @@
             });
 
         }
-
     </script>
+
 </section>
 
 </body>
