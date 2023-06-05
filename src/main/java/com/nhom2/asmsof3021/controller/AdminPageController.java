@@ -53,6 +53,7 @@ public class AdminPageController {
         session.setAttribute("breadcrumbs", breadcrumbLinkList);
         List<Product> list = productService.findAll();
         model.addAttribute("product",list.get(0));
+        model.addAttribute("categoryViewName","admin/product/"+list.get(0).getCategory().getEntityClassName());
         model.addAttribute("products",list);
         return "admin/productManagement";
     }
