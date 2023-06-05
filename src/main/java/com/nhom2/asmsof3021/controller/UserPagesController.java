@@ -30,6 +30,7 @@ public class UserPagesController {
     public ModelAndView getCheckOutPage(Authentication authentication){
 
         ModelAndView modelAndView=new ModelAndView("user/CheckOut");
+
         return modelAndView;
     }
 //    @GetMapping("/product/{id}")

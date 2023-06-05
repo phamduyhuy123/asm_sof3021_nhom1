@@ -36,7 +36,8 @@ public class SecurityConfig {
         @Bean
         @Order(Ordered.HIGHEST_PRECEDENCE)
         public SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
-            http.csrf()
+            http
+                    .csrf()
                     .disable()
                     .securityMatcher("/admin/**")
                     .authorizeHttpRequests()
@@ -54,7 +55,6 @@ public class SecurityConfig {
            http
                    .csrf()
                    .disable()
-
                    .authorizeHttpRequests()
                    .requestMatchers("/user/**").hasRole(Role.USER.name())
                    .requestMatchers("/**")
