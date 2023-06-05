@@ -8,7 +8,7 @@ asmsof3021:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/asmsof3021
+    url: jdbc:mysql://26.4.137.185:3306/asmsof3021
     username: phamduyhuy
     password: tun8111474652
   jpa:
