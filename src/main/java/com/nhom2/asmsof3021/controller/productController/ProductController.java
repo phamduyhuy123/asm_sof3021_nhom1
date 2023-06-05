@@ -141,17 +141,8 @@ public class ProductController  {
         }
         productManagementDefault(model,categoryRepository,session,productRepo);
         Product product = productFactory.createProduct();
-        product.setId(30);
         model.addAttribute("categoryViewName", "admin/product/" + categoryEntityClassName);
         model.addAttribute("product", product);
-        System.out.println(product);
-        System.out.println("ID: "+product.getId());
-
-        return "admin/productManagement";
-    }
-    @PostMapping("/admin/product/create")
-    public String create( ){
-        System.out.println("DB");
         return "admin/productManagement";
     }
 
