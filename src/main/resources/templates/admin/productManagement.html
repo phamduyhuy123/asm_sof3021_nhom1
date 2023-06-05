@@ -23,16 +23,18 @@
         </h4>
 
         <!-- Basic Layout -->
-        <div class="row">
+        <form class="row" id="myForm" th:object="${product}"  >
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Basic Layout</h5>
-                        <select class="form-select float-end w-25 sticky-top" aria-label="Default select example"
-                                onchange="showInputFields(this)">
-                            <option selected>Categories</option>
+                        <select th:onchange="'window.location.href = \'' + @{/admin/product/category/}  ' + this.value ' " id="selectCategories" th:field="*{category}" class="form-select float-end w-25 sticky-top" aria-label="Default select example"
+                                 >
+                            <option selected value="">Categories</option>
                             <option th:each="category : ${categories}" th:value="${category.catalogId}"
-                                    th:text="${category.name}"></option>
+                                    th:text="${category.name}"
+
+                            ></option>
 
                         </select>
                         <button
@@ -46,64 +48,18 @@
 
                     </div>
                     <div class="card-body">
-                        <form id="myForm" th:object="${product}">
+                        <div >
                             <div class="divider divider-info">
                                 <div class="divider-text">Product</div>
                             </div>
-                            <div>
-                                <div class="mb-3"><label class="form-label"> id</label>
-                                    <input type="number"
-                                           disabled
-                                           class="form-control"
-                                           name="id"
-                                           th:field="*{id}"></div>
-                                <div class="mb-3"><label class="form-label"> brand</label>
-                                    <input type="number"
-                                           class="form-control"
-                                           name="brand"
-                                           th:field="*{brand.brandId}"></div>
-                                <div class="mb-3"><label class="form-label"> category</label>
-                                    <input type="number"
-                                           disabled
-                                           id="categoryId"
-                                           class="form-control"
-                                           name="category"
-                                           th:field="*{category}">
-                                </div>
-                                <div class="mb-3"><label class="form-label"> disCount</label>
-                                    <input type="number"
-                                           class="form-control"
-                                           name="disCount"
-                                           th:field="*{disCount}">
-                                </div>
-                                <div class="mb-3"><label class="form-label"> image</label>
-                                    <input type="text"
-                                           class="form-control"
-                                           name="image"
-                                           th:field="*{image}"></div>
-                                <div class="mb-3"><label class="form-label"> name</label>
-                                    <input type="text"
-                                           class="form-control"
-                                           name="name"
-                                           th:field="*{name}"></div>
-                                <div class="mb-3"><label class="form-label"> price</label>
-                                    <input type="number"
-                                           class="form-control"
-                                           name="price"
-                                           th:field="*{price}"></div>
-                                <div class="mb-3"><label class="form-label"> productLine</label>
-                                    <input type="number"
-                                           class="form-control"
-                                           name="productLine"
-                                           th:field="*{productLine}">
-                                </div>
 
-
-                            </div>
                             <div class="divider divider-info">
                                 <div class="divider-text" id="categorySelected"></div>
                             </div>
-                            <div id="inputFieldsContainer">
+                            <th:block  th:replace="~{/admin/product/product}">
+
+                            </th:block>
+                            <div id="inputFieldsContainer" th:include="~{${categoryViewName}}">
 
                             </div>
 
@@ -113,17 +69,17 @@
                             </button>
                             <button type="button" onclick="deleteProduct()" class="btn btn-primary">Delete
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div>
+        </form>
 
 
     </div>
 
-    <div class="modal fade" id="fullscreenModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade " id="fullscreenModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -159,7 +115,7 @@
                                     <td th:text="${product.brand != null ? product.brand.brandId: 'Null'}"></td>
                                     <td th:text="${product.category != null ? product.category.catalogId: 'Null'}"></td>
                                     <td th:text="${product.productLine != null ? product.productLine.productLineId: 'Null'}"></td>
-                                    <td><a th:href="@{'/admin/product/EDIT/'+${product.id}}" onclick="">Edit</a></td>
+                                    <td><a  th:href="@{'/admin/product/EDIT/'+${product.id}}" >Edit</a></td>
                                 </tr>
                             </th:block>
                             </tbody>
@@ -172,151 +128,7 @@
         </div>
     </div>
     </div>
-    <script>
-        let category=null;
-        let categoryId=null;
-        const categoryInputField = document.getElementById('categoryId')
-        function showInputFields(selectElement) {
-            categoryId = selectElement.value;
-            const selectedOption = selectElement.options[selectElement.selectedIndex];
-            const selectedText = selectedOption.text;
-            const resultDiv = document.getElementById('categorySelected');
-            resultDiv.textContent = selectedText;
-            const url1 = '/admin/product/generate-input-fields/' + categoryId;
-            const url2 = '/admin/product/category/' + categoryId;
-            if (categoryId) {
 
-                $.ajax({
-                    url: url1,
-                    method: 'GET',
-                    success: function (data) {
-                        $('#inputFieldsContainer').html(data);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-                $.ajax({
-                    url: url2,
-                    method: 'GET',
-                    success: function (data) {
-                        categoryInputField.value=categoryId;
-                        category=data;
-                        console.log(category)
-                    },
-                    error: function (xhr, status, error) {
-                        console.error(error);
-                    }
-                })
-
-            } else {
-                $('#inputFieldsContainer').empty();
-            }
-
-
-        }
-
-        function createProduct() {
-            var form = $('#myForm');
-            var formData = form.serialize(); // Serialize the form data
-            const url='/admin/product/management/'+category+'/create'
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: formData,
-                success: function (response) {
-                    Swal.fire(
-                        'Good job!',
-                        'You clicked the button!',
-                        'success'
-                    )
-                    setTimeout(()=>{
-                        window.location.href=response;
-                    },3000)
-
-                    // Handle the response
-                },
-                error: function (error) {
-                    if(error){
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                            footer: ''
-                        })
-                    }
-                }
-            });
-
-        }
-        function updateProduct(){
-            var form = $('#myForm');
-            var formData = form.serialize(); // Serialize the form data
-            const url='/admin/product/management/'+category+'/UPDATE/'+categoryId;
-            $.ajax({
-                url: url,
-                type: 'PUT',
-                data: formData,
-                success: function (response) {
-                    Swal.fire(
-                        'Good job!',
-                        'You clicked the button!',
-                        'success'
-                    )
-                    setTimeout(()=>{
-                        window.location.href=response;
-                    },3000)
-
-                    // Handle the response
-                },
-                error: function (error) {
-                    if(error){
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                            footer: ''
-                        })
-                    }
-                }
-            });
-
-        }
-        function deleteProduct(){
-            var form = $('#myForm');
-            var formData = form.serialize(); // Serialize the form data
-            const url='/admin/product/management/'+category+'/DELETE/'+categoryId;
-            $.ajax({
-                url: url,
-                type: 'DELETE',
-                data: formData,
-                success: function (response) {
-                    Swal.fire(
-                        'Good job!',
-                        'You clicked the button!',
-                        'success'
-                    )
-                    setTimeout(()=>{
-                        window.location.href=response;
-                    },3000)
-
-                    // Handle the response
-                },
-                error: function (error) {
-                    if(error){
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                            footer: ''
-                        })
-                    }
-                }
-            });
-
-        }
-
-    </script>
 </section>
 
 </body>
