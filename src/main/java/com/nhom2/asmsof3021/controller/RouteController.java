@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,20 @@ public class RouteController {
         }
 
 
+
+        return modelAndView;
+    }
+
+    @GetMapping("/cart")
+
+    public ModelAndView getCartPage(){
+        ModelAndView modelAndView=new ModelAndView("user/Cart");
+        return modelAndView;
+    }
+    @GetMapping("/checkout")
+    public ModelAndView getCheckOutPage(Authentication authentication){
+
+        ModelAndView modelAndView=new ModelAndView("user/CheckOut");
 
         return modelAndView;
     }
