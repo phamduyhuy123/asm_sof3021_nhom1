@@ -17,31 +17,28 @@ public class LaptopController extends CrudMvcMethod<Laptop, Integer> {
 
     @Override
     @PostMapping("/create")
-    @ResponseBody
     public String create(@ModelAttribute Laptop laptop, RedirectAttributes redirectAttributes){
         repo.save(laptop);
-        return "/admin/product/management";
+        return "admin/productManagement";
     }
 
     @Override
-    @DeleteMapping("/DELETE/{id}")
-    @ResponseBody
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         Laptop laptop=repo.findById(id).orElseThrow();
         if(laptop!=null){
             repo.delete(laptop);
         }
-        return "/admin/product/management";
+        return "admin/productManagement";
     }
 
     @Override
-    @PutMapping("/UPDATE/{id}")
-    @ResponseBody
+    @PutMapping("/update/{id}")
     public String update(Laptop laptop, @PathVariable Integer id, RedirectAttributes redirectAttributes) {
         if(repo.findById(id).isPresent()){
             repo.save(laptop);
             redirectAttributes.addFlashAttribute("statusMessage","Success");
         }
-        return "/admin/product/management";
+        return "admin/productManagement";
     }
 }

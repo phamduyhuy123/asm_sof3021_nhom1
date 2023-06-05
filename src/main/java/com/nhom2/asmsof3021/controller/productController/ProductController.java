@@ -141,7 +141,9 @@ public class ProductController  {
         }
         productManagementDefault(model,categoryRepository,session,productRepo);
         Product product = productFactory.createProduct();
-        model.addAttribute("categoryViewName", "admin/product/" + categoryEntityClassName);
+        product.setCategory(category);
+        model.addAttribute("categoryViewName", "admin/product/;" + categoryEntityClassName);
+        model.addAttribute("categoryName"+categoryEntityClassName);
         model.addAttribute("product", product);
         return "admin/productManagement";
     }

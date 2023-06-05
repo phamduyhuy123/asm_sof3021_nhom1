@@ -21,32 +21,30 @@ public class MonitorController extends CrudMvcMethod<Monitor,Integer> {
     private final ProductRepo productRepo;
     @Override
     @PostMapping("/create")
-    @ResponseBody
     public String create(@ModelAttribute Monitor monitor, RedirectAttributes redirectAttributes){
         repo.save(monitor);
-        return "/admin/product/management";
+        return "admin/productManagement";
     }
 
     @Override
-    @DeleteMapping("/DELETE/{id}")
-    @ResponseBody
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         Monitor monitor=repo.findById(id).orElseThrow();
         if(monitor!=null){
             repo.delete(monitor);
         }
-        return "redirect:/admin/productManagement";
+        return "admin/productManagement";
     }
 
     @Override
-    @PutMapping("/UPDATE/{id}")
-    @ResponseBody
+    @PutMapping("/update/{id}")
+
     public String update(Monitor product, @PathVariable Integer id, RedirectAttributes redirectAttributes) {
         if(repo.findById(id).isPresent()){
             repo.save(product);
             redirectAttributes.addFlashAttribute("statusMessage","Success");
         }
-        return "redirect:/admin/productManagement";
+        return "admin/productManagement";
     }
 
 
