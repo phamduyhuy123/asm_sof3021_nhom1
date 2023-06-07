@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<section ng-controller="productDetailController">
+    <div id="productDetail" th:attr="data-product-id=${productDetail.id}" class="container-fluid bg-light">
+        <div class="row">
+            <nav style="--bs-breadcrumb-divider: '>>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a class="text-decoration-none text-danger"
+                                                   ng-href="#!productCatagory/{{category.catalogId}}">{{category.name}}</a>
+                    </li>
+                    <li class="breadcrumb-item"><a class="text-decoration-none text-danger"
+                                                   ng-href="#!productCatagory/{{category.catalogId}}/{{brand.brandId}}">{{category.name}}
+                        {{brand.name}}</a></li>
+                    <li ng-if="productline" class="breadcrumb-item"><a class="text-decoration-none text-danger"
+                                                                       ng-href="#!productCatagory/{{category.catalogId}}/{{brand.brandId}}/{{productline.productLineId}}">{{productline.name}}</a>
+                    </li>
+
+                </ol>
+            </nav>
+        </div>
+        <div class="container ">
+            <div class="row row-cols-lg-2 row-cols-md-1 row-cols-sm-1 row-cols-1 ">
+                <div class="col-lg-5">
+
+                    <div class="row ">
+                            <div  th:if="${productDetail.productListImages !=null}"  id="carouselExampleIndicators" class="carousel carousel-dark slide " data-bs-ride="true">
+                                <div class="carousel-inner img-product-detail position-relative ">
+
+                                    <div th:each="img,iterStat : ${productDetail.productListImages}"
+                                         th:class="${iterStat.index == 0 ? 'active carousel-item' : 'carousel-item'}">
+                                        <img th:src="@{'/images/product/'+${img.fileName}}" class="d-block w-100 "
+                                             alt="...">
+                                    </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" style="width: 5%;"
+                                        data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" style="width: 5%;"
+                                        data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+
+                                <div class="carousel-indicators text-center">
+
+                                    <button th:each="img,iterStat : ${productDetail.productListImages}"
+                                            th:class="${iterStat.index == 0 ? 'active' : ''}" type="button"
+                                            data-bs-target="#carouselExampleIndicators"
+
+                                            aria-current="true"
+                                            th:attr="aria-label='Slide '+${iterStat.index}, data-bs-slide-to=${iterStat.index}"
+                                            style="height: 100px; width: 100px;">
+                                        <img th:src="@{'/images/product/'+ ${img.fileName}}" alt=""
+                                             class="d-block w-100  img-fluid">
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        <img th:if="${productDetail.productListImages==null}" th:src="@{'/images/product/' +${productDetail.image}}" class="d-block w-100">
+                    </div>
+
+
+                </div>
+                <div class="col-lg-7">
+                    <div class="bg-black bg-opacity-10 p-3">
+                        <div class="row">
+                            <h1 class="fw-bold fs-5" th:text="${productDetail.name}">
+                            </h1>
+                        </div>
+                        <p>
+                            <span class="text-warning">
+                                <i class="bi bi-star-fill "></i>
+                                <i class="bi bi-star-fill "></i>
+                                <i class="bi bi-star-fill "></i>
+                                <i class="bi bi-star-fill "></i>
+                                <i class="bi bi-star-fill "></i>
+                            </span>
+                            <span class="fs-6">(108 lượt bình chọn )</span>
+                            <br>
+                            <th:block th:if="${productDetail.brand}">
+                                Thương hiệu: <a href="#" class="text-danger" th:text="${productDetail.brand.name}"></a>
+                            </th:block>
+                            <br>
+                            <th:block th:if="${productDetail.baohanh}">
+                                <i class="bi bi-shield-shaded"></i>
+                                <th:block th:text="${productDetail.baohanh}"></th:block>
+                            </th:block>
+                        </p>
+                        <hr>
+                        <div class="row pt-5 mb-3">
+                            <p>
+                                <span class="fs-4"><span
+                                        class="text-decoration-line-through text-black text-opacity-50"
+                                        th:text="${#numbers.formatDecimal(productDetail.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
+                                    <span class="text-decoration-underline "
+                                          style="color: red;"
+                                          th:text="${#numbers.formatDecimal((productDetail.price -(productDetail.price * productDetail.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"
+                                    ></span></span>
+                                <br>
+                                <span style="font-size: 11px;">*Giá trên đã bao gồm thuế VAT</span>
+                            </p>
+
+                        </div>
+                        <div class="">
+                            <div class="number-input">
+                                <i role="button" ng-click="decreaseValue()" class="btn btn-light rounded-circle bi bi-dash-circle-fill me-1"></i>
+                                <label>
+                                    <input  type="number"  ng-model="amountPdetail" class="text-center"  ng-change="checkMinValue()" ng-model-options="{ debounce: 500 }" min="1" >
+                                </label>
+                                <i role="button" ng-click="increaseValue()" class="btn btn-light rounded-circle bi bi-plus-circle-fill ms-1"></i>
+                            </div>
+
+                            <button ng-click="addToCartProductDetail($event)" th:attr="data-product-id=${productDetail.id}"
+                                    class="btn btn-danger">Thêm vào giỏ
+                            </button>
+                            <button class="btn btn-danger">Mua ngay</button>
+                        </div>
+                        <div class="card bg-primary mt-2">
+                            <a rel="nofollow" class="text-decoration-none text-light text-center"
+                               href="https://xgear.net/tra-gop/2581-laptop-asus-rog-strix-g15-g513ih-hn015w/?type=bank">
+                                <span>Mua trả góp 0%</span><br> <span class="small" style="font-size: 11px;">Thủ tục đơn
+                                    giản</span> </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div style="color: #a87817">
+                    <h3 class="mark">Sản phẩm tượng tự</h3>
+                    <div class="wrapperSlider position-relative w-100">
+                        <i id="left" class="fa-solid fa-angle-left "></i>
+                        <ul class="carouselSlider">
+                            <th:block th:if="${productsSimilar}">
+                                <div class="rounded-3 cardSlider card-product position-relative "
+                                     th:each="p : ${productsSimilar}"
+
+                                >
+                                    <a th:href="@{'/product/'+ ${p.id}}">
+                                        <div class="card m-0 shadow-sm">
+                        <span th:text="'-' +${p.disCount}+ '%'" class="position-absolute top-0 end-0  badge "
+                              style="background-color: rgb(42, 165, 83);">
+
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                                            <img class="card-img-top imgSlider"
+                                                 th:src="@{/images/product/{img}(img=${p.image})}" draggable="false"
+                                                 alt="">
+                                            <div class="card-body  pb-1 ">
+
+                                                <div class="text-center">
+                                                    <h2 th:text="${p.name}" class="text-black product-title">
+                                                    </h2>
+                                                    <span class="text-black text-decoration-line-through"
+                                                          th:text="${#numbers.formatDecimal(p.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
+                                                    <span class="text-decoration-underline " style="color: red;"
+                                                          th:text="${#numbers.formatDecimal((p.price -(p.price * p.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="position-absolute top-50 start-50  btn-add-cart  zindex-5 "
+                                         style="transform: translate(-50%, -50%);">
+                                        <button class="btn btn-dark text-center w-100">
+                                            <a th:href="@{'/product/'+ ${p.id}}">Xem chi tiết</a>
+                                        </button>
+
+                                        <button type="button" class="btn btn-dark text-center mt-3 w-100"
+                                                ng-click="addToCart($event,1)" th:attr="data-product-id=${p.id}"
+                                        >
+                                            Thêm vào giỏ hàng
+                                        </button>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </ul>
+                        <i id="right" class="fa-solid fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <style>
+        .carousel-indicators {
+            position: unset;
+
+
+        }
+        .wrapperSlider i {
+            top: 50%;
+            height: 50px;
+            width: 50px;
+            cursor: pointer;
+            font-size: 1.25rem;
+            position: absolute;
+            text-align: center;
+            line-height: 50px;
+            background: #fff;
+            z-index: 50;
+            border-radius: 50%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+            transform: translateY(-50%);
+            transition: transform 0.1s linear;
+        }
+
+        .wrapperSlider i:active {
+            transform: translateY(-50%) scale(0.85);
+        }
+
+        .wrapperSlider i:first-child {
+            left: -22px;
+        }
+
+        .wrapperSlider i:last-child {
+            right: -22px;
+        }
+
+        .wrapperSlider .carouselSlider {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: calc((100% / 3) - 12px);
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 16px;
+            border-radius: 8px;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .carouselSlider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carouselSlider.no-transition {
+            scroll-behavior: auto;
+        }
+
+        .carouselSlider.dragging {
+            scroll-snap-type: none;
+            scroll-behavior: auto;
+        }
+
+        .carouselSlider.dragging .cardSlider {
+            cursor: grab;
+            user-select: none;
+        }
+
+        .carouselSlider :where(.cardSlider, .imgSlider) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carouselSlider .cardSlider .imgSlider {
+            scroll-snap-align: start;
+            height: 342px;
+            list-style: none;
+            cursor: pointer;
+            padding-bottom: 15px;
+            flex-direction: column;
+            border-radius: 8px;
+        }
+
+        /*.cardSlider .imgSlider img {*/
+        /*    */
+        /*    object-fit: cover;*/
+        /*    border: 4px solid #fff;*/
+        /*}*/
+        .carouselSlider .cardSlider h2 {
+            font-weight: 500;
+
+        }
+
+        .carouselSlider .cardSlider span {
+            color: #6A6D78;
+            font-size: 1.31rem;
+        }
+
+        @media screen and (max-width: 900px) {
+            .wrapperSlider .carouselSlider {
+                grid-auto-columns: calc((100% / 2) - 9px);
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .wrapperSlider .carouselSlider {
+                grid-auto-columns: 100%;
+            }
+        }
+        .carousel-dark .carousel-indicators [data-bs-target] {
+            background-color: white;
+        }
+        .number-input {
+            display: flex;
+            align-items: center;
+        }
+
+        .number-input input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            background-color: #f2f2f2;
+        }
+
+        .number-input input:focus {
+            outline: none;
+        }
+
+        .number-input button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+
+        .number-input button:hover {
+            background-color: #e0e0e0;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+    <script>
+        const wrapper = document.querySelector(".wrapperSlider");
+        const carousel = document.querySelector(".carouselSlider");
+        const firstCardWidth = carousel.querySelector(".cardSlider").offsetWidth;
+        const arrowBtns = document.querySelectorAll(".wrapperSlider i");
+        const carouselChildrens = [...carousel.children];
+        let isDragging = false, isAutoPlay = true, startX, startScrollLeft, timeoutId;
+        // Get the number of cards that can fit in the carousel at once
+        let cardPerView = Math.round(carousel.offsetWidth / firstCardWidth);
+        // Insert copies of the last few cards to beginning of carousel for infinite scrolling
+        carouselChildrens.slice(-cardPerView).reverse().forEach(card => {
+            carousel.insertAdjacentHTML("afterbegin", card.outerHTML);
+        });
+        // Insert copies of the first few cards to end of carousel for infinite scrolling
+        carouselChildrens.slice(0, cardPerView).forEach(card => {
+            carousel.insertAdjacentHTML("beforeend", card.outerHTML);
+        });
+        // Scroll the carousel at appropriate postition to hide first few duplicate cards on Firefox
+        carousel.classList.add("no-transition");
+        carousel.scrollLeft = carousel.offsetWidth;
+        carousel.classList.remove("no-transition");
+        // Add event listeners for the arrow buttons to scroll the carousel left and right
+        arrowBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                carousel.scrollLeft += btn.id == "left" ? -firstCardWidth : firstCardWidth;
+            });
+        });
+        const dragStart = (e) => {
+            isDragging = true;
+            carousel.classList.add("dragging");
+            // Records the initial cursor and scroll position of the carousel
+            startX = e.pageX;
+            startScrollLeft = carousel.scrollLeft;
+        }
+        const dragging = (e) => {
+            if (!isDragging) return; // if isDragging is false return from here
+            // Updates the scroll position of the carousel based on the cursor movement
+            carousel.scrollLeft = startScrollLeft - (e.pageX - startX);
+        }
+        const dragStop = () => {
+            isDragging = false;
+            carousel.classList.remove("dragging");
+        }
+        const infiniteScroll = () => {
+            // If the carousel is at the beginning, scroll to the end
+            if (carousel.scrollLeft === 0) {
+                carousel.classList.add("no-transition");
+                carousel.scrollLeft = carousel.scrollWidth - (2 * carousel.offsetWidth);
+                carousel.classList.remove("no-transition");
+            }
+            // If the carousel is at the end, scroll to the beginning
+            else if (Math.ceil(carousel.scrollLeft) === carousel.scrollWidth - carousel.offsetWidth) {
+                carousel.classList.add("no-transition");
+                carousel.scrollLeft = carousel.offsetWidth;
+                carousel.classList.remove("no-transition");
+            }
+            // Clear existing timeout & start autoplay if mouse is not hovering over carousel
+            clearTimeout(timeoutId);
+            if (!wrapper.matches(":hover")) autoPlay();
+        }
+        const autoPlay = () => {
+            if (window.innerWidth < 800 || !isAutoPlay) return; // Return if window is smaller than 800 or isAutoPlay is false
+            // Autoplay the carousel after every 2500 ms
+            timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
+        }
+        autoPlay();
+        carousel.addEventListener("mousedown", dragStart);
+        carousel.addEventListener("mousemove", dragging);
+        document.addEventListener("mouseup", dragStop);
+        carousel.addEventListener("scroll", infiniteScroll);
+        wrapper.addEventListener("mouseenter", () => clearTimeout(timeoutId));
+        wrapper.addEventListener("mouseleave", autoPlay);
+    </script>
+</section>
+</body>
+</html>

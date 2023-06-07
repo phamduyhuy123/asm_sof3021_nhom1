@@ -62,7 +62,12 @@ a {
 .user-btn:hover > .user-card {
     display: block;
 }
-
+.btn-add-cart{
+    display: none;
+}
+.card-product:hover .btn-add-cart{
+    display: block;
+}
 .card-product > .card {
 
     background: #fff;
@@ -74,8 +79,11 @@ a {
 
 .card-product > .card:hover {
     transform: scale(1.05);
-    
+
     box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
+.card-product:hover .card{
+    filter: brightness(60%);
 }
 
 

@@ -1,4 +1,7 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="base::layout(~{::section})"
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -135,23 +138,21 @@
         <!-- products-card -->
         <div  class="container-fluid  mx-auto my-3 bg-light p-2">
             <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 p-3 align-items-center ">
-                <div  class="col p-2 card-product " th:each="laptop : ${laptops}">
-                    <a  href="#!product/{{laptop.id}}" >
+                <div  class="col p-2 card-product position-relative " th:each="laptop : ${laptops}">
+                    <a  th:href="@{'/product/'+ ${laptop.id}}" >
                         <div class=" card m-0 shadow-sm">
                         <span th:text="'-' +${laptop.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
 
                             <span class="visually-hidden">unread messages</span>
                         </span>
                             <img class="card-img-top" th:src="@{/images/product/{img}(img=${laptop.image})}" alt="">
-                            <div class="card-body  pb-1">
+                            <div class="card-body  pb-1 ">
 
                                 <div class="text-center">
                                     <h2 th:text="${laptop.name}" class="text-black product-title">
-
-
                                     </h2>
                                     <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(laptop.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
-                                    <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((laptop.price -(laptop.price * laptop.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'">{{laptop.giamgia | number : 0}}</span>
+                                    <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((laptop.price -(laptop.price * laptop.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
                                 </div>
                                 <table class="table table-borderless table-active table-sm fw-bold mt-2" style="font-size: .8em;">
                                     <tbody class="">
@@ -194,35 +195,44 @@
                                             <i class="bi bi-slash-square"></i>
                                         </td>
                                         <td th:text="${laptop.screenSize}">
-
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div class="text-center">
 
-                                </div>
                             </div>
                         </div>
                     </a>
+                    <div class="position-absolute bottom-0 start-50  btn-add-cart  z-5 w-75" style="transform: translate(-50%, -50%);">
+                        <button class="btn btn-dark text-center w-100">
+                            <a th:href="@{'/product/'+ ${laptop.id}}">Xem chi tiết</a>
+                        </button>
 
+
+                        <button  type="button"  class="btn btn-dark text-center mt-3 w-100 fs-6"
+                                 ng-click="addToCart($event,1)" th:attr="data-product-id=${laptop.id}"
+                        ><i class="bi bi-cart-plus-fill"></i>
+                            <br>
+                            Thêm vào giỏ hàng
+                        </button>
+                    </div>
                 </div>
 
 
             </div>
 
             <div class="text-center">
-                <a href="">
+                <a href="/product/category/1">
                    <span style="--bs-btn-hover-bg: #a8a7a7 " class="btn">
 
                     <i class="bi bi-eye-fill"></i>
                     <span>Xem thêm tất cả >></span>
                 </span>
                 </a>
-
             </div>
         </div>
     </div>
+
 </section>
 </body>
 </html>

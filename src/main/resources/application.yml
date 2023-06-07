@@ -12,9 +12,9 @@
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
-***REMOVED***
-***REMOVED***
-    show-sql: true
+    hibernate.ddl-auto: none
+    generate-ddl: off
+    show-sql: off
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
