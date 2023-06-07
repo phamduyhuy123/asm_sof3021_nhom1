@@ -12,9 +12,9 @@ spring:
     username: phamduyhuy
     password: tun8111474652
   jpa:
-    hibernate.ddl-auto: update
-    generate-ddl: true
-    show-sql: true
+    hibernate.ddl-auto: none
+    generate-ddl: off
+    show-sql: off
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect

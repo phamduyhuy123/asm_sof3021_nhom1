@@ -24,6 +24,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import java.io.IOException;
+import java.security.Principal;
+
+import static com.nhom2.asmsof3021.utils.AuthenticateUtil.checkIsAuthenticated;
 
 
 @EnableWebSecurity
@@ -78,7 +81,10 @@ public class SecurityConfig {
                            .usernameParameter("email")
                            .passwordParameter("password")
                            .defaultSuccessUrl("/index")
-
+                           .successHandler((request, response, authentication) -> {
+                               System.out.println(authentication.getPrincipal());
+                               response.sendRedirect("/index");
+                           })
                            .failureForwardUrl("/login")
                            .failureHandler(authenticationFailureHandlerUser())
                            .permitAll()

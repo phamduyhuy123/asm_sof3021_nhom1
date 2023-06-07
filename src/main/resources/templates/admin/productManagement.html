@@ -61,13 +61,19 @@
                             </th:block>
 
                             <button type="submit" th:if="${param.categoryId}"
-                                    th:formaction="'/admin/product/management/' + ${categoryName}+ 'create'"
+                                    th:formaction="'/admin/product/management/' + ${categoryName}+ '/create'"
                                     th:formmethod="post"
                                     class="btn btn-primary">Create
                             </button>
-                            <button type="submit"  class="btn btn-primary">Update
+                            <button type="submit"
+                                    th:formaction="'/admin/product/management/' + ${categoryName}+ '/update/' +${product.id}"
+                                    th:formmethod="POST"
+                                    class="btn btn-primary">Update
                             </button>
-                            <button type="submit"  class="btn btn-primary">Delete
+                            <button type="submit"
+                                    th:formaction="'/admin/product/management/' + ${categoryName}+ '/delete/' +${product.id}"
+                                    th:formmethod="POST"
+                                    class="btn btn-primary">Delete
                             </button>
                         </div>
                     </div>

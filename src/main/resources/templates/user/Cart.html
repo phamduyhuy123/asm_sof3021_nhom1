@@ -8,7 +8,7 @@
 <body>
 
 
-<section  class="container-fluid mt-4 mb-4">
+<section ng-controller="cartPageController"  class="container-fluid mt-4 mb-4">
     <div class="container">
         <div class="row" >
             <div class="col-12 col-sm-12 col-md-12 col-lg-7 border card mt-2">
@@ -26,14 +26,20 @@
                     <tbody class="align-middle justify-content-center align-content-center">
                     <tr ng-repeat="item in itemsCart">
 
-                        <td class="	d-none d-sm-block"><img class="img-fluid" src="images/product/{{item.product.image}}"
+                        <td class="	d-none d-sm-block"><img class="img-fluid" src="images/product/{{item.image}}"
                                                                alt=""></td>
                         <td><a c lass="text-decoration-none"
-                               href="#!product/{{item.product.id}}">Laptop Gaming
-                            {{item.product.name}}</a></td>
-                        <td><span>{{item.product.price | number:0}}₫</span></td>
+                               href="#!product/{{item.id}}">
+                            {{item.name}}</a></td>
+                        <td><span>{{item.price | number:0}}₫</span></td>
                         <td class="text-center">
-                            <input ng-model="item.quantity" class="w-100 text-center" type="number" min="0" value="">
+                            <div class="number-input">
+                                <i role="button" ng-click="decreaseValue(item.id,item.quantity)" class="bi bi-dash-circle-fill me-1"></i>
+                                <label>
+                                    <input  type="number"  ng-model="item.quantity" class="text-center" value="{{item.quantity}}" ng-change="checkMinValue(item.id,item.quantity)" ng-model-options="{ debounce: 500 }" min="1" >
+                                </label>
+                                <i role="button" ng-click="increaseValue(item.id,item.quantity)" class="bi bi-plus-circle-fill ms-1"></i>
+                            </div>
                             <a class="text-danger fs-2" href=""><i class="bi bi-x"></i></a></td>
                         <td><span ></span></td>
                     </tr>
@@ -68,6 +74,45 @@
             </div>
         </div>
     </div>
+    <style>
+        .number-input {
+            display: flex;
+            align-items: center;
+        }
+
+        .number-input input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            background-color: #f2f2f2;
+        }
+
+        .number-input input:focus {
+            outline: none;
+        }
+
+        .number-input button {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+
+        .number-input button:hover {
+            background-color: #e0e0e0;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
 </section>
 
 </body>

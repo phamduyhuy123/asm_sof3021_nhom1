@@ -76,36 +76,7 @@ public class RouteController {
     public String goToLoginPage(){
         return "admin/login";
     }
-//    @RequestMapping(value = "/error",method = RequestMethod.GET)
-//    public String errorPage(final HttpServletRequest request, Model model){
-//        String errorMsg = "";
-//
-//        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-//
-//        if (status != null) {
-//            int statusCode = Integer.parseInt(status.toString());
-//            model.addAttribute("httpCode",statusCode);
-//            if (statusCode == HttpStatus.NOT_FOUND.value()) {
-//                // handle HTTP 404 Not Found error
-//                errorMsg = "Http Error Code: 404. Resource not found";
-//
-//            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-//                // handle HTTP 403 Forbidden error
-//                errorMsg = "Http Error Code: 403. Forbidden";
-//
-//            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-//                // handle HTTP 500 Internal Server error
-//                errorMsg = "Http Error Code: 500. Internal Server Error";
-//
-//            }
-//        }
-//
-//        model.addAttribute("errorMsg", errorMsg);
-//        return "error";
-//    }
-//    private int getErrorCode(HttpServletRequest httpRequest) {
-//        return (Integer) httpRequest
-//                .getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-//    }
+
+
 
 }

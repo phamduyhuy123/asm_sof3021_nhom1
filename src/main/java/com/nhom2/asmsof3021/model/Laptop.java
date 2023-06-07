@@ -14,7 +14,6 @@ public class Laptop extends Product{
     private String card;
     private String ram;
     private String hardDisk;
-    private String baohanh;
     private String screenSize;
     private String os;
     private String lan;

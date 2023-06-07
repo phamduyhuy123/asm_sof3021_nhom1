@@ -25,10 +25,12 @@ public abstract class Product {
     private String image;
     private BigDecimal price;
     private int disCount;
+    private String baohanh;
+    private Integer stock;
     @Transient
-    private String formattedPrice;
+    private Integer quantity;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
     @JsonBackReference
     private List<ProductListImage> productListImages;
     @OneToOne
