@@ -68,12 +68,14 @@ app.controller("cartController", function ($scope, $http, $rootScope, $cart, $ca
 
 
     }
-    $scope.addToCart = function (event, amount) {
+    $rootScope.addToCart = function (event, amount) {
         let id = event.target.getAttribute('data-product-id');
         let isSuccess = $cart.addItem(id, amount);
+        console.log(id)
+        console.log(amount)
+        console.log(isSuccess)
         isSuccess.then((response) => {
             if(response===true){
-                amount=1;
                 Swal.fire(
                     'Success',
                     'Thêm vào giỏ hàng thành công',
@@ -153,7 +155,7 @@ app.controller("productDetailController", function ($scope, $http, $rootScope, $
     $scope.amountPdetail = 1;
     $scope.productId = angular.element('#productDetail').data('product-id');
     $scope.increaseValue = function () {
-        $http.get('/product/api/stock?amount=' +$scope.amountPdetail+'&id='+$scope.productId+'&isIncrease='+true).then(
+        $http.get('/product/api/stock?amount=' +$scope.amountPdetail+'&id='+$scope.productId).then(
             (response)=> {
                 $scope.amountPdetail++;
             },
@@ -164,7 +166,8 @@ app.controller("productDetailController", function ($scope, $http, $rootScope, $
                     text: 'Không thể tăng thêm số lượng vì đã chạm đến giới hạn hàng trong kho',
                     footer: ''
                 })
-
+                console.log(reason.data.error)
+                $scope.amountPdetai=reason.data.error;
             });
 
     };
@@ -228,16 +231,21 @@ app.service('$cart', function ($http, $rootScope) {
             return cartItems;
         },
         addItem: async function (id, amount) {
+            console.log("addItem")
             return await $http.post("/product/api/cart/add/" + id + "/" + amount).then(
                 (response)=> {
+                    console.log(response)
                     cartItems = response.data
                     $rootScope.itemsCart = cartItems;
                     $rootScope.itemsInCart = cartItems.length;
-                    amount=1;
+
                     return true;
                 },
                 (reason)=> {
-
+                    console.log(reason)
+                    cartItems = reason.data
+                    $rootScope.itemsCart = cartItems;
+                    $rootScope.itemsInCart = cartItems.length;
                     return false;
                 }
                 );

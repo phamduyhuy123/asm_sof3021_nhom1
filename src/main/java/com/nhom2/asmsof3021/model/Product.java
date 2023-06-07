@@ -29,8 +29,9 @@ public abstract class Product {
     private Integer stock;
     @Transient
     private Integer quantity;
-
-    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
+    @Transient
+    private boolean isSelected;
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JsonBackReference
     private List<ProductListImage> productListImages;
     @OneToOne
@@ -39,7 +40,7 @@ public abstract class Product {
     @OneToOne
     @JsonBackReference
     private Category category;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JsonBackReference
     private ProductLine productLine;
 
