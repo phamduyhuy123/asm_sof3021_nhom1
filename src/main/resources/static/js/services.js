@@ -28,8 +28,6 @@ app.controller("homeCtrl", function ($scope, $http, $rootScope, $cart, $calculat
     $rootScope.calculateDisCount = function (price, disCount) {
         return $calculate.calculatePriceDiscount(price, disCount);
     }
-
-
 });
 app.controller("cartController", function ($scope, $http, $rootScope, $cart, $calculate) {
     $rootScope.itemsCart = $cart.getCart();

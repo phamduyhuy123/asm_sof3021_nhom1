@@ -224,6 +224,7 @@ public class ProductController {
                     p.setQuantity(Math.min(p.getQuantity() + quantity, p.getStock()));
                     isExceeding = p.getQuantity() >= p.getStock();
                     break;
+
                 }
             }
             if(!isInCart){
