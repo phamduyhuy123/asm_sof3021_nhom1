@@ -34,30 +34,34 @@ public class ProductController {
     private final Map<Integer, ProductFactory> factoryMap;
 
 
-
-
-
     @GetMapping("/admin/product/category/{id}")
-    public String getCategory(@PathVariable Integer id, Model model) {
+    public String getCategory(@PathVariable Integer id, Model model, @RequestParam(defaultValue = "1") int page) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + id));
         model.addAttribute("categoryViewName", "admin/product/" + category.getEntityClassName());
+
+
         return category.getEntityClassName();
     }
+
 
     @GetMapping("/admin/product/EDIT/{id}")
     public String edit(@PathVariable Integer id, Model model, Principal principal) {
         checkIsAuthenticated(principal, session, userRepository);
-        productManagementDefault(model, categoryRepository, session, productRepo);
+
         Product product = productRepo.findById(id).orElseThrow();
         model.addAttribute("product", product);
         model.addAttribute("categoryViewName", "admin/product/" + product.getCategory().getEntityClassName());
-        List<Product> list = productRepo.findAll();
-        model.addAttribute("products", list);
+//        List<Product> list = productRepo.findAll();
+//        model.addAttribute("products", list);
         model.addAttribute("categoryName", product.getCategory().getEntityClassName());
 
-        return "admin/productManagement";
+
+
+        return "forward:/admin/product/management";
     }
+
+
 
     @GetMapping("/admin/product/category/new")
     public String newForm(@RequestParam("categoryId") Integer id, Model model) {
@@ -69,13 +73,12 @@ public class ProductController {
         if (productFactory == null) {
             throw new IllegalArgumentException("Invalid categoryId");
         }
-        productManagementDefault(model, categoryRepository, session, productRepo);
         Product product = productFactory.createProduct();
         product.setCategory(category);
         model.addAttribute("categoryViewName", "admin/product/" + categoryEntityClassName);
         model.addAttribute("categoryName" + categoryEntityClassName);
         model.addAttribute("product", product);
-        return "admin/productManagement";
+        return "forward:/admin/product/management";
     }
 
     @GetMapping("/product/{id}")
@@ -95,6 +98,7 @@ public class ProductController {
         }
         return ResponseEntity.ok(productRepo.findAll().size());
     }
+
     private Set<Product> getProductsSimilar(Product product) {
         Integer id = product.getId();
         Integer brandId = product.getBrand() != null ? product.getBrand().getBrandId() : null;

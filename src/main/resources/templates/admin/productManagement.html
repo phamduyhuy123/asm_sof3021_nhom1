@@ -129,7 +129,8 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:each="product : ${products}">
+                            <!-- Hiển thị danh sách sản phẩm trên trang -->
+                            <th:block th:each="product : ${page.content}">
                                 <tr>
                                     <th scope="row" th:text="${product.getId()}"></th>
                                     <td th:text="${product.getName()}"></td>
@@ -138,11 +139,25 @@
                                     <td th:text="${product.brand != null ? product.brand.brandId: 'Null'}"></td>
                                     <td th:text="${product.category != null ? product.category.catalogId: 'Null'}"></td>
                                     <td th:text="${product.productLine != null ? product.productLine.productLineId: 'Null'}"></td>
-                                    <td><a  th:href="@{'/admin/product/EDIT/'+${product.id}}" >Edit</a></td>
+                                    <td><a th:href="@{'/admin/product/EDIT/'+${product.id}}">Edit</a></td>
                                 </tr>
                             </th:block>
                             </tbody>
                         </table>
+                        <div class="pagination">
+                            <ul>
+                                <li th:if="${page.number >= 0}">
+                                    <a th:href="@{'/admin/product/management?page='+${page.number - 1}+'&pageSize='+${page.size}}">&laquo; Previous</a>
+                                </li>
+                                <li th:each="pageNumber : ${#numbers.sequence(1, page.getTotalPages())}" th:class="${page.number == page.numberOfElements ? 'active' : ''}">
+                                    <a th:href="@{'/admin/product/management?page='+${pageNumber}+'&pageSize='+${page.size}}" th:text="${pageNumber}"></a>
+                                </li>
+                                <li th:if="${page.number < page.totalPages}">
+                                    <a th:href="@{'/admin/product/management?page='+${page.number + 1}+'&pageSize='+${page.size}}">Next &raquo;</a>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
             </div>

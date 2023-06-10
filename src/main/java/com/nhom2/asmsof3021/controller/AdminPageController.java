@@ -10,6 +10,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,24 +47,44 @@ public class AdminPageController {
     }
 
     @GetMapping(value = {"/product/management","/product"})
-    public String getProductManagementPage(Model model,Principal principal){
+    public String getProductManagementPage(Model model,Principal principal, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "7") int pageSize){
+        System.out.println("Failed");
         checkIsAuthenticated(principal,session,userRepository);
-        List<Product> list= productManagementDefault(model, categoryRepository, session, productRepo);
-        model.addAttribute("product",list.get(0));
-        model.addAttribute("categoryViewName","admin/product/"+list.get(0).getCategory().getEntityClassName());
+        List<Product> list= productManagementDefault(model, categoryRepository, session, productRepo, page, pageSize);
+        if (model.getAttribute("product")==null){
+            System.out.println("idonknow");
+            model.addAttribute("product",list.get(0));
+        }else{
+            System.out.println("Success");
+        }
+        if (model.getAttribute("categoryViewName")== null){
+            model.addAttribute("categoryViewName","admin/product/"+list.get(0).getCategory().getEntityClassName());
+        }
+
 
         return "admin/productManagement";
     }
 
-    public static List<Product> productManagementDefault(Model model,CategoryRepo categoryRepository, HttpSession session, ProductRepo productRepo) {
-        List<Category> categoryList=categoryRepository.findAllByEntityClassNameExists();
-        model.addAttribute("categories" ,categoryList);
-        List<AdminPageController.BreadcrumbLink> breadcrumbLinkList=new ArrayList<>();
-        breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product","/admin/product"));
-        breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product Management","/admin/product/management"));
+    public static List<Product> productManagementDefault(Model model, CategoryRepo categoryRepository, HttpSession session, ProductRepo productRepo,
+                                                         int page,  int pageSize) {
+        List<Category> categoryList = categoryRepository.findAllByEntityClassNameExists();
+        model.addAttribute("categories", categoryList);
+        List<AdminPageController.BreadcrumbLink> breadcrumbLinkList = new ArrayList<>();
+        breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product", "/admin/product"));
+        breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product Management", "/admin/product/management"));
         session.setAttribute("breadcrumbs", breadcrumbLinkList);
-        List<Product> list = productRepo.findAll();
-        model.addAttribute("products",list);
-        return list;
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "name");
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+
+        Page<Product> pages = productRepo.findAll(pageable);
+        model.addAttribute("page", pages);
+
+        // Lấy toàn bộ danh sách sản phẩm
+        List<Product> allProducts = productRepo.findAll();
+
+        return allProducts;
     }
+
+
 }
