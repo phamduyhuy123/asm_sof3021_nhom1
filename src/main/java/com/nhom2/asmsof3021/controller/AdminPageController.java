@@ -4,9 +4,8 @@ import com.nhom2.asmsof3021.model.Category;
 import com.nhom2.asmsof3021.model.Product;
 import com.nhom2.asmsof3021.repository.CategoryRepo;
 import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
-import com.nhom2.asmsof3021.security.UserRepository;
+import com.nhom2.asmsof3021.repository.UserRepository;
 import com.nhom2.asmsof3021.service.CategoryService;
-import com.nhom2.asmsof3021.service.ProductService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpSession;
@@ -30,14 +29,13 @@ public class AdminPageController {
     public record BreadcrumbLink(String breadName,String breadLink) {
 
     }
-    private final ProductService productService;
+
     private final CategoryService categoryService;
     private final CategoryRepo categoryRepository;
     private final UserRepository userRepository;
     private final HttpSession session;
     private final ProductRepo productRepo;
-    @PersistenceContext
-    private final EntityManager entityManager;
+
     @GetMapping("/home")
     public String getAdminHome(Principal principal,Model model){
         checkIsAuthenticated(principal,session,userRepository);

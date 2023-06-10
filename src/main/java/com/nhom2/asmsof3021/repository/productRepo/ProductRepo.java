@@ -3,6 +3,7 @@ package com.nhom2.asmsof3021.repository.productRepo;
 import com.nhom2.asmsof3021.model.Product;
 import com.nhom2.asmsof3021.repository.ProductRepoAbstract;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -28,5 +29,10 @@ public interface ProductRepo extends ProductRepoAbstract<Product> {
     @Query("select  p.stock from Product p where p.id=?1 ")
     Integer checkStock(int id);
     Integer countAllByCategory_CatalogIdAndProductLine_ProductLineId(int categoryId,int productLineId);
-
+    @Query("SELECT p FROM Product p JOIN p.category c JOIN p.brand b JOIN p.productLine pl WHERE (:categoryIds IS NULL OR c.catalogId IN (:categoryIds)) AND (:brandIds IS NULL OR b.brandId IN (:brandIds)) AND (:productLineIds IS NULL OR pl.productLineId IN (:productLineIds))")
+    List<Product> findProductsByCategory_CatalogIdsAndBrand_BrandIdsAndProductLine_ProductLineIds(
+            @Param("categoryIds") List<Integer> categoryIds,
+            @Param("brandIds") List<Integer> brandIds,
+            @Param("productLineIds") List<Integer> productLineIds
+    );
 }

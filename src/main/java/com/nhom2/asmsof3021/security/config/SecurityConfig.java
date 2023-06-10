@@ -1,7 +1,8 @@
 package com.nhom2.asmsof3021.security.config;
 
-import com.nhom2.asmsof3021.security.User;
-import com.nhom2.asmsof3021.security.UserRepository;
+import com.nhom2.asmsof3021.repository.UserRepository;
+import com.nhom2.asmsof3021.security.auth.CustomAuthenticationSuccessHandler;
+import com.nhom2.asmsof3021.security.auth.CustomLogoutSuccessHandler;
 import com.nhom2.asmsof3021.security.enums.Role;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,14 +19,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import java.io.IOException;
-import java.security.Principal;
-
-import static com.nhom2.asmsof3021.utils.AuthenticateUtil.checkIsAuthenticated;
 
 
 @EnableWebSecurity
@@ -34,8 +31,10 @@ import static com.nhom2.asmsof3021.utils.AuthenticateUtil.checkIsAuthenticated;
 @EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
-
+        private final RedirectStrategy redirectStrategy;
         private final UserRepository userRepository;
+        private final CustomAuthenticationSuccessHandler userSuccessHandlerLogin;
+        private final CustomLogoutSuccessHandler logoutSuccessHandler;
         @Bean
         @Order(Ordered.HIGHEST_PRECEDENCE)
         public SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
@@ -47,9 +46,7 @@ public class SecurityConfig {
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .and()
                     .formLogin(customizeLoginAdmin())
-                    .logout(customizeLogoutAdmin())
-
-                    ;
+                    .logout(customizeLogoutAdmin());
 
             return http.build();
         }
@@ -81,10 +78,7 @@ public class SecurityConfig {
                            .usernameParameter("email")
                            .passwordParameter("password")
                            .defaultSuccessUrl("/index")
-                           .successHandler((request, response, authentication) -> {
-                               System.out.println(authentication.getPrincipal());
-                               response.sendRedirect("/index");
-                           })
+                           .successHandler(userSuccessHandlerLogin)
                            .failureForwardUrl("/login")
                            .failureHandler(authenticationFailureHandlerUser())
                            .permitAll()
@@ -116,7 +110,8 @@ public class SecurityConfig {
                    httpSecurityLogoutConfigurer
                            .logoutUrl("/action_logout")
                            .deleteCookies("JSESSIOND")
-                           .logoutSuccessUrl("/login");
+                           .logoutSuccessUrl("/login")
+                           .logoutSuccessHandler(logoutSuccessHandler);
 
                }
 
@@ -140,8 +135,9 @@ public class SecurityConfig {
            AuthenticationFailureHandler authenticationFailureHandler=new AuthenticationFailureHandler() {
                @Override
                public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+                    String email=String.valueOf(request.getParameter("email"));
+                   redirectStrategy.sendRedirect(request, response, "/login?error=true&email="+email);
 
-                   response.sendRedirect("/login?error=true");
                }
 
            };

@@ -1,6 +1,6 @@
 package com.nhom2.asmsof3021.security.config;
 
-import com.nhom2.asmsof3021.security.UserRepository;
+import com.nhom2.asmsof3021.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

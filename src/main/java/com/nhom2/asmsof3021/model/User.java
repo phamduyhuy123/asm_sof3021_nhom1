@@ -1,6 +1,5 @@
-package com.nhom2.asmsof3021.security;
+package com.nhom2.asmsof3021.model;
 
-import com.nhom2.asmsof3021.model.Address;
 import com.nhom2.asmsof3021.security.enums.Role;
 
 import jakarta.persistence.*;
@@ -18,9 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -30,6 +27,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
+
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Address> addresses;
     @Transient

@@ -11,46 +11,50 @@
 <section ng-controller="cartPageController"  class="container-fluid mt-4 mb-4">
     <div class="container">
         <div class="row" >
-            <div class="col-12 col-sm-12 col-md-12 col-lg-7 border card mt-2">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-9 border card mt-2">
                 <table class="table  ">
+                    <button type="button" class="btn btn-danger me-auto text-center my-2" style="width: 100px" ng-click="deleteMultipleItemFromCart()" ng-if="hasSelected" >Xóa</button>
                     <thead>
                     <tr class="text-center">
-
-                        <th class="product-thumbnail"></th>
+                        <th ><input type="checkbox" ng-if="itemsInCart!=0" class="ms-auto form-check-input" ng-model="selectAllProduct" ng-click="updateAllProductSelected()"></th>
+                        <th>Chọn tất cả ({{itemsInCart}} sản phẩm)</th>
+                        <th class="product-thumbnail">Ảnh</th>
                         <th class="product-name ">Sản phẩm</th>
-                        <th class="product-price">Giá</th>
+                        <th class="product-price">Giá gốc</th>
+                        <th >Giá đã giảm</th>
                         <th class="product-quantity ">Số lượng</th>
                         <th class="product-subtotal">Tạm tính</th>
                     </tr>
                     </thead>
                     <tbody class="align-middle justify-content-center align-content-center">
                     <tr ng-repeat="item in itemsCart">
-
+                        <td><i role="button" class="bi bi-x btn btn-light rounded-circle text-center text-danger "  ng-click="deleteItemFromCart(item.id)"></i></td></td>
+                        <td class="">
+                            <input class="mx-auto" ng-model="selectedProduct[item.id]" ng-change="updateSelected()" type="checkbox">
+                        </td>
                         <td class="	d-none d-sm-block"><img class="img-fluid" src="images/product/{{item.image}}"
                                                                alt=""></td>
                         <td><a c lass="text-decoration-none"
                                href="#!product/{{item.id}}">
                             {{item.name}}</a></td>
                         <td><span>{{item.price | number:0}}₫</span></td>
+                        <td><span>{{calculateDisCount(item.price,item.disCount) | number :0}}₫</span></td>
                         <td class="text-center">
                             <div class="number-input">
-                                <i role="button" ng-click="decreaseValue(item.id,item.quantity)" class="bi bi-dash-circle-fill me-1"></i>
+                                <i role="button" ng-click="decreaseValue(item.id,1)" class="bi bi-dash-circle-fill me-1"></i>
                                 <label>
-                                    <input  type="number"  ng-model="item.quantity" class="text-center" value="{{item.quantity}}" ng-change="checkMinValue(item.id,item.quantity)" ng-model-options="{ debounce: 500 }" min="1" >
+                                    <input  type="number"  ng-model="item.quantity" class="text-center"  ng-change="checkMinValue(item.id,item.quantity)" ng-model-options="{ debounce: 500 }" min="1" >
                                 </label>
-                                <i role="button" ng-click="increaseValue(item.id,item.quantity)" class="bi bi-plus-circle-fill ms-1"></i>
+                                <i role="button" ng-click="increaseValue(item.id,1)" class="bi bi-plus-circle-fill ms-1"></i>
                             </div>
-                            <a class="text-danger fs-2" href=""><i class="bi bi-x"></i></a></td>
-                        <td><span ></span></td>
+
+                        <td><span >{{calculateDisCount(item.price,item.disCount) * item.quantity | number :0}}₫</span></td>
                     </tr>
 
-                    <!-- <tr>
-                        <td colspan="6" >sadsa</td>
-                    </tr> -->
                     </tbody>
                 </table>
             </div>
-            <div class="col col-sm col-md col-lg-5 mt-2">
+            <div class="col col-sm col-md col-lg-3 mt-2">
                 <div class="border card p-4">
                     <div class="d-flex"><h5 class="fw-bold fs-6 w-100">Cart Totals</h5>
                         <span class="float-end">{{itemsInCart}}</span></div>
@@ -112,6 +116,17 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+        /*.cartItemsCheckBox {*/
+        /*    display: none;*/
+        /*}*/
+
+        /*td.cl-item-action:hover span {*/
+        /*    display: none;*/
+        /*}*/
+
+        /*td.cl-item-action:hover .cartItemsCheckBox {*/
+        /*    display: inline-block;*/
+        /*}*/
     </style>
 </section>
 

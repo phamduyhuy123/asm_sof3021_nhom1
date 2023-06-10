@@ -1,47 +1,37 @@
 package com.nhom2.asmsof3021.service;
 
-import com.nhom2.asmsof3021.model.*;
-
-import com.nhom2.asmsof3021.repository.ProductRepoAbstract;
+import com.nhom2.asmsof3021.model.Product;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
-    @Autowired
-    private ProductRepoAbstract<Product> repo;
-    public List<Product> findAll(){
-        return (List<Product>) repo.findAll();
-    }
-
-    public Brand findProducBrandtById(int id){
-        Product product=repo.findById(id).stream().findFirst().get();
-
-        return product.getBrand();
-    }
-
-    public List<Product> findProductCategoryById(int id){
-
-        return repo.findByCategory_CatalogId(id);
-    }
-    public ProductLine findProductLineById(int id){
-        Product product=repo.findById(id).stream().findFirst().get();
-
-        return product.getProductLine();
-    }
-    public Product findProductById(Integer id){
-        Optional<Product> product=repo.findById(id);
-        if(product.isPresent()){
-            return product.get();
+    @PersistenceContext
+    private EntityManager entityManager;
+    public List<Product> findProductsByFilters(List<Integer> categoryIds, List<Integer> brandIds, List<Integer> productLineIds) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class);
+        List<Predicate> predicates = new ArrayList<>();
+        if (!categoryIds.isEmpty()) {
+            predicates.add(root.get("category").get("catalogId").in(categoryIds));
         }
-        return null;
-    }
-
-    public Product createProduct(Product product){
-        return repo.save(product);
+        if (!brandIds.isEmpty()) {
+            predicates.add(root.get("brand").get("brandId").in(brandIds));
+        }
+        if (!productLineIds.isEmpty()) {
+            predicates.add(root.get("productLine").get("productLineId").in(productLineIds));
+        }
+        query.select(root).where(predicates.toArray(new Predicate[0]));
+        return entityManager.createQuery(query).getResultList();
     }
 }

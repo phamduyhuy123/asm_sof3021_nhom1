@@ -7,13 +7,11 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Data
+@NoArgsConstructor
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int brandId;
+    private Integer brandId;
     private String name;
 
-    public Brand() {
-
-    }
 }

@@ -1,16 +1,26 @@
 package com.nhom2.asmsof3021.security.auth;
 
 
-import com.nhom2.asmsof3021.security.User;
-import com.nhom2.asmsof3021.security.UserRepository;
+import com.nhom2.asmsof3021.model.User;
+import com.nhom2.asmsof3021.repository.UserRepository;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+
+import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -20,19 +30,23 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationManager authenticationManager;
-
+    private final RedirectStrategy redirectStrategy;
+//    @Transactional
     public User register(RegisterRequest request) {
-        if (!request.getPassword().equals(request.getConfirmPassword())){
-            throw new IllegalArgumentException("Không trùng password");
-        }
+
         var user = User.builder()
-                .profileName(request.getUsername())
+                .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
-        var savedUser = repository.save(user);
-        return savedUser;
+
+
+            var savedUser = repository.save(user);
+
+            return savedUser;
+
+
     }
 
     public User authenticate(AuthenticationRequest request) throws NoSuchElementException {

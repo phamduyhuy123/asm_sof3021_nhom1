@@ -1,25 +1,17 @@
 package com.nhom2.asmsof3021.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ProductLine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int productLineId;
+    private Integer productLineId;
     private String name;
-
-
-
-    public ProductLine() {
-
-    }
 }

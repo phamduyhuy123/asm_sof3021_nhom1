@@ -1,15 +1,11 @@
 package com.nhom2.asmsof3021.controller.productController;
 
-import com.nhom2.asmsof3021.controller.AdminPageController;
 import com.nhom2.asmsof3021.factory.ProductFactory;
 import com.nhom2.asmsof3021.model.Category;
-import com.nhom2.asmsof3021.model.Laptop;
 import com.nhom2.asmsof3021.model.Product;
 import com.nhom2.asmsof3021.repository.CategoryRepo;
 import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
-import com.nhom2.asmsof3021.security.UserRepository;
-import com.nhom2.asmsof3021.service.CategoryService;
-import com.nhom2.asmsof3021.service.ProductService;
+import com.nhom2.asmsof3021.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.metamodel.EntityType;
@@ -33,84 +29,13 @@ import static com.nhom2.asmsof3021.utils.AuthenticateUtil.checkIsAuthenticated;
 public class ProductController {
     private final CategoryRepo categoryRepository;
     private final HttpSession session;
-    @PersistenceContext
-    private final EntityManager entityManager;
     private final ProductRepo productRepo;
     private final UserRepository userRepository;
     private final Map<Integer, ProductFactory> factoryMap;
 
-    @GetMapping("/admin/product/generate-input-fields/{categoryId}")
-    @ResponseBody
-    public String generateInputFieldProductDependOnCategory(@PathVariable Integer categoryId) {
-        Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
-
-        return generateInputFieldsHtml(category);
-    }
-
-    private String generateInputFieldsHtml(Category category) {
-        String entityClassName = category.getEntityClassName();
-
-        Class<?> entityClass;
-        try {
-            entityClass = Class.forName("com.nhom2.asmsof3021.model." + entityClassName);
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Invalid entity class name: " + entityClassName, e);
-        }
 
 
-        EntityType<?> entityType = entityManager.getMetamodel().entity(entityClass);
 
-        StringBuilder inputFieldsHtml = new StringBuilder();
-        Class<?> entityProduct;
-        try {
-            entityProduct = Class.forName("com.nhom2.asmsof3021.model.Product");
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Invalid entity class name: Product", e);
-        }
-        EntityType<?> entityTypeProduct = entityManager.getMetamodel().entity(entityProduct);
-
-
-        entityType.getAttributes().forEach(attribute -> {
-            String attributeName = attribute.getName();
-            Class<?> attributeType = attribute.getJavaType();
-            String inputType = "text"; // Default input type
-            if (attributeType == Boolean.class) {
-                inputType = "checkbox";
-            } else if (attributeType == Integer.class ||
-                    attributeType == Double.class ||
-                    attributeType == BigDecimal.class) {
-                inputType = "number";
-            }
-            if (!entityTypeProduct.getAttributes().contains(attribute)) {
-                if (inputType.equals("checkbox")) {
-                    inputFieldsHtml
-                            .append("<div class=\" form-check\">")
-                            .append("<input  class=\"form-check-input\"").append("type ='").append(inputType + "' ").append(" name='")
-                            .append(attributeName + "'")
-                            .append(" id='").append(attributeName + "Id' >")
-                            .append("<label class=\"form-check-label\" ")
-                            .append(" for='").append(attributeName + "Id").append("' >")
-                            .append(attributeName)
-                            .append("</label>")
-                            .append("</div>");
-                } else {
-                    inputFieldsHtml
-                            .append("<div class=\"mb-3\">")
-                            .append("<label class=\"form-label\"> ")
-                            .append(attributeName)
-                            .append("</label>")
-                            .append("<input type=\"").append(inputType).append("\" class=\"form-control\" name='")
-                            .append(attributeName).append("'>")
-                            .append("</div>");
-                }
-
-            }
-
-        });
-
-        return inputFieldsHtml.toString();
-    }
 
     @GetMapping("/admin/product/category/{id}")
     public String getCategory(@PathVariable Integer id, Model model) {
@@ -184,6 +109,7 @@ public class ProductController {
             for (Product p : products) {
                 if (p.getId() == id) {
                     if (isQuantityExceeding(p, amount)) {
+                        System.out.println("vuot qua so luong");
                         responseData.put("error", p.getStock() - p.getQuantity());
                         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(responseData);
                     } else {
@@ -221,15 +147,24 @@ public class ProductController {
             for (Product p : products) {
                 if (p.getId() == id) {
                     isInCart=true;
-                    p.setQuantity(Math.min(p.getQuantity() + quantity, p.getStock()));
-                    isExceeding = p.getQuantity() >= p.getStock();
+
+                    if(quantity==1&& Objects.equals(p.getQuantity(), p.getStock())){
+                        isExceeding=true;
+                        break;
+                    }
+                    int tempQuantity=p.getQuantity();
+                    p.setQuantity(p.getQuantity() + quantity);
+                    isExceeding = p.getQuantity() > p.getStock();
+                    if(isExceeding){
+                        p.setQuantity(Math.min(tempQuantity + quantity, p.getStock()));
+                    }
                     break;
 
                 }
             }
             if(!isInCart){
                 product.setQuantity(Math.min(quantity, product.getStock()));
-                isExceeding = product.getQuantity() >= product.getStock();
+                isExceeding = product.getQuantity() > product.getStock();
                 products.add(product);
             }
         } else {
@@ -241,7 +176,8 @@ public class ProductController {
         session.setAttribute("cartItems", products);
 
         if (isExceeding) {
-            return ResponseEntity.badRequest().body(products);
+            System.out.println("isExceeding");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(products);
         } else {
             return ResponseEntity.ok(products);
         }
@@ -256,30 +192,89 @@ public class ProductController {
         return ResponseEntity.ok(cartItems);
     }
 
-    @PostMapping("/product/api/cart/decrease/{id}")
-    public ResponseEntity<List<Product>> decreaseItemFromCart(@PathVariable Integer id) {
+    @PutMapping("/product/api/cart/decrease/{id}")
+    public ResponseEntity<List<Product>> decreaseItemFromCart(@PathVariable Integer id,@RequestParam("amount") Integer amount) {
         Product product = productRepo.findById(id).orElseThrow();
-        List<Product> products;
-        if (session.getAttribute("cartItems") != null) {
-            products = (List<Product>) session.getAttribute("cartItems");
-            for (Product p : products
-            ) {
-                if (p.getId() == id) {
-                    p.setQuantity(p.getQuantity() - 1);
-                    if (p.getQuantity() <= 0) {
+        List<Product> products=new ArrayList<>();
+        Optional<List<Product>> optionalCartItems = Optional.ofNullable((List<Product>) session.getAttribute("cartItems"));
+        if (optionalCartItems.isPresent()) {
+            products = optionalCartItems.get();
+
+            Iterator<Product> iterator = products.iterator();
+
+            while (iterator.hasNext()) {
+                Product p = iterator.next();
+                if(p.getId()==id){
+                    p.setQuantity(p.getQuantity()-1);
+                    if(p.getQuantity()<1){
                         p.setQuantity(1);
+                        session.setAttribute("cartItems",products);
+                        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(products);
                     }
-                    break;
+                    session.setAttribute("cartItems",products);
+                    return ResponseEntity.ok(products);
                 }
             }
-            return ResponseEntity.ok(products);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(products);
+    }
+    @PutMapping("/product/api/cart/update/{id}")
+    @ResponseBody
+    public ResponseEntity<List<Product>> updateProductValueFromCart(
+            @PathVariable Integer id,@RequestParam("amount") Integer quantity){
+        List<Product> products;
+        boolean isExceeding = false;
+        Product product = productRepo.findById(id).orElseThrow();
+        Optional<List<Product>> optionalProducts = Optional.ofNullable((List<Product>) session.getAttribute("cartItems"));
+        if (optionalProducts.isPresent()) {
+            products = optionalProducts.get();
+            boolean isInCart=false;
+            for (Product p : products) {
+                if (p.getId() == id) {
+                    isInCart=true;
+
+//                    if(quantity==1&& Objects.equals(p.getQuantity(), p.getStock())){
+//                        isExceeding=true;
+//                        break;
+//                    }
+//                    int tempQuantity=p.getQuantity();
+//                    p.setQuantity(quantity);
+//                    isExceeding = p.getQuantity() > p.getStock();
+//                    if(isExceeding){
+//                        p.setQuantity(Math.min(tempQuantity + quantity, p.getStock()));
+//                    }
+                    int tempQuantity=p.getQuantity();
+                    if(quantity>p.getStock()){
+                        isExceeding=true;
+                        p.setQuantity(p.getStock());
+                    }else {
+                        isExceeding=false;
+                        p.setQuantity(quantity);
+                    }
+                    break;
+
+                }
+            }
+            if(!isInCart){
+                product.setQuantity(Math.min(quantity, product.getStock()));
+                isExceeding = product.getQuantity() > product.getStock();
+                products.add(product);
+            }
         } else {
             products = new ArrayList<>();
-            session.setAttribute("cartItems", products);
-            return ResponseEntity.badRequest().body(products);
+            product.setQuantity(Math.min(quantity, product.getStock()));
+            products.add(product);
+        }
+
+        session.setAttribute("cartItems", products);
+
+        if (isExceeding) {
+            System.out.println("isExceeding");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(products);
+        } else {
+            return ResponseEntity.ok(products);
         }
     }
-
     @DeleteMapping("/product/api/cart/remove/{id}")
     @ResponseBody
     public ResponseEntity<List<Product>> removeItemFromCart(@PathVariable Integer id) {
