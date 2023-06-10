@@ -1,9 +1,8 @@
 package com.nhom2.asmsof3021.utils;
 
-import com.nhom2.asmsof3021.security.User;
-import com.nhom2.asmsof3021.security.UserRepository;
+import com.nhom2.asmsof3021.model.User;
+import com.nhom2.asmsof3021.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.ui.Model;
 
 import java.security.Principal;
 

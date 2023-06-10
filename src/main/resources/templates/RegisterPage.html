@@ -8,35 +8,63 @@
     <title>Register</title>
 </head>
 <body>
-<section class="container login mx-auto">
-  <div class="row">
+<section class="container login mx-auto" >
+  <div class="row h-75">
     <div class="col-md-4" id="side1">
       <h3>Welcome Back!!</h3>
       <p>My friends.</p>
       <div id="btn"><a href="/user/login">Login</a></div>
     </div>
-    <form th:action="@{/perform_register}" class="col-md-8" id="side2"  th:object="${registerUser}"    method="post">
-      <h3>Create Account</h3>
+    <div ng-controller="registerController" class="col-md-8 " id="side2"     >
+      <h3 class="text-center">Create Account</h3>
       <div class="inp">
-        <input class="w-100" th:field="*{username}" type="text" name="username" placeholder="Username" required>
-        <input type="text" th:field="*{email}" name="email" placeholder="Email address" required>
-        <input type="password" th:field="*{password}" name="password" placeholder="Password" required>
-        <input type="password" th:field="*{confirmPassword}" name="conFirmPassword" placeholder="Confirm password" required>
-        <input type="hidden" th:field="*{role}">
+        <div class="mb-3">
+          <label  class="form-label text-start">Username</label>
+          <div ng-if="errors.username" ng-repeat="error in errors.username.message">
+            <span class="text-start text-danger">{{error}}</span>
+          </div>
+          <input class="form-control"  type="text" name="username"ng-model="user.username" required>
+
+        </div>
+        <div class="mb-3">
+          <label  class="form-label text-start">Email address</label>
+          <div ng-if="errors.email"  ng-repeat="error in errors.email.message">
+            <span class="text-start text-danger">{{error}}</span>
+          </div>
+          <input class="form-control" type="text" name="email" ng-model="user.email"  required>
+
+        </div>
+        <div class="mb-3">
+          <label  class="form-label text-start">Password</label>
+          <div ng-if="errors.password" ng-repeat="error in errors.password.message">
+            <span class="text-start text-danger">{{error}}</span>
+          </div>
+          <input class="form-control" type="text"  name="password" ng-model="user.password"  required>
+
+        </div>
+        <div class="mb-3">
+          <label  class="form-label text-start">Confirm password</label>
+          <div ng-if="errors.conFirmPassword" ng-repeat="error in errors.conFirmPassword.message">
+            <span class="text-start text-danger">{{error}}</span>
+          </div>
+          <input class="form-control" type="text"  name="conFirmPassword" ng-model="user.confirmPassword" required>
+
+        </div>
+        <input type="hidden" >
       </div>
 
-      <p>or login with.</p>
-      <div class="icons">
+      <p class="text-center">or login with.</p>
+      <div class="icons text-center">
         <i class="fa-brands fa-twitter"></i>
         <i class="fa-brands fa-facebook-f"></i>
         <i class="fa-brands fa-instagram"></i>
       </div>
-      <div id="login"><button>SIGN UP</button></div>
-    </form>
+      <div id="login" class="text-center"><button type="button" ng-click="registerUserAction()">SIGN UP</button></div>
+    </div>
   </div>
   <style>
     .login {
-      width: 50%;
+      width: 75%;
       margin: 20px;
       font-family: 'Roboto Slab', serif;
     }
@@ -80,23 +108,19 @@
       background-color: white;
       border-radius: 5px;
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-      align-items: center;
-      text-align: center;
+
     }
 
     #side2 h3 {
-      margin-top: 50px;
+      margin-top: 20px;
       color: black;
       font-weight: bold;
     }
 
-    #side2 .inp {
-      margin-top: 32px;
-    }
+
 
     #side2 input {
       width: 100%;
-      margin-top: 20px;
       height: 36px;
       align-items: center;
     }

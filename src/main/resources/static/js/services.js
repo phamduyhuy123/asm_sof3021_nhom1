@@ -55,7 +55,7 @@ app.controller("cartController", function ($scope, $http, $rootScope, $cart, $ca
                     }else {
                         Swal.fire({
                             icon: 'error',
-                            title: response.data.message,
+                            title: "Failed",
                             text: 'Không tìm thấy sản phẩm',
                             footer: ''
                         })
@@ -68,84 +68,165 @@ app.controller("cartController", function ($scope, $http, $rootScope, $cart, $ca
     }
     $rootScope.addToCart = function (event, amount) {
         let id = event.target.getAttribute('data-product-id');
-        let isSuccess = $cart.addItem(id, amount);
-        console.log(id)
-        console.log(amount)
-        console.log(isSuccess)
-        isSuccess.then((response) => {
-            if(response===true){
-                Swal.fire(
-                    'Success',
-                    'Thêm vào giỏ hàng thành công',
-                    'success'
-                )
-            }else {
+        setTimeout(function () {
+            if (!id) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Failed',
                     text: 'Thêm vào giỏ hàng thất bại',
                     footer: ''
                 })
+                return;
             }
-        });
+            let isSuccess = $cart.addItem(id, amount);
+            console.log(id)
+            console.log(amount)
+            console.log(isSuccess)
+            isSuccess.then((response) => {
+                if(response===true){
+                    Swal.fire(
+                        'Success',
+                        'Thêm vào giỏ hàng thành công',
+                        'success'
+                    )
+                }else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: 'Thêm vào giỏ hàng thất bại',
+                        footer: ''
+                    })
+                }
+            });
+
+        }, 500);
+
 
     }
 });
-app.controller("cartPageController", function ($scope, $http, $rootScope, $cart, $calculate) {
-    $scope.increaseValue = function (id, amount) {
-        let tempP=null;
-        $cart.getCart().forEach((value, index) => {
-            if(value.id===id){
-                tempP=value;
+app.controller("cartPageController", function ($scope, $http, $rootScope, $cart, $calculate,$q) {
+    $scope.selectedProduct = {};
+    $scope.hasSelected = false;
+    $scope.selectAllProduct=false;
+    $scope.updateSelected = function () {
+        $scope.hasSelected = false;
+        for (var id in $scope.selectedProduct) {
+            if ($scope.selectedProduct[id]) {
+                $scope.hasSelected = true;
+                break;
             }
-        });
-        $http.get('/product/api/' + id + '/stock?amount=' + tempP.quantity).then(function (response) {
-            if (response.data.error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: response.data.message,
-                    text: 'Không thể tăng thêm số lượng vì đã chạm đến giới hạn hàng trong kho',
-                    footer: ''
-                })
-                tempP.quantity=response.data.error;
-            } else if (response.data.success) {
-                tempP.quantity ++;
-            }
-        })
-
+        }
     };
-
-    $scope.decreaseValue = function (id,amount) {
-
-        if (amount > 1) {
-            amount--;
+    $scope.updateAllProductSelected=function () {
+        $scope.selectAllProduct=!$scope.selectAllProduct;
+        if($scope.selectAllProduct){
+            angular.forEach($scope.itemsCart, function(item) {
+                $scope.selectedProduct[item.id] = $scope.selectAllProduct;
+            });
+            $scope.hasSelected = true;
+        }else {
+            angular.forEach($scope.itemsCart, function(item) {
+                $scope.selectedProduct[item.id] = $scope.selectAllProduct;
+            });
+            $scope.hasSelected = false;
         }
 
 
+    }
+    $scope.deleteMultipleItemFromCart = function() {
+        Swal.fire({
+            title: 'Bạn có muốn xóa sản phẩm đã chọn khỏi giỏ hàng',
+            confirmButtonText: 'Xóa',
+            showCancelButton: true,
+            icon: 'question'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let selectedProducts = [];
+                for (var id in $scope.selectedProduct) {
+                    if ($scope.selectedProduct[id]) {
+                        selectedProducts.push(id);
+                    }
+                }
+                let deletePromises = selectedProducts.map(function(id) {
+                    console.log(id);
+                    return $http.delete('/product/api/cart/remove/' + id)
+                        .then(function(response) {
+                            return response.data;
+                        });
+                });
+
+                let lastPromise=$q.all(deletePromises)
+                    .then(function(results) {
+                        return results;
+                    })
+                    .catch(function(error) {
+                        console.error(error);
+                        throw error;
+                    });
+                lastPromise.then(function(results) {
+                    $cart.setCartItems(results);
+                    window.location.href="/cart"
+                })
+                    .catch(function(error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Failed",
+                            text: 'Xóa sản phẩm thất bại',
+                            footer: ''
+                        })
+                    });
+            }
+        })
+
 
     };
+    $scope.itemAmount={};
+    $scope.increaseValue = function (id,amount) {
+        let promise=$cart.addItem(id,amount);
+        promise.then((response) => {
+            if(response===true){
 
-    $scope.checkMinValue = function (id, amount) {
-        let tempP=null;
-        $cart.getCart().forEach((value, index) => {
-            if(value.id===id){
-                tempP=value;
-
-            }
-        });
-        $http.get('/product/api/' + id + '/stock?amount=' + tempP.quantity).then(function (response) {
-            if (response.data.error) {
+            }else {
                 Swal.fire({
                     icon: 'error',
-                    title: response.data.message,
-                    text: 'Không thể tăng thêm số lượng vì đã chạm đến giới hạn hàng trong kho',
+                    title: 'Failed',
+                    text: response.message,
                     footer: ''
                 })
-                tempP.quantity=response.data.error;
-
+                $scope.amountPdetail=1;
             }
+        });
+    };
+    $scope.decreaseValue = function (id,amount) {
+        $http.put('/product/api/cart/decrease/'+id+'?amount='+amount).then(
+            (response)=>{
+                $cart.setCartItems(response.data)
+            },
+            (reason)=>{
+                $rootScope.deleteItemFromCart(id);
+            }
+        )
+    };
 
-        })
+    $scope.checkMinValue = function (id,amount) {
+
+        if (amount < 1) {
+            amount = 1;
+        }
+        let promise= $cart.updateCart(id,amount);
+        promise.then((response) => {
+            if(response===true){
+
+            }else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: response.message,
+                    footer: ''
+                })
+                $scope.amountPdetail=1;
+            }
+        });
     };
 
 });
@@ -187,7 +268,7 @@ app.controller("productDetailController", function ($scope, $http, $rootScope, $
                 Swal.fire({
                     icon: 'error',
                     title: 'Increase quantity failed',
-                    text: 'Không thể tăng thêm số lượng vì đã chạm đến giới hạn hàng trong kho',
+                    text: `Số lượng yêu cầu cho ${$scope.amountPdetail} không có sẵn`,
                     footer: ''
                 })
                 $scope.amountPdetail = reason.data.error;
@@ -195,8 +276,8 @@ app.controller("productDetailController", function ($scope, $http, $rootScope, $
     };
     $scope.addToCartProductDetail = function (event) {
         let id = event.target.getAttribute('data-product-id');
-        let isSuccess = $cart.addItem(id, $scope.amountPdetail);
-        isSuccess.then((response) => {
+        let promise = $cart.addItem(id, $scope.amountPdetail);
+        promise.then((response) => {
             if(response===true){
                 console.log($scope.amountPdetail)
                 Swal.fire(
@@ -218,33 +299,96 @@ app.controller("productDetailController", function ($scope, $http, $rootScope, $
         $scope.amountPdetail=1;
     }
 });
+app.controller("registerController", function ($scope, $http, $rootScope) {
+    $scope.user={
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        role: 'USER'
+    }
+    $scope.errors = {
+        username: {},
+        email: {},
+        password: {},
+        confirmPassword: {}
+    };
 
+    $scope.registerUserAction = function (){
+
+        $scope.errors = {
+            username: {},
+            email: {},
+            password: {},
+            confirmPassword: {}
+        };
+
+        $http.post('/perform/register', $scope.user ).then(
+            (response) => {
+                if (response.data ) {
+                    Swal.fire(
+                        'Success',
+                        'Đăng ký thành công',
+                        'success'
+                    )
+                    setTimeout(()=>{
+                        window.location.href = "/login";
+                    },3000)
+                }
+            },
+            (reason)=>{
+                console.log("Unexpected response:", reason);
+                console.log("Unexpected response:", reason.data);
+                if(!reason.data){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration failed',
+                        text: 'Đăng ký thất bại với lỗi không xác định',
+                        footer: ''
+                    })
+                }else
+                    for (var key in reason.data) {
+                        if (reason.data.hasOwnProperty(key)) {
+                            $scope.errors[key] = {
+                                message: reason.data[key].split(', ')
+                            };
+                        }
+                    }
+            }
+        );
+
+    };
+});
 app.service('$cart', function ($http, $rootScope) {
     var cartItems = [];
     return {
         setCartItems: function (items) {
             cartItems = items;
+            $rootScope.itemsCart=cartItems;
+            $rootScope.itemsInCart=cartItems.length;
         },
         getCart: function () {
             return cartItems;
         },
         addItem: async function (id, amount) {
-            console.log("addItem")
             return await $http.post("/product/api/cart/add/" + id + "/" + amount).then(
                 (response)=> {
-                    console.log(response)
-                    cartItems = response.data
-                    $rootScope.itemsCart = cartItems;
-                    $rootScope.itemsInCart = cartItems.length;
-
+                    cartItems = response.data;
+                    $rootScope.itemsCart=cartItems;
+                    $rootScope.itemsInCart=cartItems.length;
                     return true;
                 },
                 (reason)=> {
-                    console.log(reason)
+
                     cartItems = reason.data
+
+                    console.log('vuot qua so luong')
                     $rootScope.itemsCart = cartItems;
                     $rootScope.itemsInCart = cartItems.length;
-                    return false;
+                    return {
+                        error: true,
+                        message: 'Không thể tăng thêm số lượng vì đã chạm đến giới hạn hàng trong kho'
+                    };
                 }
                 );
 
@@ -266,6 +410,33 @@ app.service('$cart', function ($http, $rootScope) {
         },
         clearCart: function () {
             cartItems = [];
+        },
+        finItemById: function (id) {
+            return cartItems.find(value => value.id===id);
+        },
+        updateCart: async function (id, amount) {
+            return await $http.put("/product/api/cart/update/" + id+'?amount='+amount).then(
+                (response)=> {
+                    cartItems = response.data
+                    console.log('khong vuot qua so luong')
+                    $rootScope.itemsCart = cartItems;
+                    $rootScope.itemsInCart = cartItems.length;
+
+                    return true;
+                },
+                (reason)=> {
+                    console.log(reason.data)
+                    cartItems = reason.data
+
+                    $rootScope.itemsCart = cartItems;
+                    $rootScope.itemsInCart = cartItems.length;
+                    return {
+                        error: true,
+                        message: `Số lượng yêu cầu cho ${amount} không có sẵn`
+                    };
+                }
+            );
+
         }
     }
 

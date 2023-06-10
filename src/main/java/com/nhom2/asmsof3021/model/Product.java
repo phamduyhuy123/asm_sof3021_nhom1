@@ -20,7 +20,7 @@ public abstract class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private int id;
+    private Integer id;
     private String name;
     private String image;
     private BigDecimal price;
@@ -29,8 +29,6 @@ public abstract class Product {
     private Integer stock;
     @Transient
     private Integer quantity;
-    @Transient
-    private boolean isSelected;
     @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JsonBackReference
     private List<ProductListImage> productListImages;

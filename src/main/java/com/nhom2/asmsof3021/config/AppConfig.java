@@ -2,11 +2,19 @@ package com.nhom2.asmsof3021.config;
 
 
 import com.nhom2.asmsof3021.factory.ProductFactory;
+import jakarta.persistence.EntityManagerFactory;
+import org.hibernate.SessionFactory;
+import org.passay.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 public class AppConfig {
@@ -21,4 +29,34 @@ public class AppConfig {
 
         return factoryMap;
     }
+    @Bean
+    public RedirectStrategy redirectStrategy(){
+        return new DefaultRedirectStrategy();
+    }
+    @Bean
+    public PasswordValidator passwordValidator(){
+        Properties props = new Properties();
+
+        InputStream inputStream = getClass()
+
+                .getClassLoader().getResourceAsStream("passay.properties");
+
+        try {
+            props.load(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        MessageResolver resolver = new PropertiesMessageResolver(props);
+        PasswordValidator passwordValidator=new PasswordValidator(resolver,
+                new LengthRule(8,16),
+                new CharacterRule(EnglishCharacterData.UpperCase,1),
+                new CharacterRule(EnglishCharacterData.LowerCase, 1),
+                new CharacterRule(EnglishCharacterData.Digit, 1),
+                new CharacterRule(EnglishCharacterData.Special, 1),
+                new WhitespaceRule()
+        );
+        return passwordValidator;
+    }
+
 }

@@ -21,7 +21,7 @@
         <form th:action="@{/authenticate}"  th:object="${loginUser}"  class="col-md-8" id="side2" method="post">
             <h3>Login Account</h3>
             <div class="row mt-4">
-                <div th:if="${param.error}" class="col-sm-8">
+                <div th:if="${param.error}" class="mx-auto col-sm-8">
                     <p class="alert alert-danger alert-dismissible fade show" role="alert">Invalid username or password</p>
                 </div>
 
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="inp">
-                <input  type="text" name="email"   placeholder="email" required>
+                <input  type="text" name="email" th:value="${param.email}"   placeholder="email" required>
                 <input type="password" name="password"  placeholder="Password" required>
             </div>
             <p><a href="index.html#!/forgotPassword" style="text-decoration: none; color: black;">Forgot Your Password?</a></p>

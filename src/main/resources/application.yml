@@ -12,19 +12,17 @@
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
-    hibernate.ddl-auto: none
-    generate-ddl: off
-    show-sql: off
+***REMOVED***
+***REMOVED***
+    show-sql: true
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
 ***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-server:
-  error:
-    whitelabel:
-      enabled: false
+
