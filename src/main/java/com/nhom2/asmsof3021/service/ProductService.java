@@ -22,13 +22,13 @@ public class ProductService {
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
         Root<Product> root = query.from(Product.class);
         List<Predicate> predicates = new ArrayList<>();
-        if (!categoryIds.isEmpty()) {
+        if (categoryIds != null && !categoryIds.isEmpty()) {
             predicates.add(root.get("category").get("catalogId").in(categoryIds));
         }
-        if (!brandIds.isEmpty()) {
+        if (brandIds != null && !brandIds.isEmpty()) {
             predicates.add(root.get("brand").get("brandId").in(brandIds));
         }
-        if (!productLineIds.isEmpty()) {
+        if (productLineIds != null && !productLineIds.isEmpty()) {
             predicates.add(root.get("productLine").get("productLineId").in(productLineIds));
         }
         query.select(root).where(predicates.toArray(new Predicate[0]));

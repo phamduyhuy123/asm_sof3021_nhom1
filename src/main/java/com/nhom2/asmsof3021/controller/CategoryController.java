@@ -16,44 +16,5 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 public class CategoryController {
-//    @PersistenceContext
-//    private EntityManager entityManager;
-//    @Autowired
-//    private ColumnNameUtil columnNameUtil;
-//    @Autowired
-//    private CategoryRepo categoryRepository;
-//
-//    // ...
-//
-//    @GetMapping("/get-input-fields/{categoryId}")
-//    @ResponseBody
-//    public String getInputFields(@PathVariable Integer categoryId, Model model) {
-//        Category category = categoryRepository.findById(categoryId)
-//                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID: " + categoryId));
-//        Class<?> entityClass;
-//
-//        // Retrieve the entity type for the selected category
-//        Metamodel metamodel = entityManager.getMetamodel();
-//        EntityType<?> entityType=columnNameUtil.setColumnNamesAsInputAttributes(category.getClass().getName());
-//
-//
-//        String inputFieldsHtml = generateInputFieldsHtml(entityType);
-//
-//        return inputFieldsHtml;
-//    }
-//
-//    private String generateInputFieldsHtml(EntityType<?> entityType) {
-//        StringBuilder inputFieldsHtml = new StringBuilder();
-//
-//        entityType.getAttributes().forEach(attribute -> {
-//            String attributeName = attribute.getName();
-//            inputFieldsHtml
-//                    .append("<input type='text' name='")
-//                    .append(attributeName).append("' ")
-//                    .append("placeholder='")
-//                    .append(entityType.);
-//        });
-//
-//        return inputFieldsHtml.toString();
-//    }
+
 }
