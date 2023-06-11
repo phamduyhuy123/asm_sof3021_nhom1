@@ -28,6 +28,32 @@ app.controller("homeCtrl", function ($scope, $http, $rootScope, $cart, $calculat
     $rootScope.calculateDisCount = function (price, disCount) {
         return $calculate.calculatePriceDiscount(price, disCount);
     }
+    $rootScope.updateSelectedItemsCountAndPrice=function () {
+        let selectedItemsCount = $rootScope.itemsCart.filter(function(item) {
+            return item.selected;
+        }).length;
+
+        let totalPriceItemsSelected = $rootScope.itemsCart.reduce(function(total, item) {
+            if (item.selected) {
+                $scope.hasSelected=true;
+                var itemPrice = item.discountedPrice ? item.discountedPrice : item.price;
+                let discountedPrice;
+                if(item.disCount !== undefined &&item.disCount>0){
+                    discountedPrice= $calculate.calculatePriceDiscount(itemPrice, item.disCount);
+                    return total + (discountedPrice * item.quantity);
+                }else {
+                    return total+(item.price*item.quantity);
+                }
+
+
+            }
+            return total;
+        }, 0);
+        return{
+            total:totalPriceItemsSelected,
+            count:selectedItemsCount
+        }
+    }
 });
 app.controller("cartController", function ($scope, $http, $rootScope, $cart, $calculate) {
     $rootScope.itemsCart = $cart.getCart();
@@ -67,12 +93,22 @@ app.controller("cartController", function ($scope, $http, $rootScope, $cart, $ca
 
     }
     $rootScope.addToCart = function (event, amount) {
-        let id = event.target.getAttribute('data-product-id');
+        let getId = async ()=>{
+            return event.target.getAttribute('data-product-id');
+        };
+        let id;
+         getId()
+            .then(result => {
+                id=result;
+            })
+            .catch(error => {
+                console.error(error);
+            });
         setTimeout(function () {
             if (!id) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Failed',
+                    title: 'Failed 1',
                     text: 'Thêm vào giỏ hàng thất bại',
                     footer: ''
                 })
@@ -92,47 +128,56 @@ app.controller("cartController", function ($scope, $http, $rootScope, $cart, $ca
                 }else {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Failed',
+                        title: 'Failed 2',
                         text: 'Thêm vào giỏ hàng thất bại',
                         footer: ''
                     })
                 }
             });
-
         }, 500);
-
-
     }
 });
 app.controller("cartPageController", function ($scope, $http, $rootScope, $cart, $calculate,$q) {
     $scope.selectedProduct = {};
     $scope.hasSelected = false;
     $scope.selectAllProduct=false;
-    $scope.updateSelected = function () {
-        $scope.hasSelected = false;
-        for (var id in $scope.selectedProduct) {
-            if ($scope.selectedProduct[id]) {
-                $scope.hasSelected = true;
-                break;
+
+    $scope.updateSelected = function (id) {
+        $scope.selectAllProduct = $rootScope.itemsCart.every(function (item) {
+            return item.selected;
+        });
+        $http.put('/product/api/cart/updateSelect/' + id+'?isSelectAll='+$scope.selectAllProduct).then(
+            function (response) {
+                console.log(response.data);
+                $rootScope.itemsCart = response.data.products;
+                $rootScope.itemsInCart = response.data.products.length;
+                $scope.hasSelected = response.data.hasSelected;
+                $scope.selectAllProduct = response.data.selectAllProduct;
+            },
+            function (reason) {
+                console.log(reason);
             }
-        }
+        );
     };
-    $scope.updateAllProductSelected=function () {
+
+    $scope.updateAllProductSelected = function () {
         $scope.selectAllProduct=!$scope.selectAllProduct;
-        if($scope.selectAllProduct){
-            angular.forEach($scope.itemsCart, function(item) {
-                $scope.selectedProduct[item.id] = $scope.selectAllProduct;
-            });
-            $scope.hasSelected = true;
-        }else {
-            angular.forEach($scope.itemsCart, function(item) {
-                $scope.selectedProduct[item.id] = $scope.selectAllProduct;
-            });
-            $scope.hasSelected = false;
-        }
+        $http.put('/product/api/cart/updateAllSelect?isSelectAll=' + $scope.selectAllProduct).then(
+            function (response) {
+                console.log(response.data);
+                $rootScope.itemsCart = response.data.products;
+                $rootScope.itemsInCart = response.data.products.length;
+                $scope.selectAllProduct = response.data.selectAllProduct;
+                $scope.hasSelected = response.data.hasSelected;
+
+            },
+            function (reason) {
+                console.log(reason);
+            }
+        );
+    };
 
 
-    }
     $scope.deleteMultipleItemFromCart = function() {
         Swal.fire({
             title: 'Bạn có muốn xóa sản phẩm đã chọn khỏi giỏ hàng',
@@ -142,12 +187,12 @@ app.controller("cartPageController", function ($scope, $http, $rootScope, $cart,
         }).then((result) => {
             if (result.isConfirmed) {
                 let selectedProducts = [];
-                for (var id in $scope.selectedProduct) {
+                 for (var id in $scope.selectedProduct) {
                     if ($scope.selectedProduct[id]) {
                         selectedProducts.push(id);
                     }
                 }
-                let deletePromises = selectedProducts.map(function(id) {
+                let  deletePromises = selectedProducts.map(function(id) {
                     console.log(id);
                     return $http.delete('/product/api/cart/remove/' + id)
                         .then(function(response) {
@@ -167,14 +212,7 @@ app.controller("cartPageController", function ($scope, $http, $rootScope, $cart,
                     $cart.setCartItems(results);
                     window.location.href="/cart"
                 })
-                    .catch(function(error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: "Failed",
-                            text: 'Xóa sản phẩm thất bại',
-                            footer: ''
-                        })
-                    });
+
             }
         })
 
@@ -307,6 +345,7 @@ app.controller("registerController", function ($scope, $http, $rootScope) {
         confirmPassword: '',
         role: 'USER'
     }
+
     $scope.errors = {
         username: {},
         email: {},
@@ -333,7 +372,7 @@ app.controller("registerController", function ($scope, $http, $rootScope) {
                     )
                     setTimeout(()=>{
                         window.location.href = "/login";
-                    },3000)
+                    },2000)
                 }
             },
             (reason)=>{
@@ -358,6 +397,9 @@ app.controller("registerController", function ($scope, $http, $rootScope) {
         );
 
     };
+});
+app.controller("filterPage",function ($scope, $http, $rootScope){
+    $scope.productFilter=[];
 });
 app.service('$cart', function ($http, $rootScope) {
     var cartItems = [];

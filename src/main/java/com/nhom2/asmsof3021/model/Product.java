@@ -28,14 +28,16 @@ public abstract class Product {
     private String baohanh;
     private Integer stock;
     @Transient
+    private boolean isSelected;
+    @Transient
     private Integer quantity;
     @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JsonBackReference
     private List<ProductListImage> productListImages;
-    @OneToOne
+    @ManyToOne
     @JsonBackReference
     private Brand brand;
-    @OneToOne
+    @ManyToOne
     @JsonBackReference
     private Category category;
     @OneToOne()

@@ -30,18 +30,18 @@
                     <tr ng-repeat="item in itemsCart">
                         <td><i role="button" class="bi bi-x btn btn-light rounded-circle text-center text-danger "  ng-click="deleteItemFromCart(item.id)"></i></td></td>
                         <td class="">
-                            <input class="mx-auto" ng-model="selectedProduct[item.id]" ng-change="updateSelected()" type="checkbox">
+                            <input class="mx-auto" ng-model="item.selected" ng-change="updateSelected(item.id)" type="checkbox">
                         </td>
                         <td class="	d-none d-sm-block"><img class="img-fluid" src="images/product/{{item.image}}"
                                                                alt=""></td>
                         <td><a c lass="text-decoration-none"
-                               href="#!product/{{item.id}}">
+                               href="/product/{{item.id}}">
                             {{item.name}}</a></td>
                         <td><span>{{item.price | number:0}}₫</span></td>
                         <td><span>{{calculateDisCount(item.price,item.disCount) | number :0}}₫</span></td>
                         <td class="text-center">
                             <div class="number-input">
-                                <i role="button" ng-click="decreaseValue(item.id,1)" class="bi bi-dash-circle-fill me-1"></i>
+                                <i role="button" ng-click="decreaseValue(item.id,1)" class="bi bi-dash-circle-fill me-1 "></i>
                                 <label>
                                     <input  type="number"  ng-model="item.quantity" class="text-center"  ng-change="checkMinValue(item.id,item.quantity)" ng-model-options="{ debounce: 500 }" min="1" >
                                 </label>
@@ -56,8 +56,8 @@
             </div>
             <div class="col col-sm col-md col-lg-3 mt-2">
                 <div class="border card p-4">
-                    <div class="d-flex"><h5 class="fw-bold fs-6 w-100">Cart Totals</h5>
-                        <span class="float-end">{{itemsInCart}}</span></div>
+                    <div class="d-flex"><h5 class="fw-bold fs-6 w-100">Items selected</h5>
+                        <span class="float-end">{{updateSelectedItemsCountAndPrice().count}}</span></div>
                     <div class="mt-3">
                         <table>
                             <tbody>
@@ -67,12 +67,14 @@
                             </tr> -->
                             <tr class="mt-2">
                                 <th class="w-100">Tổng</th>
-                                <td  class=""><span ng-if="totalPriceFromCart()" class="fw-bold">{{totalPriceFromCart() | number : 0}}₫</span></td>
+                                <td  class=""><span ng-if="totalPriceFromCart()" class="fw-bold">{{updateSelectedItemsCountAndPrice().total | number : 0}}₫</span></td>
                             </tr>
 
                             </tbody>
                         </table>
-                        <button class="btn btn-dark w-100 mt-2">Tiến hành thanh toán</button>
+                        <button class="btn btn-dark w-100 mt-2 "  ng-class="{'disabled not-allowed': !hasSelected}"
+                                th:href="@{/checkout}"
+                        >Tiến hành thanh toán</button>
                     </div>
                 </div>
             </div>
