@@ -2,6 +2,9 @@ package com.nhom2.asmsof3021.repository.productRepo;
 
 import com.nhom2.asmsof3021.model.Product;
 import com.nhom2.asmsof3021.repository.ProductRepoAbstract;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,4 +38,5 @@ public interface ProductRepo extends ProductRepoAbstract<Product> {
             @Param("brandIds") List<Integer> brandIds,
             @Param("productLineIds") List<Integer> productLineIds
     );
+//    Page<Product> findAll(Pageable pageable, Sort sort);
 }

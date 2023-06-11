@@ -1,22 +1,31 @@
 package com.nhom2.asmsof3021.service;
 
 import com.nhom2.asmsof3021.model.Product;
+import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     @PersistenceContext
     private EntityManager entityManager;
+
+    private final ProductRepo productRepo;
     public List<Product> findProductsByFilters(List<Integer> categoryIds, List<Integer> brandIds, List<Integer> productLineIds) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
@@ -33,5 +42,10 @@ public class ProductService {
         }
         query.select(root).where(predicates.toArray(new Predicate[0]));
         return entityManager.createQuery(query).getResultList();
+    }
+    public Page<Product> getAllProducts(int page, int size, String sortField, Sort.Direction sortDirection) {
+        Sort sort = Sort.by(sortDirection, sortField);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return productRepo.findAll(pageable);
     }
 }

@@ -6,7 +6,9 @@ import com.nhom2.asmsof3021.model.Laptop;
 import com.nhom2.asmsof3021.model.Monitor;
 import com.nhom2.asmsof3021.model.Product;
 import com.nhom2.asmsof3021.model.accessory.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
