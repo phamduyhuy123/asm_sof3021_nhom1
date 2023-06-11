@@ -9,15 +9,13 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.reflect.Array;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.nhom2.asmsof3021.utils.AuthenticateUtil.checkIsAuthenticated;
 
@@ -83,10 +81,29 @@ public class RouteController {
     }
 
     @GetMapping("/admin/login")
-    public String goToLoginPage(){
+    public String goToLoginPage(String id,String ...object){
         return "admin/login";
     }
-
-
+    @GetMapping("/filter")
+    public String productCategory(
+            Model model,
+            @RequestParam(required = false, name = "categoryIds")List<Integer> cateId,
+            @RequestParam(required = false, name = "brandIds")List<Integer> brandId,
+            @RequestParam(required = false, name = "productLineIds")List<Integer> productLineId,
+            @RequestParam(required = false, name = "minPrice")Integer minPrice,
+            @RequestParam(required = false, name = "maxPrice")Integer maxPrice){
+//        if (cateId == null) {
+//            cateId = new ArrayList<>();
+//        }
+//        if (brandId == null) {
+//            brandId = new ArrayList<>();
+//        }
+//        if (productLineId == null) {
+//            productLineId = new ArrayList<>();
+//        }
+//        List<Product> products=service.findProductsByFilters(cateId,brandId,productLineId);
+//        model.addAttribute("products",products);
+        return "filter";
+    }
 
 }
