@@ -23,13 +23,14 @@
         </h4>
 
         <!-- Basic Layout -->
-        <form  class="row" id="myForm" th:object="${product}"  action="#" method="post" >
+        <form class="row" id="myForm" th:object="${product}" action="#" method="post">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Basic Layout</h5>
 
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
                             Launch
                         </button>
                         <button
@@ -43,7 +44,7 @@
 
                     </div>
                     <div class="card-body">
-                        <div >
+                        <div>
                             <div class="divider divider-info">
                                 <div class="divider-text">Product</div>
                             </div>
@@ -51,11 +52,11 @@
                             <div class="divider divider-info">
                                 <div class="divider-text" id="categorySelected"></div>
                             </div>
-                            <th:block  th:replace="~{/admin/product/product}">
+                            <th:block th:replace="~{/admin/product/product}">
 
                             </th:block>
-                            <th:block th:if="${categoryViewName}">
-                                <div id="inputFieldsContainer" th:include="~{${categoryViewName}}">
+                            <th:block th:if="${categoryViewName!=null}">
+                                <div th:if="${categoryViewName!=null}" id="inputFieldsContainer" th:include="~{${categoryViewName}}">
 
                                 </div>
                             </th:block>
@@ -80,11 +81,14 @@
                 </div>
             </div>
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <select th:onchange="'window.location.href = \'' + @{/admin/product/category/new} + '?categoryId=\' + this.value ' " id="selectCategories" th:field="*{category}" class="form-select float-end w-25 sticky-top" aria-label="Default select example"
+                            <select th:onchange="'window.location.href = \'' + @{/admin/product/category/new} + '?categoryId=\' + this.value ' "
+                                    id="selectCategories" th:field="*{category}"
+                                    class="form-select float-end w-25 sticky-top" aria-label="Default select example"
                             >
                                 <option selected value="">Categories</option>
                                 <option th:each="category : ${categories}" th:value="${category.catalogId}"
@@ -114,7 +118,7 @@
                             aria-label="Close"
                     ></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body " style="overflow-y: auto">
                     <div>
                         <table class="table w-100">
                             <thead>
@@ -144,25 +148,34 @@
                             </th:block>
                             </tbody>
                         </table>
-                        <div class="pagination">
-                            <ul>
-                                <li th:if="${page.number >= 0}">
-                                    <a th:href="@{'/admin/product/management?page='+${page.number - 1}+'&pageSize='+${page.size}}">&laquo; Previous</a>
-                                </li>
-                                <li th:each="pageNumber : ${#numbers.sequence(1, page.getTotalPages())}" th:class="${page.number == page.numberOfElements ? 'active' : ''}">
-                                    <a th:href="@{'/admin/product/management?page='+${pageNumber}+'&pageSize='+${page.size}}" th:text="${pageNumber}"></a>
-                                </li>
-                                <li th:if="${page.number < page.totalPages}">
-                                    <a th:href="@{'/admin/product/management?page='+${page.number + 1}+'&pageSize='+${page.size}}">Next &raquo;</a>
-                                </li>
-                            </ul>
-                        </div>
+                    </div>
+                    <div>
+                        <li class="text-start" th:text="'trang hiện tại: '+ ${ page.number + 1}"></li>
+                        <ul class="pagination justify-content-center">
 
+                            <li class="page-item" th:if="${page.number >= 0}">
+                                <a class="page-link"
+                                   th:href="@{'/admin/product/management?page='+${page.number - 1 < 0 ? page.totalPages -1 : page.number - 1}+'&pageSize='+${page.size}}">Previous</a>
+                            </li>
+                            <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, page.getTotalPages())}"
+                                th:class="${page.number + 1 == pageNumber ? 'page-item active' : 'page-item'}">
+                                <span class="page-link"> <a class="text-light"
+                                        th:href="@{'/admin/product/management?page='+${pageNumber - 1}+'&pageSize='+${page.size}}"
+                                        th:text="${pageNumber}"></a></span>
+
+                            </li>
+                            <li class="page-item" th:if="${page.number < page.totalPages}">
+                                <a class="page-link"
+                                   th:href="@{'/admin/product/management?page='+${page.number + 1 > page.totalPages - 1 ? 0 : page.number + 1}+'&pageSize='+${page.size}}">Next</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+                <div class="modal-footer">
+
+                </div>
             </div>
-            <div class="modal-footer">
-            </div>
+
         </div>
     </div>
     </div>

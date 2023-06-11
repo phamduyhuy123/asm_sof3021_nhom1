@@ -8,6 +8,7 @@ import com.nhom2.asmsof3021.repository.UserRepository;
 import com.nhom2.asmsof3021.service.CategoryService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,7 +40,7 @@ public class AdminPageController {
     private final UserRepository userRepository;
     private final HttpSession session;
     private final ProductRepo productRepo;
-
+    private final HttpServletRequest httpServletRequest;
     @GetMapping("/home")
     public String getAdminHome(Principal principal,Model model){
         checkIsAuthenticated(principal,session,userRepository);
@@ -47,18 +48,24 @@ public class AdminPageController {
     }
 
     @GetMapping(value = {"/product/management","/product"})
-    public String getProductManagementPage(Model model,Principal principal, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "7") int pageSize){
-        System.out.println("Failed");
+    public String getProductManagementPage(Model model,Principal principal, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "7") int pageSize){
         checkIsAuthenticated(principal,session,userRepository);
         List<Product> list= productManagementDefault(model, categoryRepository, session, productRepo, page, pageSize);
-        if (model.getAttribute("product")==null){
+        System.out.println("test: "+httpServletRequest.getAttribute("product"));
+        if (httpServletRequest.getAttribute("product")==null){
             System.out.println("idonknow");
             model.addAttribute("product",list.get(0));
+
         }else{
-            System.out.println("Success");
+            model.addAttribute("product",httpServletRequest.getAttribute("product"));
         }
-        if (model.getAttribute("categoryViewName")== null){
+        if (httpServletRequest.getAttribute("categoryViewName")== null ){
             model.addAttribute("categoryViewName","admin/product/"+list.get(0).getCategory().getEntityClassName());
+        }else if(httpServletRequest.getAttribute("categoryViewName")!= null && httpServletRequest.getAttribute("categoryViewName").equals("khongtimthay")){
+            model.addAttribute("categoryViewName", null);
+        }else {
+
+            model.addAttribute("categoryViewName",httpServletRequest.getAttribute("categoryViewName"));
         }
 
 
@@ -74,15 +81,27 @@ public class AdminPageController {
         breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product Management", "/admin/product/management"));
         session.setAttribute("breadcrumbs", breadcrumbLinkList);
 
-        Sort sort = Sort.by(Sort.Direction.ASC, "name");
+//        if (page < 0) {
+//            page = 0;
+//        }
+//
+//        long totalProducts = productRepo.count(); // Tổng số lượng sản phẩm
+//        int totalPages = (int) Math.ceil((double) totalProducts / pageSize); // Tính số lượng trang
+//
+//        if (page >= totalPages) {
+//            page = 0;
+//        }
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
         Pageable pageable = PageRequest.of(page, pageSize, sort);
 
         Page<Product> pages = productRepo.findAll(pageable);
-        model.addAttribute("page", pages);
 
+        model.addAttribute("page", pages);
+        System.out.println(pages.getTotalPages());
         // Lấy toàn bộ danh sách sản phẩm
         List<Product> allProducts = productRepo.findAll();
-
+        model.addAttribute("products",allProducts);
         return allProducts;
     }
 

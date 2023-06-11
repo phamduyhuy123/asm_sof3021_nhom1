@@ -51,12 +51,17 @@ public class ProductController {
 
         Product product = productRepo.findById(id).orElseThrow();
         model.addAttribute("product", product);
-        model.addAttribute("categoryViewName", "admin/product/" + product.getCategory().getEntityClassName());
+
+        if (product.getCategory()==null){
+            System.out.println("hello ");
+            model.addAttribute("categoryViewName", "khongtimthay" );
+            model.addAttribute("categoryName", "product");
+        }else{
+            model.addAttribute("categoryViewName", "admin/product/" + product.getCategory().getEntityClassName());
+            model.addAttribute("categoryName", product.getCategory().getEntityClassName());
+        }
 //        List<Product> list = productRepo.findAll();
 //        model.addAttribute("products", list);
-        model.addAttribute("categoryName", product.getCategory().getEntityClassName());
-
-
 
         return "forward:/admin/product/management";
     }
