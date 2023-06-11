@@ -81,16 +81,6 @@ public class AdminPageController {
         breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product Management", "/admin/product/management"));
         session.setAttribute("breadcrumbs", breadcrumbLinkList);
 
-//        if (page < 0) {
-//            page = 0;
-//        }
-//
-//        long totalProducts = productRepo.count(); // Tổng số lượng sản phẩm
-//        int totalPages = (int) Math.ceil((double) totalProducts / pageSize); // Tính số lượng trang
-//
-//        if (page >= totalPages) {
-//            page = 0;
-//        }
 
         Sort sort = Sort.by(Sort.Direction.ASC, "id");
         Pageable pageable = PageRequest.of(page, pageSize, sort);

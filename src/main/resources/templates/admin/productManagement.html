@@ -159,9 +159,10 @@
                             </li>
                             <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, page.getTotalPages())}"
                                 th:class="${page.number + 1 == pageNumber ? 'page-item active' : 'page-item'}">
-                                <span class="page-link"> <a class="text-light"
-                                        th:href="@{'/admin/product/management?page='+${pageNumber - 1}+'&pageSize='+${page.size}}"
-                                        th:text="${pageNumber}"></a></span>
+                                <a class="text-light"
+                                   th:href="@{'/admin/product/management?page='+${pageNumber - 1}+'&pageSize='+${page.size}}"
+                                   th:text="${pageNumber}"><span class="page-link"></span></a>
+
 
                             </li>
                             <li class="page-item" th:if="${page.number < page.totalPages}">

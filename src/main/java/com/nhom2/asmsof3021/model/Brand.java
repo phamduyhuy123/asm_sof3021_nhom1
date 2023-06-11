@@ -15,8 +15,8 @@ public class Brand {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer brandId;
     private String name;
-    @OneToMany(mappedBy = "brand")
+    @OneToMany(mappedBy = "brand",fetch = FetchType.EAGER)
     private List<Product> products;
-    @OneToMany(mappedBy = "brand")
+    @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER)
     private List<ProductLine> productLines;
 }
