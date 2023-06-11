@@ -32,7 +32,8 @@ public class CartController {
         if (optionalProducts.isPresent()) {
             List<Product> products = optionalProducts.get();
             for (Product p : products) {
-                if (p.getId() == id) {
+                if (Objects.equals(p.getId(), id)) {
+
                     if (isQuantityExceeding(p, amount)) {
                         System.out.println("vuot qua so luong");
                         responseData.put("error", p.getStock() - p.getQuantity());
@@ -70,7 +71,7 @@ public class CartController {
             products = optionalProducts.get();
             boolean isInCart=false;
             for (Product p : products) {
-                if (p.getId() == id) {
+                if (Objects.equals(p.getId(), id)) {
                     isInCart=true;
 
                     if(quantity==1&& Objects.equals(p.getQuantity(), p.getStock())){
@@ -111,9 +112,13 @@ public class CartController {
     @GetMapping("/product/api/cart")
     @ResponseBody
     public ResponseEntity<List<Product>> getCartItems() {
+        List<Product> cartItems=new ArrayList<>();
         Optional<List<Product>> optionalCartItems = Optional.ofNullable((List<Product>) session.getAttribute("cartItems"));
-        List<Product> cartItems = optionalCartItems.orElseThrow(() -> new NoSuchElementException("No value present"));
+        session.setAttribute("isItemInCartSelect",false);
+        if(optionalCartItems.isPresent()){
+            cartItems= optionalCartItems.get();
 
+        }
         return ResponseEntity.ok(cartItems);
     }
 
@@ -129,7 +134,7 @@ public class CartController {
 
             while (iterator.hasNext()) {
                 Product p = iterator.next();
-                if(p.getId()==id){
+                if(Objects.equals(p.getId(), id)){
                     p.setQuantity(p.getQuantity()-1);
                     if(p.getQuantity()<1){
                         p.setQuantity(1);
@@ -155,7 +160,7 @@ public class CartController {
             products = optionalProducts.get();
             boolean isInCart=false;
             for (Product p : products) {
-                if (p.getId() == id) {
+                if (Objects.equals(p.getId(), id)) {
                     isInCart=true;
                     int tempQuantity=p.getQuantity();
                     if(quantity>p.getStock()){
@@ -199,7 +204,7 @@ public class CartController {
             Iterator<Product> iterator = products.iterator();
             while (iterator.hasNext()) {
                 Product p = iterator.next();
-                if (p.getId() == id) {
+                if (Objects.equals(p.getId(), id)) {
                     iterator.remove();
                     break;
                 }
@@ -210,7 +215,76 @@ public class CartController {
         session.setAttribute("cartItems", products);
         return ResponseEntity.ok(products);
     }
+    @PutMapping("/product/api/cart/updateAllSelect")
+    @ResponseBody
+    public ResponseEntity<Map<String,Object>> updateAllSelectItemFromCart(
+            @RequestParam(name = "isSelectAll") boolean isSelectAll){
+        List<Product> products;
+        boolean hasSelected = false;
+//        isSelectAll=!isSelectAll;
+        if (session.getAttribute("cartItems") != null) {
+            products = (List<Product>) session.getAttribute("cartItems");
+            Iterator<Product> iterator = products.iterator();
+            while (iterator.hasNext()) {
+                Product p = iterator.next();
+                if (isSelectAll) {
+                    p.setSelected(true);
+                } else {
+                    p.setSelected(false);
+                }
+                if (p.isSelected()) {
+                    hasSelected = true;
+                }
+            }
+        } else {
+            products = new ArrayList<>();
+        }
+        Map<String,Object> objectMap = new HashMap<>();
+        objectMap.put("products", products);
+        objectMap.put("hasSelected", hasSelected);
+        objectMap.put("selectAllProduct", isSelectAll);
+        session.setAttribute("cartItems", products);
+        return ResponseEntity.ok(objectMap);
+    }
+    @PutMapping("/product/api/cart/updateSelect/{id}")
+    @ResponseBody
+    public ResponseEntity<Map<String,Object>> updateSelectedItemFromCart(
+            @PathVariable Integer id,
+            @RequestParam(name = "isSelectAll", defaultValue = "false", required = false) boolean isSelectAll) {
+        Product product = productRepo.findById(id).orElseThrow();
+        List<Product> products;
+        boolean hasSelected = false;
+        if (session.getAttribute("cartItems") != null) {
+            products = (List<Product>) session.getAttribute("cartItems");
+            Iterator<Product> iterator = products.iterator();
 
+            while (iterator.hasNext()) {
+                Product p = iterator.next();
+                if (Objects.equals(p.getId(), id)) {
+                    p.setSelected(!p.isSelected());
+                }
+                if(isSelectAll){
+                    hasSelected = true;
+                    if(!p.isSelected()){
+                        isSelectAll=false;
+                    }
+                }else {
+                    if (p.isSelected()) {
+                        hasSelected = true;
+                    }
+                }
+
+            }
+        } else {
+            products = new ArrayList<>();
+        }
+        session.setAttribute("cartItems", products);
+        Map<String,Object> objectMap = new HashMap<>();
+        objectMap.put("products", products);
+        objectMap.put("hasSelected", hasSelected);
+        objectMap.put("selectAllProduct",isSelectAll);
+        return ResponseEntity.ok(objectMap);
+    }
 
     private boolean isQuantityExceeding(Product product, int amount) {
         return product.getQuantity() + amount >= product.getStock();

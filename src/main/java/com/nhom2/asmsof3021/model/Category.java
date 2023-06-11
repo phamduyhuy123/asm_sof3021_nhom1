@@ -3,6 +3,8 @@ package com.nhom2.asmsof3021.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @Builder
@@ -15,5 +17,7 @@ public class Category {
     private Integer catalogId;
     private String name;
     private String entityClassName;
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 }
 

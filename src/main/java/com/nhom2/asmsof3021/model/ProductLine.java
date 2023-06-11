@@ -14,4 +14,6 @@ public class ProductLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productLineId;
     private String name;
+    @ManyToOne
+    private Brand brand;
 }
