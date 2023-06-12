@@ -80,8 +80,10 @@ public class ProductController {
         }
         Product product = productFactory.createProduct();
         product.setCategory(category);
+        System.out.println("test111111: "+product.getProductListImages());
+        product.setProductListImages(new ArrayList<>());
         model.addAttribute("categoryViewName", "admin/product/" + categoryEntityClassName);
-        model.addAttribute("categoryName" + categoryEntityClassName);
+        model.addAttribute("categoryName", categoryEntityClassName);
         model.addAttribute("product", product);
         return "forward:/admin/product/management";
     }

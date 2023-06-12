@@ -58,5 +58,10 @@ public class AppConfig {
         );
         return passwordValidator;
     }
-
+//    @Bean
+//    public CommonsMultipartResolver multipartResolver() {
+//        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+//        // Cấu hình cho multipartResolver
+//        return resolver;
+//    }
 }

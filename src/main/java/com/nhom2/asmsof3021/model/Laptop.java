@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
+@NoArgsConstructor
 public class Laptop extends Product{
     private String chip;
     private String card;
@@ -25,7 +26,4 @@ public class Laptop extends Product{
     private String size;
 
 
-    public Laptop() {
-
-    }
 }

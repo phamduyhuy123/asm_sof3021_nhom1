@@ -14,6 +14,6 @@ public class ProductLine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productLineId;
     private String name;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Brand brand;
 }

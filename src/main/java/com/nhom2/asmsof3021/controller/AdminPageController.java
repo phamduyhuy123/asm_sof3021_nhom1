@@ -51,9 +51,10 @@ public class AdminPageController {
     public String getProductManagementPage(Model model,Principal principal, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "7") int pageSize){
         checkIsAuthenticated(principal,session,userRepository);
         List<Product> list= productManagementDefault(model, categoryRepository, session, productRepo, page, pageSize);
-        System.out.println("test: "+httpServletRequest.getAttribute("product"));
+
+        System.out.println("servletRequest: "+httpServletRequest.getAttribute("product"));
         if (httpServletRequest.getAttribute("product")==null){
-            System.out.println("idonknow");
+            System.out.println("product: null");
             model.addAttribute("product",list.get(0));
 
         }else{
@@ -61,14 +62,15 @@ public class AdminPageController {
         }
         if (httpServletRequest.getAttribute("categoryViewName")== null ){
             model.addAttribute("categoryViewName","admin/product/"+list.get(0).getCategory().getEntityClassName());
+            model.addAttribute("categoryName",list.get(0).getCategory().getEntityClassName());
+
         }else if(httpServletRequest.getAttribute("categoryViewName")!= null && httpServletRequest.getAttribute("categoryViewName").equals("khongtimthay")){
             model.addAttribute("categoryViewName", null);
+
         }else {
-
             model.addAttribute("categoryViewName",httpServletRequest.getAttribute("categoryViewName"));
+
         }
-
-
         return "admin/productManagement";
     }
 
@@ -88,7 +90,7 @@ public class AdminPageController {
         Page<Product> pages = productRepo.findAll(pageable);
 
         model.addAttribute("page", pages);
-        System.out.println(pages.getTotalPages());
+        System.out.println("Tổng số trang: "+pages.getTotalPages());
         // Lấy toàn bộ danh sách sản phẩm
         List<Product> allProducts = productRepo.findAll();
         model.addAttribute("products",allProducts);
