@@ -61,7 +61,9 @@ public class ProductService {
     public List<Product> searchProductResult(String searchTerm) {
         List<Product> productsSearch;
         if(searchTerm!=null || searchTerm.isEmpty()){
-           productsSearch= productRepo.searchProduct(searchTerm);
+            Sort sort = Sort.by(Sort.Direction.ASC, "name");
+            Pageable pageable = PageRequest.of(0, 5, sort);
+           productsSearch= productRepo.searchProduct(searchTerm,pageable);
             return productsSearch;
         }else {
             return null;

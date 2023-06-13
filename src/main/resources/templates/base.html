@@ -39,17 +39,25 @@
                     <img th:src="@{/images/cropped-Logo-Web.png}" alt="Bootstrap" width="65" height="35">
                 </a>
             </div>
-            <form class="d-flex w-50 mx-5 d-none d-sm-block d-sm-none d-md-block" role="search">
+            <form ng-controller="SearchController" class="d-flex w-50 mx-5 d-none d-sm-block d-sm-none d-md-block" role="search">
                 <div class="input-group autocomplete">
-                    <input id="search-box" type="text" class="form-control " ng-model="searchQuery"  placeholder="Bạn cần tìm sản phẩm gì?"
-                          style="border-bottom-left-radius: 0; border-bottom-right-radius: 0"
+                    <input id="search-box" type="text" class="form-control " ng-model="searchText"  ng-change="getAutocompleteSuggestions()" placeholder="Bạn cần tìm sản phẩm gì?"
+                          ng-class="{'search-typing': !searchText}"
                            aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <div id="autocomplete-suggestions" class="rounded-bottom border-top-0">
+                    <div  ng-class="{'d-block': searchText &&suggestions}" id="autocomplete-suggestions" class="rounded-bottom border-top-0"
+                    >
                         <ul>
-                            <li></li>
+                            <li  ng-repeat="suggestion in suggestions">
+                                <a th:href="@{/product/{{suggestion.id}}}" ng-click="searchText='';" class="row" style="height: 65px;">
+                                    <div class="col-2 ">
+                                        <img class=" w-100 h-100" th:src="@{/images/product/{{suggestion.image}}}">
+                                    </div>
+                                    <span class="col-10">{{suggestion.name}}</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
-                    <button class="input-group-text " style="border-bottom-right-radius: 0;" ng-class="{'disabled not-allowed': searchQuery=='' || searchQuery==nul}" id="basic-addon2"><i class="bi bi-search"></i></button>
+                    <button class="input-group-text " style="border-bottom-right-radius: 0;" ng-class="{'disabled not-allowed': !searchText}" ng-click="searchText='';" id="basic-addon2"><i class="bi bi-search"></i></button>
                 </div>
             </form>
             <div class="d-flex">
@@ -280,7 +288,6 @@
     <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
          aria-labelledby="offcanvasDarkNavbarLabel">
         <div class="offcanvas-header">
-
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
         </div>
@@ -453,19 +460,19 @@
                             <span>08 Tự Lập, Phường 4, Tân Bình, TP.HCM</span>
                         </li>
                     </ul>
-                    <iframe class="card shadow mt-2" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                            src="https://maps.google.com/maps?q=08%20T%E1%BB%B1%20L%E1%BA%ADp%2C%20Ph%C6%B0%E1%BB%9Dng%204%2C%20Qu%E1%BA%ADn%20T%C3%A2n%20B%C3%ACnh&amp;t=m&amp;z=20&amp;output=embed&amp;iwloc=near"
-                            title="08 Tự Lập, Phường 4, Quận Tân Bình"
-                            aria-label="08 Tự Lập, Phường 4, Quận Tân Bình"></iframe>
+<!--                    <iframe class="card shadow mt-2" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"-->
+<!--                            src="https://maps.google.com/maps?q=08%20T%E1%BB%B1%20L%E1%BA%ADp%2C%20Ph%C6%B0%E1%BB%9Dng%204%2C%20Qu%E1%BA%ADn%20T%C3%A2n%20B%C3%ACnh&amp;t=m&amp;z=20&amp;output=embed&amp;iwloc=near"-->
+<!--                            title="08 Tự Lập, Phường 4, Quận Tân Bình"-->
+<!--                            aria-label="08 Tự Lập, Phường 4, Quận Tân Bình"></iframe>-->
                     <ul class="navbar-nav mt-2">
                         <li class="nav-item" style="font-size: .9em;">
                             <span><i class="bi bi-geo-alt-fill"></i></span>
                             <span>10A1 Ngõ 49, Linh Lang, Ba Đình, Hà Nội</span>
                         </li>
                     </ul>
-                    <iframe class="card shadow mt-2" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                            src="https://maps.google.com/maps?q=10A1%20Ng%C3%B5%2049%20Linh%20Lang%2C%20Ba%20%C4%90%C3%ACnh&amp;t=m&amp;z=20&amp;output=embed&amp;iwloc=near"
-                            title="10A1 Ngõ 49 Linh Lang, Ba Đình" aria-label="10A1 Ngõ 49 Linh Lang, Ba Đình"></iframe>
+<!--                    <iframe class="card shadow mt-2" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"-->
+<!--                            src="https://maps.google.com/maps?q=10A1%20Ng%C3%B5%2049%20Linh%20Lang%2C%20Ba%20%C4%90%C3%ACnh&amp;t=m&amp;z=20&amp;output=embed&amp;iwloc=near"-->
+<!--                            title="10A1 Ngõ 49 Linh Lang, Ba Đình" aria-label="10A1 Ngõ 49 Linh Lang, Ba Đình"></iframe>-->
                 </div>
 
             </div>
