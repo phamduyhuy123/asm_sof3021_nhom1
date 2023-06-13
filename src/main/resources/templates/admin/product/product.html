@@ -1,48 +1,68 @@
 <div class="mb-3"><label class="form-label"> id</label>
-  <input type="number"
-         disabled
-         class="form-control"
-         th:field="*{id}"
-         >
-</div>
-<div class="mb-3"><label class="form-label"> brand</label>
-  <input type="text"
-         class="form-control"
-         th:field="*{brand}"
-         >
+    <input type="number"
+           disabled
+           class="form-control"
+           th:field="*{id}"
+    >
+
 </div>
 <div class="mb-3"><label class="form-label"> category</label>
-  <input type="text"
-         disabled
-         id="categoryId"
-         class="form-control"
-         name="category"
-         th:field="*{category}">
+    <select th:onchange="'window.location.href = \'' + @{/admin/product/category/new} + '?categoryId=\' + this.value ' "
+            id="selectCategories"
+            th:field="*{category}"
+            class="form-select sticky-top" aria-label="Default select example"
+    >
+        <option th:each="category : ${categories}"
+                th:value="${category.catalogId}"
+                th:text="${category.name}"
+                data-bs-dismiss="modal"
+        ></option>
+
+    </select>
+</div>
+<div class="mb-3"><label class="form-label"> brand</label>
+    <select id="selectBrand" th:field="*{brand}"
+            class="form-select sticky-top" aria-label="Default select example"
+    >
+        <option th:each="brand : ${brands}"
+                th:value="${brand.brandId}"
+                th:text="${brand.name}"
+                data-bs-dismiss="modal"
+        ></option>
+
+    </select>
 </div>
 <div class="mb-3"><label class="form-label"> disCount</label>
-  <input type="number"
-         class="form-control"
-         name="disCount"
-         th:field="*{disCount}">
+    <input type="number"
+           class="form-control"
+           name="disCount"
+           th:field="*{disCount}">
 </div>
-<div class="mb-3"><label class="form-label"> image</label>
-  <input type="text"
-         class="form-control"
-         name="image"
-         th:field="*{image}"></div>
+<div class="mb-3"><label for="formFile" class="form-label"> image</label>
+    <input id="formFile" class="form-control" type="file" name="imagePhoto" accept="image/*">
+</div>
+<div class="mb-3"><label for="formFileMultiple" class="form-label"> productListImage</label>
+    <input id="formFileMultiple" class="form-control" type="file" name="images" multiple accept="image/*">
+</div>
 <div class="mb-3"><label class="form-label"> name</label>
-  <input type="text"
-         class="form-control"
-         name="name"
-         th:field="*{name}"></div>
+    <input type="text"
+           class="form-control"
+           name="name"
+           th:field="*{name}"></div>
 <div class="mb-3"><label class="form-label"> price</label>
-  <input type="number"
-         class="form-control"
-         name="price"
-         th:field="*{price}"></div>
+    <input type="number"
+           class="form-control"
+           name="price"
+           th:field="*{price}"></div>
 <div class="mb-3"><label class="form-label"> productLine</label>
-  <input type="text"
-         class="form-control"
-         name="productLine"
-         th:field="*{productLine}">
+    <input type="text"
+           class="form-control"
+           name="productLine"
+           th:field="*{productLine}">
+</div>
+<div class="mb-3"><label class="form-label"> stock</label>
+    <input class="form-control"
+           type="number"
+           name="stock"
+           th:field="*{stock}">
 </div>

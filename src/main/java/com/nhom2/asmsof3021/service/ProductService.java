@@ -1,6 +1,7 @@
 package com.nhom2.asmsof3021.service;
 
 import com.nhom2.asmsof3021.model.Product;
+import com.nhom2.asmsof3021.model.ProductListImage;
 import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -13,7 +14,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +77,53 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page, size, sort);
         return productRepo.findAll(pageable);
     }
+    @Transactional
     public void saveProduct(Product product){
         productRepo.save(product);
+    }
+    @Transactional
+    public void deleteProduct(Integer id){
+        productRepo.deleteById(id);
+    }
+    public List<ProductListImage> saveImage(Product product, @RequestPart("images")MultipartFile[] images, @RequestPart("imagePhoto")MultipartFile photoImage) {
+        // Tạo danh sách để lưu các đối tượng ProductListImage
+        List<ProductListImage> productListImages = new ArrayList<>();
+
+        try {
+
+            // Lưu tệp tin vào thư mục "/static/images/product"
+            String fileName2 = photoImage.getOriginalFilename();
+            Path destinationPath2 = Paths.get("src/main/resources/static/images/product/", fileName2);
+            Files.copy(photoImage.getInputStream(), destinationPath2, StandardCopyOption.REPLACE_EXISTING);
+
+            product.setImage(photoImage.getOriginalFilename());
+
+            // Xử lý từng tệp tin hình ảnh
+            for (MultipartFile image : images) {
+                // Lưu tệp tin vào thư mục "/static/images/product"
+                String fileName = image.getOriginalFilename();
+                Path destinationPath = Paths.get("src/main/resources/static/images/product/", fileName);
+                Files.copy(image.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+
+                // Tạo đối tượng ProductListImage và gán tên tệp tin
+                ProductListImage productListImage = new ProductListImage();
+                productListImage.setFileName(fileName);
+                productListImage.setProduct(product); // Gán đối tượng product cho product của ProductListImage
+
+                // Thêm đối tượng vào danh sách
+                productListImages.add(productListImage);
+
+            }
+        }catch (Exception e){
+            System.out.println("Thêm 1 file(image) bị lỗi");
+        }
+
+
+
+        // Gán danh sách đối tượng ProductListImage cho trường "productListImages" của đối tượng "product"
+        product.setProductListImages(productListImages);
+
+
+        return productListImages;
     }
 }

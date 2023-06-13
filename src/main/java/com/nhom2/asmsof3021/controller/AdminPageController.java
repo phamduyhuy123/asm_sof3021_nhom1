@@ -1,7 +1,9 @@
 package com.nhom2.asmsof3021.controller;
 
+import com.nhom2.asmsof3021.model.Brand;
 import com.nhom2.asmsof3021.model.Category;
 import com.nhom2.asmsof3021.model.Product;
+import com.nhom2.asmsof3021.repository.BrandRepository;
 import com.nhom2.asmsof3021.repository.CategoryRepo;
 import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
 import com.nhom2.asmsof3021.repository.UserRepository;
@@ -35,7 +37,7 @@ public class AdminPageController {
 
     }
 
-    private final CategoryService categoryService;
+    private final BrandRepository brandRepository;
     private final CategoryRepo categoryRepository;
     private final UserRepository userRepository;
     private final HttpSession session;
@@ -50,7 +52,7 @@ public class AdminPageController {
     @GetMapping(value = {"/product/management","/product"})
     public String getProductManagementPage(Model model,Principal principal, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "7") int pageSize){
         checkIsAuthenticated(principal,session,userRepository);
-        List<Product> list= productManagementDefault(model, categoryRepository, session, productRepo, page, pageSize);
+        List<Product> list= productManagementDefault(model, categoryRepository, brandRepository,session, productRepo, page, pageSize);
         System.out.println("test: "+httpServletRequest.getAttribute("product"));
         if (httpServletRequest.getAttribute("product")==null){
             System.out.println("idonknow");
@@ -61,10 +63,10 @@ public class AdminPageController {
         }
         if (httpServletRequest.getAttribute("categoryViewName")== null ){
             model.addAttribute("categoryViewName","admin/product/"+list.get(0).getCategory().getEntityClassName());
+            model.addAttribute("categoryName",list.get(0).getCategory().getEntityClassName());
         }else if(httpServletRequest.getAttribute("categoryViewName")!= null && httpServletRequest.getAttribute("categoryViewName").equals("khongtimthay")){
             model.addAttribute("categoryViewName", null);
         }else {
-
             model.addAttribute("categoryViewName",httpServletRequest.getAttribute("categoryViewName"));
         }
 
@@ -72,10 +74,12 @@ public class AdminPageController {
         return "admin/productManagement";
     }
 
-    public static List<Product> productManagementDefault(Model model, CategoryRepo categoryRepository, HttpSession session, ProductRepo productRepo,
+    public static List<Product> productManagementDefault(Model model, CategoryRepo categoryRepository, BrandRepository brandRepository, HttpSession session, ProductRepo productRepo,
                                                          int page,  int pageSize) {
         List<Category> categoryList = categoryRepository.findAllByEntityClassNameExists();
         model.addAttribute("categories", categoryList);
+        List<Brand> brandList = brandRepository.findAllByNameExists();
+        model.addAttribute("brands",brandList);
         List<AdminPageController.BreadcrumbLink> breadcrumbLinkList = new ArrayList<>();
         breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product", "/admin/product"));
         breadcrumbLinkList.add(new AdminPageController.BreadcrumbLink("Product Management", "/admin/product/management"));

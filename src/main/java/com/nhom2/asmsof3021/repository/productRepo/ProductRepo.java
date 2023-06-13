@@ -38,5 +38,6 @@ public interface ProductRepo extends ProductRepoAbstract<Product> {
             @Param("brandIds") List<Integer> brandIds,
             @Param("productLineIds") List<Integer> productLineIds
     );
+    void deleteById(Integer id);
 //    Page<Product> findAll(Pageable pageable, Sort sort);
 }

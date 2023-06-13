@@ -60,8 +60,6 @@ public class ProductController {
             model.addAttribute("categoryViewName", "admin/product/" + product.getCategory().getEntityClassName());
             model.addAttribute("categoryName", product.getCategory().getEntityClassName());
         }
-//        List<Product> list = productRepo.findAll();
-//        model.addAttribute("products", list);
 
         return "forward:/admin/product/management";
     }
@@ -74,14 +72,17 @@ public class ProductController {
 
         Category category = categoryRepository.findById(id).orElseThrow();
         String categoryEntityClassName = category.getEntityClassName();
+        String categoryName = category.getName();
         ProductFactory productFactory = factoryMap.get(id);
         if (productFactory == null) {
             throw new IllegalArgumentException("Invalid categoryId");
         }
         Product product = productFactory.createProduct();
         product.setCategory(category);
+        System.out.println("productListImage: "+product.getProductListImages());
+        product.setProductListImages(new ArrayList<>());
         model.addAttribute("categoryViewName", "admin/product/" + categoryEntityClassName);
-        model.addAttribute("categoryName" + categoryEntityClassName);
+        model.addAttribute("categoryName", categoryEntityClassName);
         model.addAttribute("product", product);
         return "forward:/admin/product/management";
     }
