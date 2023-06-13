@@ -8,10 +8,6 @@
 <section class="container-lg  container-fluid" ng-controller="filterPage">
     <nav style="--bs-breadcrumb-divider: '>>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">Laptop</a>
-            </li>
-            <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">Laptop Acer</a>
-            </li>
             <!-- <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">Laptop
                     MSi</a></li>
             <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">GF
@@ -174,29 +170,41 @@
 
         </div>
 
-        <div>
-            <ul class="pagination justify-content-center">
 
-                <li class="page-item" th:if="${page.number >= 0}">
-                    <a class="page-link"
-                       th:href="@{'/admin/product/management?page='+${page.number - 1 < 0 ? page.totalPages -1 : page.number - 1}+'&pageSize='+${page.size}}">Previous</a>
-                </li>
-                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, page.getTotalPages())}"
-                    th:class="${page.number + 1 == pageNumber ? 'page-item active' : 'page-item'}">
-                    <a class="text-light"
-                       th:href="@{'/admin/product/management?page='+${pageNumber - 1}+'&pageSize='+${page.size}}"
-                       th:text="${pageNumber}"><span class="page-link"></span></a>
-
-
-                </li>
-                <li class="page-item" th:if="${page.number < page.totalPages}">
-                    <a class="page-link"
-                       th:href="@{'/admin/product/management?page='+${page.number + 1 > page.totalPages - 1 ? 0 : page.number + 1}+'&pageSize='+${page.size}}">Next</a>
-                </li>
-            </ul>
-        </div>
     </div>
+    <div>
+        <ul class="pagination justify-content-center">
 
+            <li class="page-item" th:if="${page.number >= 0}">
+                <a class="page-link"
+                   th:href="@{'/category' +
+    '?categoryIds=' + ${#strings.listJoin(categoryId, ',')} +
+    '&brandIds=' + ${#strings.listJoin(brandId, ',')} +
+    '&productLineIds=' + ${#strings.listJoin(productLineId, ',')}+'&page='+${page.number - 1 < 0 ? page.totalPages -1 : page.number - 1} }"
+                >Previous</a>
+            </li>
+            <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, page.getTotalPages())}"
+                th:class="${page.number + 1 == pageNumber ? 'page-item active' : 'page-item'}">
+                <a class="text-black page-link"
+                   th:href="@{'/category' +
+    '?categoryIds=' + ${#strings.listJoin(categoryId, ',')} +
+    '&brandIds=' + ${#strings.listJoin(brandId, ',')} +
+    '&productLineIds=' + ${#strings.listJoin(productLineId, ',')}+'&page='+${pageNumber - 1}}"
+
+                   th:text="${pageNumber}"></a>
+
+
+            </li>
+            <li class="page-item" th:if="${page.number < page.totalPages}">
+                <a class="page-link"
+                   th:href="@{'/category' +
+    '?categoryIds=' + ${#strings.listJoin(categoryId, ',')} +
+    '&brandIds=' + ${#strings.listJoin(brandId, ',')} +
+    '&productLineIds=' + ${#strings.listJoin(productLineId, ',')}+'&page='+${page.number + 1 > page.totalPages - 1 ? 0 : page.number + 1} }"
+                >Next</a>
+            </li>
+        </ul>
+    </div>
 </section>
 </body>
 </html>

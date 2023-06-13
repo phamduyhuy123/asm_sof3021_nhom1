@@ -38,5 +38,7 @@ public interface ProductRepo extends ProductRepoAbstract<Product> {
             @Param("brandIds") List<Integer> brandIds,
             @Param("productLineIds") List<Integer> productLineIds
     );
+    @Query("select p from Product  p where p.name like %?1% or p.category.name like %?1% or p.brand.name like %?1% or p.productLine.name like %?1%")
+    List<Product> searchProduct(String search);
 //    Page<Product> findAll(Pageable pageable, Sort sort);
 }

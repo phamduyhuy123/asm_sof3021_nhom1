@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 @Inheritance(strategy = InheritanceType.JOINED)
-
 @AllArgsConstructor
 @Getter
 @Setter
@@ -45,5 +44,4 @@ public abstract class Product {
     @OneToOne()
     @JsonBackReference
     private ProductLine productLine;
-
 }
