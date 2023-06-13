@@ -90,19 +90,19 @@ public class ProductController {
     public String productDetail(Model model, @PathVariable Integer id) {
         Product product = productRepo.findById(id).orElseThrow();
         model.addAttribute("productDetail", product);
-        model.addAttribute("productsSimilar", productRepo.findAll());
+        model.addAttribute("productsSimilar", getProductsSimilar(product));
         return "ProductDetail";
     }
 
-    @GetMapping("/product/api/count/similar/{id}")
-    public ResponseEntity<Integer> productsSimilar(@PathVariable Integer id) {
-        Product product = productRepo.findById(id).orElseThrow();
-        Set<Product> productsSimilar = getProductsSimilar(product);
-        if (productsSimilar.isEmpty()) {
-            throw new NoSuchElementException("No value present");
-        }
-        return ResponseEntity.ok(productRepo.findAll().size());
-    }
+//    @GetMapping("/product/api/count/similar/{id}")
+//    public ResponseEntity<Integer> productsSimilar(@PathVariable Integer id) {
+//        Product product = productRepo.findById(id).orElseThrow();
+//        Set<Product> productsSimilar = getProductsSimilar(product);
+//        if (productsSimilar.isEmpty()) {
+//            throw new NoSuchElementException("No value present");
+//        }
+//        return ResponseEntity.ok(productRepo.findAll().size());
+//    }
 
     private Set<Product> getProductsSimilar(Product product) {
         Integer id = product.getId();
@@ -123,7 +123,7 @@ public class ProductController {
         } else if (productLineId != null) {
             productsSimilar = productRepo.findAllByProductLine_ProductLineId(productLineId);
         } else {
-            productsSimilar = new HashSet<>(); // Không có thuộc tính nào được xác định, trả về danh sách rỗng.
+            productsSimilar = new HashSet<>();
         }
         for (Product p : productsSimilar
         ) {
@@ -132,6 +132,7 @@ public class ProductController {
                 break;
             }
         }
+
         return productsSimilar;
     }
 

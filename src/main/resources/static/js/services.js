@@ -140,6 +140,20 @@ app.controller("cartController", function ($scope, $http, $rootScope, $cart, $ca
 app.controller("cartPageController", function ($scope, $http, $rootScope, $cart, $calculate,$q) {
     $scope.selectedProduct = {};
     $scope.hasSelected = false;
+    $scope.reloadFunction = function() {
+        console.log("Page reloaded");
+        for (let i in $rootScope.itemsCart) {
+            if($rootScope.itemsCart[i].selected){
+                $scope.hasSelected=true;
+                break;
+            }
+        }
+    };
+    window.onload = function() {
+        $scope.reloadFunction();
+        $scope.$apply(); // Apply changes to update the AngularJS scope
+    };
+
     $scope.selectAllProduct=false;
 
     $scope.updateSelected = function (id) {
@@ -187,9 +201,10 @@ app.controller("cartPageController", function ($scope, $http, $rootScope, $cart,
         }).then((result) => {
             if (result.isConfirmed) {
                 let selectedProducts = [];
-                 for (var id in $scope.selectedProduct) {
-                    if ($scope.selectedProduct[id]) {
-                        selectedProducts.push(id);
+                 for (let i in $rootScope.itemsCart) {
+                     console.log($rootScope.itemsCart[i])
+                    if ($rootScope.itemsCart[i].selected) {
+                        selectedProducts.push($rootScope.itemsCart[i].id);
                     }
                 }
                 let  deletePromises = selectedProducts.map(function(id) {

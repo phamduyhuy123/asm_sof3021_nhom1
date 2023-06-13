@@ -1,6 +1,6 @@
-package com.nhom2.asmsof3021.utils;
+package com.nhom2.asmsof3021.validation.constraint;
 
-import com.nhom2.asmsof3021.validation.ValidPassword;
+import com.nhom2.asmsof3021.validation.annotations.ValidPassword;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;

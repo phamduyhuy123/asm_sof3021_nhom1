@@ -112,125 +112,213 @@
 
     </div>
     <div class="">
-        <div class="row justify-content-between p-3 " style="background-color: #75070B">
-            <div class="col-12 col-sm-4 col-md-4 col-lg-5 rounded-2 card ">
-                <h1 style="color: #75070B">LAPTOP</h1>
-            </div>
-            <div class="col-auto col-sm-8 col-md-8 col-lg-7 justify-content-between gap-2 d-flex flex-wrap mt-2 mt-lg-0">
-                <div class="rounded-2 card px-2 text-center justify-content-center">
-                    <a href="#" class="text-black"><span>TUF GAMING</span></a>
+        <th:block th:each="p : ${products}">
+            <div th:if="${p.getKey() ==1}" class="row justify-content-between p-3 " style="background-color: #75070B">
+                <a th:href="@{'/category?categoryIds=1'}"
+                   class="col-12 col-sm-2 col-md-3 col-lg-4 rounded-2 card ">
+                    <h1 style="color: #75070B">LAPTOP</h1>
+                </a>
+                <div class="col-auto col-sm-10 col-md-9 col-lg-8 justify-content-between gap-2 d-flex flex-wrap mt-2 mt-lg-0">
+                    <th:block th:each="pl : ${p.getValue()}" >
+                        <div  class="rounded-2 card px-2 text-center justify-content-center">
+                            <a th:if="${pl.productLine != null && pl.category !=null && pl.brand != null}"
+                                    th:href="@{'/category?productLineIds='+ ${pl.productLine.productLineId}
+                                    +'&categoryIds='+${pl.category.catalogId}
+                                    +'&brandIds='+${pl.brand.brandId}
+                                    }"
+                                    class="text-black"
+                            >
+                                <span th:text="${pl.productLine.name}"></span>
+                            </a>
+                        </div>
+                    </th:block>
+<!--                    <div class="rounded-2 card px-2  text-center justify-content-center">-->
+<!--                        <a href="#" class="text-black"><span>Nitro 5</span></a>-->
+<!--                    </div>-->
+<!--                    <div class="rounded-2 card px-2 text-center justify-content-center">-->
+<!--                        <a href="#" class="text-black"><span>GF Series</span></a>-->
+<!--                    </div>-->
+<!--                    <div class="rounded-2 card px-2 text-center justify-content-center">-->
+<!--                        <a href="#" class="text-black"><span>Legion</span></a>-->
+<!--                    </div>-->
+<!--                    <div class="rounded-2 card px-2 text-center justify-content-center">-->
+<!--                        <a href="#" class="text-black"><span>Strix G</span></a>-->
+<!--                    </div>-->
                 </div>
-                <div class="rounded-2 card px-2  text-center justify-content-center">
-                    <a href="#" class="text-black"><span>Nitro 5</span></a>
-                </div>
-                <div class="rounded-2 card px-2 text-center justify-content-center">
-                    <a href="#" class="text-black"><span>GF Series</span></a>
-                </div>
-                <div class="rounded-2 card px-2 text-center justify-content-center">
-                    <a href="#" class="text-black"><span>Legion</span></a>
-                </div>
-                <div class="rounded-2 card px-2 text-center justify-content-center">
-                    <a href="#" class="text-black"><span>Strix G</span></a>
-                </div>
-            </div>
 
-        </div>
-        <!-- products-card -->
-        <div  class="container-fluid  mx-auto my-3 bg-light p-2">
-            <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 p-3 align-items-center ">
-                <div  class="col p-2 card-product position-relative " th:each="laptop : ${laptops}">
-                    <a  th:href="@{'/product/'+ ${laptop.id}}" >
-                        <div class=" card m-0 shadow-sm">
+            </div>
+            <!-- products-card -->
+            <div  class="container-fluid  mx-auto my-3 bg-light p-2" >
+                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 p-3 align-items-center ">
+                    <div   class="col p-2 card-product position-relative " th:each="laptop : ${p.getValue()}">
+
+                        <th:block th:if="${laptop.stock>0}">
+                            <a  th:href="@{'/product/'+ ${laptop.id}}" >
+                                <div class=" card m-0 shadow-sm">
                         <span th:text="'-' +${laptop.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
 
                             <span class="visually-hidden">unread messages</span>
                         </span>
-                            <img class="card-img-top" th:src="@{/images/product/{img}(img=${laptop.image})}" alt="">
-                            <div class="card-body  pb-1 ">
+                                    <img class="card-img-top" th:src="@{/images/product/{img}(img=${laptop.image})}" alt="">
+                                    <div class="card-body  pb-1 ">
 
-                                <div class="text-center">
-                                    <h2 th:text="${laptop.name}" class="text-black product-title">
-                                    </h2>
-                                    <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(laptop.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
-                                    <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((laptop.price -(laptop.price * laptop.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
+                                        <div class="text-center">
+                                            <h2 th:text="${laptop.name}" class="text-black product-title">
+                                            </h2>
+                                            <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(laptop.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
+                                            <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((laptop.price -(laptop.price * laptop.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
+                                        </div>
+                                        <!--                                    <table class="table table-borderless table-active table-sm fw-bold mt-2" style="font-size: .8em;">-->
+                                        <!--                                        <tbody class="">-->
+                                        <!--                                        <tr>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-cpu"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td class="" th:text="${laptop.chip}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-gpu-card"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.card}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                        </tr>-->
+                                        <!--                                        <tr>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-memory"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.ram}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-device-ssd"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.hardDisk}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                        </tr>-->
+                                        <!--                                        <tr>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="fa-solid fa-medal"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.baohanh}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-slash-square"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.screenSize}">-->
+                                        <!--                                            </td>-->
+                                        <!--                                        </tr>-->
+                                        <!--                                        </tbody>-->
+                                        <!--                                    </table>-->
+
+                                    </div>
                                 </div>
-                                <table class="table table-borderless table-active table-sm fw-bold mt-2" style="font-size: .8em;">
-                                    <tbody class="">
-                                    <tr>
-                                        <td>
-                                            <i class="bi bi-cpu"></i>
-                                        </td>
-                                        <td class="" th:text="${laptop.chip}">
-
-                                        </td>
-                                        <td>
-                                            <i class="bi bi-gpu-card"></i>
-                                        </td>
-                                        <td th:text="${laptop.card}">
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i class="bi bi-memory"></i>
-                                        </td>
-                                        <td th:text="${laptop.ram}">
-
-                                        </td>
-                                        <td>
-                                            <i class="bi bi-device-ssd"></i>
-                                        </td>
-                                        <td th:text="${laptop.hardDisk}">
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <i class="fa-solid fa-medal"></i>
-                                        </td>
-                                        <td th:text="${laptop.baohanh}">
-
-                                        </td>
-                                        <td>
-                                            <i class="bi bi-slash-square"></i>
-                                        </td>
-                                        <td th:text="${laptop.screenSize}">
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
+                            </a>
+                            <div  class="position-absolute bottom-0 start-50  btn-add-cart  z-5 w-75" style="transform: translate(-50%, -50%);">
+                                <a  class="btn btn-dark text-center text-primary w-100" th:href="@{'/product/'+ ${laptop.id}}">Xem chi tiết</a>
+                                <button  type="button"  class="btn btn-dark text-center mt-3 w-100 fs-6"
+                                         th:attr="data-product-id=${laptop.id}" ng-click="addToCart($event,1)"
+                                ><i class="bi bi-cart-plus-fill"></i>
+                                    <br>
+                                    Thêm vào giỏ hàng
+                                </button>
                             </div>
-                        </div>
-                    </a>
-                    <div class="position-absolute bottom-0 start-50  btn-add-cart  z-5 w-75" style="transform: translate(-50%, -50%);">
-                        <button class="btn btn-dark text-center w-100">
-                            <a th:href="@{'/product/'+ ${laptop.id}}">Xem chi tiết</a>
-                        </button>
 
+                        </th:block>
+                        <th:block th:if="${laptop.stock<=0}">
+                            <a  th:href="@{'/product/'+ ${laptop.id}}" >
+                                <div class=" card m-0 shadow-sm" style="filter: brightness(60%);">
+                        <span th:text="'-' +${laptop.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
 
-                        <button  type="button"  class="btn btn-dark text-center mt-3 w-100 fs-6"
-                                 th:attr="data-product-id=${laptop.id}" ng-click="addToCart($event,1)"
-                        ><i class="bi bi-cart-plus-fill"></i>
-                            <br>
-                            Thêm vào giỏ hàng
-                        </button>
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                                    <img class="card-img-top" th:src="@{/images/product/{img}(img=${laptop.image})}" alt="">
+                                    <div class="card-body  pb-1 ">
+
+                                        <div class="text-center">
+                                            <h2 th:text="${laptop.name}" class="text-black product-title">
+                                            </h2>
+                                            <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(laptop.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
+                                            <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((laptop.price -(laptop.price * laptop.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
+                                        </div>
+                                        <!--                                    <table class="table table-borderless table-active table-sm fw-bold mt-2" style="font-size: .8em;">-->
+                                        <!--                                        <tbody class="">-->
+                                        <!--                                        <tr>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-cpu"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td class="" th:text="${laptop.chip}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-gpu-card"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.card}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                        </tr>-->
+                                        <!--                                        <tr>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-memory"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.ram}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-device-ssd"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.hardDisk}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                        </tr>-->
+                                        <!--                                        <tr>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="fa-solid fa-medal"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.baohanh}">-->
+
+                                        <!--                                            </td>-->
+                                        <!--                                            <td>-->
+                                        <!--                                                <i class="bi bi-slash-square"></i>-->
+                                        <!--                                            </td>-->
+                                        <!--                                            <td th:text="${laptop.screenSize}">-->
+                                        <!--                                            </td>-->
+                                        <!--                                        </tr>-->
+                                        <!--                                        </tbody>-->
+                                        <!--                                    </table>-->
+
+                                    </div>
+                                </div>
+                            </a>
+                            <div  class="position-absolute bottom-0 start-50  d-block  z-5 w-75" style="transform: translate(-50%, -50%);">
+                                <a  class="btn btn-dark text-center text-primary w-100" th:href="@{'/product/'+ ${laptop.id}}">Xem chi tiết</a>
+                                <button  class="btn btn-danger text-center mt-3 w-100 fs-6"
+                                >
+                                    Hết hàng
+                                </button>
+                            </div>
+                        </th:block>
+
                     </div>
+
+
                 </div>
 
-
-            </div>
-
-            <div class="text-center">
-                <a href="/product/category/1">
+                <div class="text-center">
+                    <a href="/product/category/1">
                    <span style="--bs-btn-hover-bg: #a8a7a7 " class="btn">
 
                     <i class="bi bi-eye-fill"></i>
                     <span>Xem thêm tất cả >></span>
                 </span>
-                </a>
+                    </a>
+                </div>
             </div>
-        </div>
+        </th:block>
+
     </div>
 
 </section>
