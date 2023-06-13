@@ -27,6 +27,8 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
+    @OneToMany(mappedBy = "user")
+    private List<Orders> orders;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Address> addresses;

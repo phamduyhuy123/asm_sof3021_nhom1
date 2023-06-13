@@ -48,4 +48,7 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page, size, sort);
         return productRepo.findAll(pageable);
     }
+    public void saveProduct(Product product){
+        productRepo.save(product);
+    }
 }

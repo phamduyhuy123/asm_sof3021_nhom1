@@ -1,21 +1,20 @@
-package com.nhom2.asmsof3021.utils;
+package com.nhom2.asmsof3021.validation.constraint;
 
 import com.nhom2.asmsof3021.repository.UserRepository;
-import com.nhom2.asmsof3021.validation.UsernameUnique;
+import com.nhom2.asmsof3021.validation.annotations.UniqueEmail;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-@RequiredArgsConstructor
-public class UserNameUniqueValidation implements ConstraintValidator<UsernameUnique, String> {
+@Component
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+
     @Autowired
     UserRepository userRepository;
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
-        return !userRepository.existsByUsername(email);
+        return !userRepository.existsByEmail(email);
     }
 }

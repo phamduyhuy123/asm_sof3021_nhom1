@@ -26,11 +26,13 @@ public abstract class Product {
     private BigDecimal price;
     private int disCount;
     private String baohanh;
+
     private Integer stock;
     @Transient
     private boolean isSelected;
     @Transient
     private Integer quantity;
+
     @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JsonBackReference
     private List<ProductListImage> productListImages;

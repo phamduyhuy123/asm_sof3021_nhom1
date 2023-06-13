@@ -5,18 +5,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/icon/bootstrap-icons.css}">
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script src="https://kit.fontawesome.com/2d8a439e72.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-<!--    <script th:src="@{/js/sliderDragAble.js}"></script>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+            integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 </head>
 <body ng-app="myapp" ng-controller="homeCtrl">
 
-<nav ng-controller="cartController"  class="sticky-top pb-2" style="background-color: #BF0000">
+<nav ng-controller="cartController" class="sticky-top pb-2" style="background-color: #BF0000">
     <div class="navbar navbar-expand-lg  py-auto " style="height: 80px;">
         <div class="container-fluid justify-content-lg-center  pt-3">
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -42,8 +45,9 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
 
                         <i class="bi bi-cart"></i>
-                        <span ng-if="itemsCart" class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                              style="background-color: brown;" >
+                        <span ng-if="itemsCart"
+                              class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                              style="background-color: brown;">
                             {{itemsInCart}}
                         </span>
                         <span class="visually-hidden">unread messages</span>
@@ -57,15 +61,16 @@
                             <div ng-repeat="item in itemsCart" class="row  my-2 border-bottom">
                                 <a type="link" href="/product/{{item.id}}">
                                     <div class="col-3">
-                                        <a  type="link" href="/product/{{item.id}}">
+                                        <a type="link" href="/product/{{item.id}}">
                                             <img class="img-fluid" th:src="@{/images/product/{{item.image}}}" alt="">
                                         </a>
                                     </div>
 
-                                    <a type="link"  class="col-7 text-decoration-none text-black"
+                                    <a type="link" class="col-7 text-decoration-none text-black"
                                        href="/product/{{item.id}}">
                                         <span>{{item.name}}</span>
-                                        <div class="fw-bold">{{item.quantity}} x {{calculateDisCount(item.price,item.disCount) | number :0}} ₫
+                                        <div class="fw-bold">{{item.quantity}} x
+                                            {{calculateDisCount(item.price,item.disCount) | number :0}} ₫
                                         </div>
                                     </a>
                                     <div class="col-2 my-auto">
@@ -93,7 +98,8 @@
                             data-bs-target="#offcanvasResponsive" aria-controls="offcanvasResponsive">
 
                         <i class="bi bi-cart"></i>
-                        <span ng-if="itemsCart" class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                        <span ng-if="itemsCart"
+                              class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
                               style="background-color: brown;">
                             {{itemsInCart}}</span>
                         <span class="visually-hidden">unread messages</span>
@@ -103,7 +109,8 @@
 
                 </div>
                 <div class="position-relative dropdown">
-                    <button id="dropdownUser" class="mx-3 btn btn-light user-btn" type="button"  data-bs-toggle="dropdown" aria-expanded="false">
+                    <button id="dropdownUser" class="mx-3 btn btn-light user-btn" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person"></i>
                     </button>
                     <div sec:authorize="isAnonymous()" style="width: 300px; "
@@ -119,7 +126,7 @@
                         </div>
                     </div>
 
-                    <ul sec:authorize="hasRole('USER')"  class="dropdown-menu">
+                    <ul sec:authorize="hasRole('USER')" class="dropdown-menu">
                         <li>
                             <a class="dropdown-item" href="#">
                                 <span>
@@ -168,7 +175,7 @@
             <div class="collapse navbar-collapse main-nav-collapse justify-content-center" id="navbarNavDropdown">
                 <ul class="navbar-nav text-light ">
 
-                    <li  class="nav-item dropdown  mx-3">
+                    <li class="nav-item dropdown  mx-3">
 
                         <a class="nav-link  text-light" href="#!productCatagory/{{cte.catalogId}}"
                            data-bs-toggle="dropdown"
@@ -176,7 +183,7 @@
 
                         </a>
                         <ul class="dropdown-menu text-light">
-                            <li >
+                            <li>
                                 <div class="dropend">
                                     <a target="_blank" class="dropdown-item dropdown-sub"
                                        ng-href="#!productCatagory/{{cte.catalogId}}/{{b.brandId}}"
@@ -222,7 +229,8 @@
                         <a type="link" target="_blank" class="col-7 text-decoration-none text-black"
                            href="/product/{{item.id}}">
                             <span>{{item.name}}</span>
-                            <div class="fw-bold">{{item.quantity}} x {{calculateDisCount(item.price,item.disCount) | number :0}} ₫
+                            <div class="fw-bold">{{item.quantity}} x {{calculateDisCount(item.price,item.disCount) |
+                                number :0}} ₫
                             </div>
                         </a>
                         <div class="col-2 mt-auto">
@@ -235,7 +243,8 @@
 
             </div>
             <div class="border-top total-cart-price text-center fs-5 mx-auto mt-2 pt-3 mb-4">
-                <Strong>Tạm tính: </Strong><span ng-if="totalPriceFromCart()">{{totalPriceFromCart() | number : 0}}₫</span>
+                <Strong>Tạm tính: </Strong><span
+                    ng-if="totalPriceFromCart()">{{totalPriceFromCart() | number : 0}}₫</span>
             </div>
             <div class="border-top align-middle justify-content-center text-center">
                 <button class="m-3 btn btn-dark fw-bold ">
@@ -257,7 +266,8 @@
                     aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <a href="#!home"><img th:src="@{images/cropped-cropped-cropped-Avata-Xgear-Black.png}" class="mx-auto d-block" alt=""></a>
+            <a href="#!home"><img th:src="@{images/cropped-cropped-cropped-Avata-Xgear-Black.png}"
+                                  class="mx-auto d-block" alt=""></a>
             <ul class="navbar-nav text-light ">
 
                 <li ng-repeat="cte in category" class="nav-item dropdown mx-3">
@@ -278,206 +288,218 @@
     </div>
 </nav>
 
-<div th:replace="${content}">
+<th:block th:replace="${content}">
 
-</div>
+</th:block>
 
-<div class="container-fluid pt-3 card bg-transparent border-0 " style="font-size: .9em;">
-    <div class="container">
-        <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 row-cols-sm-2 mx-5  ">
+<th:block th:if="${isCheckOutPage == null || isCheckOutPage == false}">
+    <div class="container-fluid pt-3 card bg-transparent border-0 " style="font-size: .9em;">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 row-cols-sm-2 mx-5  ">
 
-            <div class="col">
-                <div class="card border-0 bg-transparent">
-                    <img src="images/cropped-cropped-cropped-Avata-Xgear-Black.png" class="card-img " alt="">
-                    <p>Được biết đến là đơn vị ủy quyền bán lẻ chính thức tại Việt Nam, chuyên kinh doanh các
-                        sản
-                        phẩm Laptop Gaming cao cấp, PC đồ họa, linh-phụ kiện, thiết bị giải trí của nhiều nhãn
-                        hàng
-                        lớn như Acer, Asus, Apple, Dell, HP, Lenovo, MSI, Gigabyte, Razer, HyperX, Logitech,
-                        Samsung…</p>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-0 bg-transparent">
-                    <div class="fw-bold my-1">
-                        Thông tin
+                <div class="col">
+                    <div class="card border-0 bg-transparent">
+                        <img src="images/cropped-cropped-cropped-Avata-Xgear-Black.png" class="card-img " alt="">
+                        <p>Được biết đến là đơn vị ủy quyền bán lẻ chính thức tại Việt Nam, chuyên kinh doanh các
+                            sản
+                            phẩm Laptop Gaming cao cấp, PC đồ họa, linh-phụ kiện, thiết bị giải trí của nhiều nhãn
+                            hàng
+                            lớn như Acer, Asus, Apple, Dell, HP, Lenovo, MSI, Gigabyte, Razer, HyperX, Logitech,
+                            Samsung…</p>
                     </div>
+                </div>
+                <div class="col">
+                    <div class="card border-0 bg-transparent">
+                        <div class="fw-bold my-1">
+                            Thông tin
+                        </div>
 
-                    <ul class="navbar-nav  ">
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#" role="button" aria-expanded="false">
-                                Giới thiệu
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#" role="button" aria-expanded="false">
-                                Khuyến mại
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#" role="button" aria-expanded="false">
-                                Tuyển dụng
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#" role="button" aria-expanded="false">
-                                Phương thức thanh toán
-                            </a>
+                        <ul class="navbar-nav  ">
+                            <li class="nav-item">
+                                <a class="nav-link  " href="#" role="button" aria-expanded="false">
+                                    Giới thiệu
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  " href="#" role="button" aria-expanded="false">
+                                    Khuyến mại
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  " href="#" role="button" aria-expanded="false">
+                                    Tuyển dụng
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  " href="#" role="button" aria-expanded="false">
+                                    Phương thức thanh toán
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="fw-bold my-2">
+                            Giờ làm việc
+                        </div>
+                        <p>
+                            Thứ 2 – Thứ 7 : 9h00 – 20h00
+                            <br>
+                            Chủ nhật : 9h00 – 19h00
+                        </p>
+                        <div class="mt-3">
+                            <button type="button" class="rounded-circle btn bg-light">
+                                <i class="bi bi-facebook"></i>
+                                <a href=""></a>
+                            </button>
+                            <button type="button" class="rounded-circle btn bg-light"><i
+                                    class="bi bi-instagram"></i>
+                                <a href=""></a>
+                            </button>
+                            <button type="button" class="rounded-circle btn bg-light"><i class="bi bi-youtube"></i>
+                                <a href=""></a>
+                            </button>
+
+                        </div>
+                        <div class="mt-2">
+                            <img src="images/bo-cong-thuong-q075ikvbkeg8c0dyg1mpomuorf5i46bgupjm11nbpc.png" alt="">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card border-0 bg-transparent">
+                        <div class="fw-bold my-1">
+                            Chính sách
+                        </div>
+                        <ul class="navbar-nav  ">
+                            <li class="nav-item">
+                                <a class="nav-link  " href="#" role="button" aria-expanded="false">
+                                    Trả góp
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  " href="#" role="button" aria-expanded="false">
+                                    Đổi trả
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  " href="#" role="button" aria-expanded="false">
+                                    Bảo hành
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  " href="#" role="button" aria-expanded="false">
+                                    Bảo mật thông tin
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  " href="#" role="button" aria-expanded="false">
+                                    Giao hàng
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="fw-bold my-2">
+                            Liên hệ
+                        </div>
+                        <p>
+                            Hotline :
+                            <a class="text-danger" href="tel:02871081881">028 7108 1881</a>
+                            -
+                            <a class="text-danger" href="tel:0907031881">090 7031881</a>
+                            <br>
+                            Mail :
+                            <a class="text-danger" href="mailto:sales@thenewxgear.com">sales@thenewxgear.com</a>
+
+                        </p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="fw-bold my-1">
+                        Địa chỉ cửa hàng
+                    </div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item" style="font-size: .9em;">
+                            <span><i class="bi bi-geo-alt-fill"></i></span>
+                            <span>08 Tự Lập, Phường 4, Tân Bình, TP.HCM</span>
                         </li>
                     </ul>
-                    <div class="fw-bold my-2">
-                        Giờ làm việc
-                    </div>
-                    <p>
-                        Thứ 2 – Thứ 7 : 9h00 – 20h00
-                        <br>
-                        Chủ nhật : 9h00 – 19h00
-                    </p>
-                    <div class="mt-3">
-                        <button type="button" class="rounded-circle btn bg-light">
-                            <i class="bi bi-facebook"></i>
-                            <a href=""></a>
-                        </button>
-                        <button type="button" class="rounded-circle btn bg-light"><i
-                                class="bi bi-instagram"></i>
-                            <a href=""></a>
-                        </button>
-                        <button type="button" class="rounded-circle btn bg-light"><i class="bi bi-youtube"></i>
-                            <a href=""></a>
-                        </button>
-
-                    </div>
-                    <div class="mt-2">
-                        <img src="images/bo-cong-thuong-q075ikvbkeg8c0dyg1mpomuorf5i46bgupjm11nbpc.png" alt="">
-                    </div>
-
-                </div>
-            </div>
-            <div class="col">
-                <div class="card border-0 bg-transparent">
-                    <div class="fw-bold my-1">
-                        Chính sách
-                    </div>
-                    <ul class="navbar-nav  ">
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#" role="button" aria-expanded="false">
-                                Trả góp
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#" role="button" aria-expanded="false">
-                                Đổi trả
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#" role="button" aria-expanded="false">
-                                Bảo hành
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#" role="button" aria-expanded="false">
-                                Bảo mật thông tin
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  " href="#" role="button" aria-expanded="false">
-                                Giao hàng
-                            </a>
+                    <iframe class="card shadow mt-2" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                            src="https://maps.google.com/maps?q=08%20T%E1%BB%B1%20L%E1%BA%ADp%2C%20Ph%C6%B0%E1%BB%9Dng%204%2C%20Qu%E1%BA%ADn%20T%C3%A2n%20B%C3%ACnh&amp;t=m&amp;z=20&amp;output=embed&amp;iwloc=near"
+                            title="08 Tự Lập, Phường 4, Quận Tân Bình"
+                            aria-label="08 Tự Lập, Phường 4, Quận Tân Bình"></iframe>
+                    <ul class="navbar-nav mt-2">
+                        <li class="nav-item" style="font-size: .9em;">
+                            <span><i class="bi bi-geo-alt-fill"></i></span>
+                            <span>10A1 Ngõ 49, Linh Lang, Ba Đình, Hà Nội</span>
                         </li>
                     </ul>
-                    <div class="fw-bold my-2">
-                        Liên hệ
-                    </div>
-                    <p>
-                        Hotline :
-                        <a class="text-danger" href="tel:02871081881">028 7108 1881</a>
-                        -
-                        <a class="text-danger" href="tel:0907031881">090 7031881</a>
-                        <br>
-                        Mail :
-                        <a class="text-danger" href="mailto:sales@thenewxgear.com">sales@thenewxgear.com</a>
+                    <iframe class="card shadow mt-2" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                            src="https://maps.google.com/maps?q=10A1%20Ng%C3%B5%2049%20Linh%20Lang%2C%20Ba%20%C4%90%C3%ACnh&amp;t=m&amp;z=20&amp;output=embed&amp;iwloc=near"
+                            title="10A1 Ngõ 49 Linh Lang, Ba Đình" aria-label="10A1 Ngõ 49 Linh Lang, Ba Đình"></iframe>
+                </div>
 
-                    </p>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <p class="text-center pb-4">Copyright © 2022 Xgear | All rights reserved | Chứng nhận đăng ký doanh nghiệp số :
+        0316898252 do sở KH và ĐT TP Hồ Chí Minh cấp.</p>
+</th:block>
+
+    <div class="position-fixed end-0  bottom-0  stickContact" style=" max-width: 100px; font-size: 10px;">
+        <div class="card rounded-4 mb-2">
+            <div class="row d-flex">
+                <div class="col-4">
+                    <a class="text-decoration-none " href="https://zalo.me/1346930217677886477" target="_blank">
+                        <img class="contactIconImg" th:src="@{/images/icons8-zalo-48.png}" alt="">
+                    </a>
+                </div>
+                <div class="col">
+                    <a class="text-decoration-none nav-link fw-bold" href="https://zalo.me/1346930217677886477"
+                       target="_blank">Chat zalo</a>
+                    (9h00 - 23h00)
                 </div>
             </div>
-            <div class="col">
-                <div class="fw-bold my-1">
-                    Địa chỉ cửa hàng
+        </div>
+        <div class="card rounded-4 mb-2">
+            <div class="row d-flex">
+                <div class="col-4">
+                    <a class="text-decoration-none " href="tel:02871081881" target="_blank">
+                        <img class="contactIconImg" th:src="@{/images/icons8-phone-48.png}" alt="">
+                    </a>
                 </div>
-                <ul class="navbar-nav">
-                    <li class="nav-item" style="font-size: .9em;">
-                        <span><i class="bi bi-geo-alt-fill"></i></span>
-                        <span>08 Tự Lập, Phường 4, Tân Bình, TP.HCM</span>
-                    </li>
-                </ul>
-                <iframe class="card shadow mt-2" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                        src="https://maps.google.com/maps?q=08%20T%E1%BB%B1%20L%E1%BA%ADp%2C%20Ph%C6%B0%E1%BB%9Dng%204%2C%20Qu%E1%BA%ADn%20T%C3%A2n%20B%C3%ACnh&amp;t=m&amp;z=20&amp;output=embed&amp;iwloc=near"
-                        title="08 Tự Lập, Phường 4, Quận Tân Bình"
-                        aria-label="08 Tự Lập, Phường 4, Quận Tân Bình"></iframe>
-                <ul class="navbar-nav mt-2">
-                    <li class="nav-item" style="font-size: .9em;">
-                        <span><i class="bi bi-geo-alt-fill"></i></span>
-                        <span>10A1 Ngõ 49, Linh Lang, Ba Đình, Hà Nội</span>
-                    </li>
-                </ul>
-                <iframe class="card shadow mt-2" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                        src="https://maps.google.com/maps?q=10A1%20Ng%C3%B5%2049%20Linh%20Lang%2C%20Ba%20%C4%90%C3%ACnh&amp;t=m&amp;z=20&amp;output=embed&amp;iwloc=near"
-                        title="10A1 Ngõ 49 Linh Lang, Ba Đình" aria-label="10A1 Ngõ 49 Linh Lang, Ba Đình"></iframe>
+                <div class="col">
+                    <a class="text-decoration-none nav-link fw-bold" href="tel:02871081881"
+                       target="_blank">Hotline</a>
+                    (9h00 - 20h00)
+                </div>
             </div>
-
+        </div>
+        <div class="card rounded-4 mb-2">
+            <div class="row d-flex">
+                <div class="col-4">
+                    <a class="text-decoration-none " href="https://m.me/xgearvietnam" target="_blank">
+                        <img class="contactIconImg" th:src="@{/images/icons8-facebook-messenger-48.png}" alt="">
+                    </a>
+                </div>
+                <div class="col">
+                    <a class="text-decoration-none nav-link fw-bold" href="https://m.me/xgearvietnam"
+                       target="_blank">Messenger</a>
+                    (9h00 - 23h00)
+                </div>
+            </div>
         </div>
     </div>
 
-</div>
 
-<hr>
-<p class="text-center pb-4">Copyright © 2022 Xgear | All rights reserved | Chứng nhận đăng ký doanh nghiệp số :
-    0316898252 do sở KH và ĐT TP Hồ Chí Minh cấp.</p>
-<div class="position-fixed end-0  bottom-0  stickContact" style=" max-width: 100px; font-size: 10px;">
-    <div class="card rounded-4 mb-2">
-        <div class="row d-flex">
-            <div class="col-4">
-                <a class="text-decoration-none " href="https://zalo.me/1346930217677886477" target="_blank">
-                    <img class="contactIconImg" th:src="@{/images/icons8-zalo-48.png}" alt="">
-                </a>
-            </div>
-            <div class="col">
-                <a class="text-decoration-none nav-link fw-bold" href="https://zalo.me/1346930217677886477"
-                   target="_blank">Chat zalo</a>
-                (9h00 - 23h00)
-            </div>
-        </div>
-    </div>
-    <div class="card rounded-4 mb-2">
-        <div class="row d-flex">
-            <div class="col-4">
-                <a class="text-decoration-none " href="tel:02871081881" target="_blank">
-                    <img class="contactIconImg" th:src="@{/images/icons8-phone-48.png}" alt="">
-                </a>
-            </div>
-            <div class="col">
-                <a class="text-decoration-none nav-link fw-bold" href="tel:02871081881"
-                   target="_blank">Hotline</a>
-                (9h00 - 20h00)
-            </div>
-        </div>
-    </div>
-    <div class="card rounded-4 mb-2">
-        <div class="row d-flex">
-            <div class="col-4">
-                <a class="text-decoration-none " href="https://m.me/xgearvietnam" target="_blank">
-                    <img class="contactIconImg" th:src="@{/images/icons8-facebook-messenger-48.png}" alt="">
-                </a>
-            </div>
-            <div class="col">
-                <a class="text-decoration-none nav-link fw-bold" href="https://m.me/xgearvietnam"
-                   target="_blank">Messenger</a>
-                (9h00 - 23h00)
-            </div>
-        </div>
-    </div>
-</div>
+<script src="https://kit.fontawesome.com/2d8a439e72.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
 <script th:src="@{/js/services.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
 </body>
 </html>

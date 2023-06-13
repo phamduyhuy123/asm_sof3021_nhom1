@@ -2,10 +2,10 @@ package com.nhom2.asmsof3021.security.auth;
 
 
 import com.nhom2.asmsof3021.security.enums.Role;
-import com.nhom2.asmsof3021.validation.PasswordValueMatch;
-import com.nhom2.asmsof3021.validation.UniqueEmail;
-import com.nhom2.asmsof3021.validation.UsernameUnique;
-import com.nhom2.asmsof3021.validation.ValidPassword;
+import com.nhom2.asmsof3021.validation.annotations.PasswordValueMatch;
+import com.nhom2.asmsof3021.validation.annotations.UniqueEmail;
+import com.nhom2.asmsof3021.validation.annotations.UsernameUnique;
+import com.nhom2.asmsof3021.validation.annotations.ValidPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
