@@ -16,6 +16,14 @@
             integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // var message = /*[[${param.dumamay}]]*/ '';
+        // if (message !== '') {
+        //     alert(message);
+        // }
+        /*]]>*/
+    </script>
 </head>
 <body ng-app="myapp" ng-controller="homeCtrl">
 
@@ -32,10 +40,16 @@
                 </a>
             </div>
             <form class="d-flex w-50 mx-5 d-none d-sm-block d-sm-none d-md-block" role="search">
-                <div class="input-group ">
-                    <input type="text" class="form-control" placeholder="Bạn cần tìm sản phẩm gì?"
+                <div class="input-group autocomplete">
+                    <input id="search-box" type="text" class="form-control " ng-model="searchQuery"  placeholder="Bạn cần tìm sản phẩm gì?"
+                          style="border-bottom-left-radius: 0; border-bottom-right-radius: 0"
                            aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <button class="input-group-text" id="basic-addon2"><i class="bi bi-search"></i></button>
+                    <div id="autocomplete-suggestions" class="rounded-bottom border-top-0">
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <button class="input-group-text " style="border-bottom-right-radius: 0;" ng-class="{'disabled not-allowed': searchQuery=='' || searchQuery==nul}" id="basic-addon2"><i class="bi bi-search"></i></button>
                 </div>
             </form>
             <div class="d-flex">
@@ -179,7 +193,7 @@
 
                         <a class="nav-link  text-light"
                            th:href="@{'/category?categoryIds='+${c.catalogId}  }"
-                           data-bs-toggle="dropdown" th:text="${c.name}"
+                          th:text="${c.name}"
                         >
                         </a>
                         <ul class="dropdown-menu text-light">
@@ -187,8 +201,7 @@
                                 <div class="dropend">
                                     <a target="_blank" class="dropdown-item dropdown-sub"
                                        th:href="@{'/category?categoryIds='+${c.catalogId}+'&brandIds='+ ${b.brandId} }"
-                                       data-bs-toggle="dropdown"
-                                       aria-expanded="false"
+
                                         th:text="${b.name}"
                                     >
                                     </a>
@@ -272,22 +285,35 @@
                     aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <a href="#!home"><img th:src="@{images/cropped-cropped-cropped-Avata-Xgear-Black.png}"
+            <a href="#!home"><img th:src="@{/images/cropped-cropped-cropped-Avata-Xgear-Black.png}"
                                   class="mx-auto d-block" alt=""></a>
             <ul class="navbar-nav text-light ">
-
-                <li ng-repeat="cte in category" class="nav-item dropdown mx-3">
-                    <a class="nav-link  text-light" href="#" role="button" aria-expanded="false">
-                        {{cte.name}}
+                <li class="nav-item dropdown  mx-3" th:each=" c : ${categories}">
+                    <a class="nav-link  text-light"
+                       th:href="@{'/category?categoryIds='+${c.catalogId}  }"
+                       th:text="${c.name}"
+                    >
                     </a>
-                    <ul class="dropdown-menu ">
-                        <li><a ng-repeat="b in brands " class="dropdown-item" href="#">{{cte.name}} {{b.name}}</a></li>
-
-
+                    <ul class="dropdown-menu text-light">
+                        <li th:each="b : ${c.brands}">
+                            <div class="dropend">
+                                <a target="_blank" class="dropdown-item dropdown-sub"
+                                   th:href="@{'/category?categoryIds='+${c.catalogId}+'&brandIds='+ ${b.brandId} }"
+                                   th:text="${b.name}"
+                                >
+                                </a>
+                                <ul class="dropdown-menu dropdown-sub-menu position-absolute  top-0">
+                                    <li th:each="pl : ${b.productLines}">
+                                        <a class="dropdown-item"
+                                           th:href="@{'/category?categoryIds='+${c.catalogId}+'&brandIds='+ ${b.brandId}+'&productLineIds='+ ${pl.productLineId} }"
+                                           th:text="${pl.name}"
+                                        >
+                                        </a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </li>
-
-
             </ul>
 
         </div>
