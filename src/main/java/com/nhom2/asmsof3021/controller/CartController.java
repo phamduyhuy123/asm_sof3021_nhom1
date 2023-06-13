@@ -70,6 +70,10 @@ public class CartController {
         if (optionalProducts.isPresent()) {
             products = optionalProducts.get();
             boolean isInCart=false;
+            if(product.getStock()<=0){
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(products);
+
+            }
             for (Product p : products) {
                 if (Objects.equals(p.getId(), id)) {
                     isInCart=true;
@@ -93,18 +97,26 @@ public class CartController {
                 isExceeding = product.getQuantity() > product.getStock();
                 products.add(product);
             }
+            session.setAttribute("cartItems", products);
         } else {
             products = new ArrayList<>();
-            product.setQuantity(Math.min(quantity, product.getStock()));
-            products.add(product);
+            if(product.getStock()<=0){
+                isExceeding=true;
+            }else {
+                product.setQuantity(Math.min(quantity, product.getStock()));
+                isExceeding = product.getQuantity() > product.getStock();
+                products.add(product);
+            }
+            if(!isExceeding){
+                session.setAttribute("cartItems", products);
+            }
         }
 
-        session.setAttribute("cartItems", products);
-
         if (isExceeding) {
-            System.out.println("isExceeding");
+
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(products);
         } else {
+
             return ResponseEntity.ok(products);
         }
     }
@@ -125,6 +137,7 @@ public class CartController {
     @PutMapping("/product/api/cart/decrease/{id}")
     public ResponseEntity<List<Product>> decreaseItemFromCart(@PathVariable Integer id,@RequestParam("amount") Integer amount) {
         Product product = productRepo.findById(id).orElseThrow();
+
         List<Product> products=new ArrayList<>();
         Optional<List<Product>> optionalCartItems = Optional.ofNullable((List<Product>) session.getAttribute("cartItems"));
         if (optionalCartItems.isPresent()) {

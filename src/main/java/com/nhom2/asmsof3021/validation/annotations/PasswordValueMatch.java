@@ -1,6 +1,6 @@
-package com.nhom2.asmsof3021.validation;
+package com.nhom2.asmsof3021.validation.annotations;
 
-import com.nhom2.asmsof3021.utils.PasswordFieldsValueMatchValidator;
+import com.nhom2.asmsof3021.validation.constraint.PasswordFieldsValueMatchValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

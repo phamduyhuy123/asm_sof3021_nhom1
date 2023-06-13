@@ -1,5 +1,6 @@
 package com.nhom2.asmsof3021.controller;
 
+import com.nhom2.asmsof3021.model.Monitor;
 import com.nhom2.asmsof3021.model.Product;
 import com.nhom2.asmsof3021.model.ProductLine;
 import com.nhom2.asmsof3021.repository.UserRepository;
@@ -7,6 +8,10 @@ import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
 import com.nhom2.asmsof3021.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,21 +41,14 @@ public class RouteController {
     @GetMapping({"/","/index"})
     public ModelAndView getHomePage(Principal principal){
         checkIsAuthenticated(principal,session,userRepository);
-
-        ModelAndView modelAndView=new ModelAndView("index");
-        List<Integer> categoryIds = Arrays.asList(1);
-        List<Integer> brandIds = Arrays.asList(2,7); // Pass null for no filtering on brandIds
-        List<Integer> productLineIds = new ArrayList<>();
-
-
-        List<Product> products=service.findProductsByFilters(
-                categoryIds,brandIds,productLineIds);
-        for (Product p:products
-             ) {
-            System.out.println(p.getName());
-        }
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("index");
         List<Product> laptops= repo.findByCategory_CatalogId(1);
-        modelAndView.addObject("laptops",laptops);
+        List<Product> monitors=repo.findByCategory_CatalogId(2);
+        Map<Integer,Object> objectMap=new HashMap<>();
+        objectMap.put(1,laptops.isEmpty() ? null : laptops);
+        objectMap.put(2,monitors.isEmpty()? null:monitors );
+        modelAndView.addObject("products",objectMap);
         return modelAndView;
     }
     @GetMapping("/login")
@@ -72,37 +70,37 @@ public class RouteController {
         ModelAndView modelAndView=new ModelAndView("user/Cart");
         return modelAndView;
     }
-    @GetMapping("/checkout")
-    public ModelAndView getCheckOutPage(Authentication authentication){
 
-        ModelAndView modelAndView=new ModelAndView("user/CheckOut");
-
-        return modelAndView;
-    }
 
     @GetMapping("/admin/login")
-    public String goToLoginPage(String id,String ...object){
+    public String goToLoginPage(){
         return "admin/login";
     }
-    @GetMapping("/filter")
+
+    @GetMapping("/category")
     public String productCategory(
             Model model,
             @RequestParam(required = false, name = "categoryIds")List<Integer> cateId,
             @RequestParam(required = false, name = "brandIds")List<Integer> brandId,
             @RequestParam(required = false, name = "productLineIds")List<Integer> productLineId,
             @RequestParam(required = false, name = "minPrice")Integer minPrice,
-            @RequestParam(required = false, name = "maxPrice")Integer maxPrice){
-//        if (cateId == null) {
-//            cateId = new ArrayList<>();
-//        }
-//        if (brandId == null) {
-//            brandId = new ArrayList<>();
-//        }
-//        if (productLineId == null) {
-//            productLineId = new ArrayList<>();
-//        }
-//        List<Product> products=service.findProductsByFilters(cateId,brandId,productLineId);
-//        model.addAttribute("products",products);
+            @RequestParam(required = false, name = "maxPrice")Integer maxPrice,
+            @RequestParam(required = false,name="page",defaultValue = "0")Integer page,
+            @RequestParam(required = false,name="pageSize")Integer pageSize){
+        if (cateId == null) {
+            cateId = new ArrayList<>();
+        }
+        if (brandId == null) {
+            brandId = new ArrayList<>();
+        }
+        if (productLineId == null) {
+            productLineId = new ArrayList<>();
+        }
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+
+        Page<Product> products=service.findProductsByFilters(cateId,brandId,productLineId,pageable);
+        model.addAttribute("page",products);
         return "filter";
     }
 

@@ -2,19 +2,20 @@ package com.nhom2.asmsof3021.config;
 
 
 import com.nhom2.asmsof3021.factory.ProductFactory;
+import com.nhom2.asmsof3021.model.Orders;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
 import org.passay.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 @Configuration
 public class AppConfig {
@@ -58,10 +59,9 @@ public class AppConfig {
         );
         return passwordValidator;
     }
-//    @Bean
-//    public CommonsMultipartResolver multipartResolver() {
-//        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-//        // Cấu hình cho multipartResolver
-//        return resolver;
-//    }
+    @Bean("ORDERS_QUEUE")
+    public ArrayDeque<Orders> ordersQueue(){
+
+        return new ArrayDeque<>();
+    }
 }

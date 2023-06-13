@@ -17,5 +17,9 @@ public class Category {
     private Integer catalogId;
     private String name;
     private String entityClassName;
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
+    @ManyToMany(mappedBy = "categories",fetch = FetchType.EAGER)
+    private List<Brand> brands;
 }
 

@@ -98,7 +98,8 @@
                             </th:block>
                         </p>
                         <hr>
-                        <div class="row pt-5 mb-3">
+                        <div class="row pt-2 mb-3">
+
                             <p>
                                 <span class="fs-4"><span
                                         class="text-decoration-line-through text-black text-opacity-50"
@@ -112,26 +113,37 @@
                             </p>
 
                         </div>
-                        <div class="">
-                            <div class="number-input">
-                                <i role="button" ng-click="decreaseValue()" class="btn btn-light rounded-circle bi bi-dash-circle-fill me-1"></i>
-                                <label>
-                                    <input  type="number"  ng-model="amountPdetail" class="text-center"  ng-change="checkMinValue()" ng-model-options="{ debounce: 500 }" min="1" >
-                                </label>
-                                <i role="button" ng-click="increaseValue()" class="btn btn-light rounded-circle bi bi-plus-circle-fill ms-1"></i>
+                        <th:block th:if="${productDetail.stock > 0}">
+                            <div class="" >
+                                <div class="number-input">
+                                    <i role="button" ng-click="decreaseValue()" class="btn btn-light rounded-circle bi bi-dash-circle-fill me-1"></i>
+                                    <label>
+                                        <input  type="number"  ng-model="amountPdetail" class="text-center"  ng-change="checkMinValue()" ng-model-options="{ debounce: 500 }" min="1" >
+                                    </label>
+                                    <i role="button" ng-click="increaseValue()" class="btn btn-light rounded-circle bi bi-plus-circle-fill ms-1"></i>
+                                </div>
+
+                                <button ng-click="addToCartProductDetail($event)" th:attr="data-product-id=${productDetail.id}"
+                                        class="btn btn-danger">Thêm vào giỏ
+                                </button>
+                                <button class="btn btn-danger">Mua ngay</button>
+                            </div>
+                            <div class="card bg-primary mt-2">
+                                <a rel="nofollow" class="text-decoration-none text-light text-center"
+                                   href="https://xgear.net/tra-gop/2581-laptop-asus-rog-strix-g15-g513ih-hn015w/?type=bank">
+                                    <span>Mua trả góp 0%</span><br> <span class="small" style="font-size: 11px;">Thủ tục đơn
+                                    giản</span> </a>
+                            </div>
+                        </th:block>
+
+                        <div th:if="${productDetail.stock <= 0}">
+
+                            <div class="card bg-danger mt-2 text-center text-light align-middle" style="height: 50px">
+                                Hết hàng
                             </div>
 
-                            <button ng-click="addToCartProductDetail($event)" th:attr="data-product-id=${productDetail.id}"
-                                    class="btn btn-danger">Thêm vào giỏ
-                            </button>
-                            <button class="btn btn-danger">Mua ngay</button>
                         </div>
-                        <div class="card bg-primary mt-2">
-                            <a rel="nofollow" class="text-decoration-none text-light text-center"
-                               href="https://xgear.net/tra-gop/2581-laptop-asus-rog-strix-g15-g513ih-hn015w/?type=bank">
-                                <span>Mua trả góp 0%</span><br> <span class="small" style="font-size: 11px;">Thủ tục đơn
-                                    giản</span> </a>
-                        </div>
+
 
                     </div>
                 </div>
@@ -140,8 +152,8 @@
                 <div style="color: #a87817">
                     <h3 class="mark">Sản phẩm tượng tự</h3>
                     <div class="wrapperSlider position-relative w-100">
-                        <i id="left" class="fa-solid fa-angle-left "></i>
-                        <ul class="carouselSlider">
+                        <i id="left" role="presentation" class="fa-solid fa-angle-left owl-prev"></i>
+                        <div class="carouselSlider owl-carousel">
                             <th:block th:if="${productsSimilar}">
                                 <div class="rounded-3 cardSlider card-product position-relative "
                                      th:each="p : ${productsSimilar}"
@@ -155,7 +167,7 @@
                             <span class="visually-hidden">unread messages</span>
                         </span>
                                             <img class="card-img-top imgSlider"
-                                                 th:src="@{/images/product/{img}(img=${p.image})}" draggable="false"
+                                                 th:src="@{/images/product/{img}(img=${p.image})}"
                                                  alt="">
                                             <div class="card-body  pb-1 ">
 
@@ -186,9 +198,16 @@
                                     </div>
                                 </div>
                             </th:block>
-                        </ul>
-                        <i id="right" class="fa-solid fa-angle-right"></i>
+                        </div>
+                        <i id="right" role="presentation" class="fa-solid fa-angle-right owl-next"></i>
                     </div>
+<!--                    <div class="wrapperSlider position-relative w-100">-->
+<!--                        <i id="left" class="fa-solid fa-angle-left "></i>-->
+<!--                        <ul class="carouselSlider">-->
+<!--                            -->
+<!--                        </ul>-->
+<!--                        <i id="right" class="fa-solid fa-angle-right"></i>-->
+<!--                    </div>-->
                 </div>
             </div>
 
@@ -230,9 +249,9 @@
         }
 
         .wrapperSlider .carouselSlider {
-            display: grid;
-            grid-auto-flow: column;
-            grid-auto-columns: calc((100% / 3) - 12px);
+            /*display: grid;*/
+            /*grid-auto-flow: column;*/
+            /*grid-auto-columns: calc((100% / 3) - 12px);*/
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             gap: 16px;
@@ -290,17 +309,17 @@
             font-size: 1.31rem;
         }
 
-        @media screen and (max-width: 900px) {
-            .wrapperSlider .carouselSlider {
-                grid-auto-columns: calc((100% / 2) - 9px);
-            }
-        }
+        /*@media screen and (max-width: 900px) {*/
+        /*    .wrapperSlider .carouselSlider {*/
+        /*        grid-auto-columns: calc((100% / 2) - 9px);*/
+        /*    }*/
+        /*}*/
 
-        @media screen and (max-width: 600px) {
-            .wrapperSlider .carouselSlider {
-                grid-auto-columns: 100%;
-            }
-        }
+        /*@media screen and (max-width: 600px) {*/
+        /*    .wrapperSlider .carouselSlider {*/
+        /*        grid-auto-columns: 100%;*/
+        /*    }*/
+        /*}*/
         .carousel-dark .carousel-indicators [data-bs-target] {
             background-color: white;
         }
@@ -343,77 +362,72 @@
         }
     </style>
     <script>
-        const wrapper = document.querySelector(".wrapperSlider");
-        const carousel = document.querySelector(".carouselSlider");
-        const firstCardWidth = carousel.querySelector(".cardSlider").offsetWidth;
-        const arrowBtns = document.querySelectorAll(".wrapperSlider i");
-        const carouselChildrens = [...carousel.children];
-        let isDragging = false, isAutoPlay = true, startX, startScrollLeft, timeoutId;
-        // Get the number of cards that can fit in the carousel at once
-        let cardPerView = Math.round(carousel.offsetWidth / firstCardWidth);
-        // Insert copies of the last few cards to beginning of carousel for infinite scrolling
-        carouselChildrens.slice(-cardPerView).reverse().forEach(card => {
-            carousel.insertAdjacentHTML("afterbegin", card.outerHTML);
+        $(document).ready(function() {
+            const sliderItem=document.querySelectorAll('.cardSlider').length;
+            console.log("slider item "+sliderItem)
+            if(sliderItem>3){
+                const carousel = $(".carouselSlider");
+                carousel.owlCarousel({
+                    center: true,
+                    margin: 10,
+                    mouseDrag:true,
+                    touchDrag:true,
+                    items: 5, // Number of items to display
+                    loop: true, // Enable infinite loop
+                    dots: true,
+
+                    autoplay:true,
+                    autoplayTimeout: 3000,
+                    autoplayHoverPause: true,// Disable pagination dots
+                    responsive: {
+                        0: {
+                            items: 3 // Number of items to display on small screens
+                        },
+                        768: {
+                            items: 4 // Number of items to display on medium screens
+                        },
+                        992: {
+                            items: 5 // Number of items to display on large screens
+                        }
+                    }
+                });
+                owl.on('mousewheel', '.owl-stage', function (e) {
+                    if (e.deltaY>0) {
+                        owl.trigger('next.owl');
+                    } else {
+                        owl.trigger('prev.owl');
+                    }
+                    e.preventDefault();
+                });
+            }
+            // const arrowBtns = $(".wrapperSlider i");
+            // arrowBtns.on("click", function() {
+            //     const direction = $(this).hasClass("fa-angle-left") ? "prev" : "next";
+            //     carousel.trigger("to.owl.carousel", [300, direction]);
+            // });
         });
-        // Insert copies of the first few cards to end of carousel for infinite scrolling
-        carouselChildrens.slice(0, cardPerView).forEach(card => {
-            carousel.insertAdjacentHTML("beforeend", card.outerHTML);
-        });
-        // Scroll the carousel at appropriate postition to hide first few duplicate cards on Firefox
-        carousel.classList.add("no-transition");
-        carousel.scrollLeft = carousel.offsetWidth;
-        carousel.classList.remove("no-transition");
-        // Add event listeners for the arrow buttons to scroll the carousel left and right
-        arrowBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                carousel.scrollLeft += btn.id == "left" ? -firstCardWidth : firstCardWidth;
+        $(document).ready(function() {
+            const owl = $('.carouselSlider');
+            const prevButton = $('#left');
+            const nextButton = $('#right');
+
+            // Initialize Owl Carousel
+            owl.owlCarousel({
+                nav: false,
+                // Other options...
+                navContainer: '#custom-nav-container',
+            });
+
+            // Custom previous button functionality
+            prevButton.on('click', function() {
+                owl.trigger('prev.owl.carousel');
+            });
+
+            // Custom next button functionality
+            nextButton.on('click', function() {
+                owl.trigger('next.owl.carousel');
             });
         });
-        const dragStart = (e) => {
-            isDragging = true;
-            carousel.classList.add("dragging");
-            // Records the initial cursor and scroll position of the carousel
-            startX = e.pageX;
-            startScrollLeft = carousel.scrollLeft;
-        }
-        const dragging = (e) => {
-            if (!isDragging) return; // if isDragging is false return from here
-            // Updates the scroll position of the carousel based on the cursor movement
-            carousel.scrollLeft = startScrollLeft - (e.pageX - startX);
-        }
-        const dragStop = () => {
-            isDragging = false;
-            carousel.classList.remove("dragging");
-        }
-        const infiniteScroll = () => {
-            // If the carousel is at the beginning, scroll to the end
-            if (carousel.scrollLeft === 0) {
-                carousel.classList.add("no-transition");
-                carousel.scrollLeft = carousel.scrollWidth - (2 * carousel.offsetWidth);
-                carousel.classList.remove("no-transition");
-            }
-            // If the carousel is at the end, scroll to the beginning
-            else if (Math.ceil(carousel.scrollLeft) === carousel.scrollWidth - carousel.offsetWidth) {
-                carousel.classList.add("no-transition");
-                carousel.scrollLeft = carousel.offsetWidth;
-                carousel.classList.remove("no-transition");
-            }
-            // Clear existing timeout & start autoplay if mouse is not hovering over carousel
-            clearTimeout(timeoutId);
-            if (!wrapper.matches(":hover")) autoPlay();
-        }
-        const autoPlay = () => {
-            if (window.innerWidth < 800 || !isAutoPlay) return; // Return if window is smaller than 800 or isAutoPlay is false
-            // Autoplay the carousel after every 2500 ms
-            timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
-        }
-        autoPlay();
-        carousel.addEventListener("mousedown", dragStart);
-        carousel.addEventListener("mousemove", dragging);
-        document.addEventListener("mouseup", dragStop);
-        carousel.addEventListener("scroll", infiniteScroll);
-        wrapper.addEventListener("mouseenter", () => clearTimeout(timeoutId));
-        wrapper.addEventListener("mouseleave", autoPlay);
     </script>
 </section>
 </body>

@@ -5,119 +5,198 @@
 <head>
 </head>
 <body>
-<section class="container-fluid bg-light h-100" ng-controller="filterPage">
+<section class="container-lg  container-fluid" ng-controller="filterPage">
+    <nav style="--bs-breadcrumb-divider: '>>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">Laptop</a>
+            </li>
+            <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">Laptop Acer</a>
+            </li>
+            <!-- <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">Laptop
+                    MSi</a></li>
+            <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">GF
+                    Series</a></li> -->
 
-    <div class=" pt-4 mx-auto" style="width: 95%">
+        </ol>
+    </nav>
+    <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 p-3 align-items-center ">
+        <div   class="col p-2 card-product position-relative " th:each="p : ${page.content}">
 
-        <nav style="--bs-breadcrumb-divider: '>>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">Laptop</a>
-                </li>
-                <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">Laptop Acer</a>
-                </li>
-                <!-- <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">Laptop
-                        MSi</a></li>
-                <li class="breadcrumb-item"><a class="text-decoration-none text-danger" href="#">GF
-                        Series</a></li> -->
+            <th:block th:if="${p.stock>0}">
+                <a  th:href="@{'/product/'+ ${p.id}}" >
+                    <div class=" card m-0 shadow-sm">
+                        <span th:text="'-' +${p.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
 
-            </ol>
-        </nav>
-        <style>
-
-        </style>
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-5 col-6 ">
-                <div class="accordion  sticky-accordion" id="filterAccordion">
-                    <!-- Category Accordion -->
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button fs-big" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#categoryCollapse" aria-expanded="true">
-                                Category
-                            </button>
-                        </h2>
-                        <div id="categoryCollapse" class="accordion-collapse collapse show">
-                            <div class="accordion-body py-1 ps-2">
-                                <div class="accordion-item ">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed fst-normal" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#brandCollapse"
-                                                aria-expanded="false">
-                                            Brand
-                                        </button>
-                                    </h2>
-                                    <div id="brandCollapse" class="accordion-collapse collapse">
-                                        <div class="accordion-body py-1 ps-2">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header">
-                                                    <button type="button" class="accordion-button collapsed fs-tiny"
-                                                            data-bs-toggle="collapse"
-                                                            data-bs-target="#productLineCollapse" aria-expanded="false">
-                                                        Product Line
-                                                    </button>
-                                                </h2>
-                                                <div id="productLineCollapse" class="accordion-collapse collapse">
-                                                    <div class="accordion-body">
-                                                        <!-- Product Line checkboxes here -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div>
-            <div class="col-lg-9 col-md-8 col-sm-7 col-6 product-results card border-3">
-                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 p-3 align-items-center ">
-                    <div  class="col p-2 card-product position-relative " ng-repeat="p in productFilter">
-                        <a  ng-href="/product/{{p.id}}" >
-                            <div class=" card m-0 shadow-sm">
-                        <span  class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
-                            {{p.disCount}} %
                             <span class="visually-hidden">unread messages</span>
                         </span>
-                                <img class="card-img-top" th:src="@{/images/product/{{p.image}}}" alt="">
-                                <div class="card-body  pb-1 ">
+                        <img class="card-img-top" th:src="@{/images/product/{img}(img=${p.image})}" alt="">
+                        <div class="card-body  pb-1 ">
 
-                                    <div class="text-center">
-                                        <h2  class="text-black product-title">
-                                            {{p.name}}
-                                        </h2>
-                                        <span class="text-black text-decoration-line-through" >{{p.price | number : 0}}<span>₫</span></span>
-                                        <span class="text-decoration-underline " style="color: red;" >{{calculateDisCount(p.price,p.disCount) | number : 0}}</span>
-                                    </div>
-                                </div>
+                            <div class="text-center">
+                                <h2 th:text="${p.name}" class="text-black product-title">
+                                </h2>
+                                <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(p.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
+                                <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((p.price -(p.price * p.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
                             </div>
-                        </a>
-                        <div class="position-absolute bottom-0 start-50  btn-add-cart  z-5 w-75" style="transform: translate(-50%, -50%);">
-                            <button class="btn btn-dark text-center w-100">
-                                <a th:href="@{/product/{{p.id}}}">Xem chi tiết</a>
-                            </button>
+                            <!--                                    <table class="table table-borderless table-active table-sm fw-bold mt-2" style="font-size: .8em;">-->
+                            <!--                                        <tbody class="">-->
+                            <!--                                        <tr>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-cpu"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td class="" th:text="${p.chip}">-->
 
+                            <!--                                            </td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-gpu-card"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.card}">-->
 
-                            <button  type="button"  class="btn btn-dark text-center mt-3 w-100 fs-6"
-                                     ng-click="addToCart($event,1)" data-product-id="{{p.id}}"
-                            ><i class="bi bi-cart-plus-fill"></i>
-                                <br>
-                                Thêm vào giỏ hàng
-                            </button>
+                            <!--                                            </td>-->
+                            <!--                                        </tr>-->
+                            <!--                                        <tr>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-memory"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.ram}">-->
+
+                            <!--                                            </td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-device-ssd"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.hardDisk}">-->
+
+                            <!--                                            </td>-->
+                            <!--                                        </tr>-->
+                            <!--                                        <tr>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="fa-solid fa-medal"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.baohanh}">-->
+
+                            <!--                                            </td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-slash-square"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.screenSize}">-->
+                            <!--                                            </td>-->
+                            <!--                                        </tr>-->
+                            <!--                                        </tbody>-->
+                            <!--                                    </table>-->
+
                         </div>
                     </div>
-
-
+                </a>
+                <div  class="position-absolute bottom-0 start-50  btn-add-cart  z-5 w-75" style="transform: translate(-50%, -50%);">
+                    <a  class="btn btn-dark text-center text-primary w-100" th:href="@{'/product/'+ ${p.id}}">Xem chi tiết</a>
+                    <button  type="button"  class="btn btn-dark text-center mt-3 w-100 fs-6"
+                             th:attr="data-product-id=${p.id}" ng-click="addToCart($event,1)"
+                    ><i class="bi bi-cart-plus-fill"></i>
+                        <br>
+                        Thêm vào giỏ hàng
+                    </button>
                 </div>
-            </div>
 
+            </th:block>
+            <th:block th:if="${p.stock<=0}">
+                <a  th:href="@{'/product/'+ ${p.id}}" >
+                    <div class=" card m-0 shadow-sm" style="filter: brightness(60%);">
+                        <span th:text="'-' +${p.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
 
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                        <img class="card-img-top" th:src="@{/images/product/{img}(img=${p.image})}" alt="">
+                        <div class="card-body  pb-1 ">
+
+                            <div class="text-center">
+                                <h2 th:text="${p.name}" class="text-black product-title">
+                                </h2>
+                                <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(p.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
+                                <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((p.price -(p.price * p.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
+                            </div>
+                            <!--                                    <table class="table table-borderless table-active table-sm fw-bold mt-2" style="font-size: .8em;">-->
+                            <!--                                        <tbody class="">-->
+                            <!--                                        <tr>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-cpu"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td class="" th:text="${p.chip}">-->
+
+                            <!--                                            </td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-gpu-card"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.card}">-->
+
+                            <!--                                            </td>-->
+                            <!--                                        </tr>-->
+                            <!--                                        <tr>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-memory"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.ram}">-->
+
+                            <!--                                            </td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-device-ssd"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.hardDisk}">-->
+
+                            <!--                                            </td>-->
+                            <!--                                        </tr>-->
+                            <!--                                        <tr>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="fa-solid fa-medal"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.baohanh}">-->
+
+                            <!--                                            </td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <i class="bi bi-slash-square"></i>-->
+                            <!--                                            </td>-->
+                            <!--                                            <td th:text="${p.screenSize}">-->
+                            <!--                                            </td>-->
+                            <!--                                        </tr>-->
+                            <!--                                        </tbody>-->
+                            <!--                                    </table>-->
+
+                        </div>
+                    </div>
+                </a>
+                <div  class="position-absolute bottom-0 start-50  d-block  z-5 w-75" style="transform: translate(-50%, -50%);">
+                    <a  class="btn btn-dark text-center text-primary w-100" th:href="@{'/product/'+ ${p.id}}">Xem chi tiết</a>
+                    <button  class="btn btn-danger text-center mt-3 w-100 fs-6"
+                    >
+                        Hết hàng
+                    </button>
+                </div>
+            </th:block>
 
         </div>
+
+        <div>
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:if="${page.number >= 0}">
+                    <a class="page-link"
+                       th:href="@{'/admin/product/management?page='+${page.number - 1 < 0 ? page.totalPages -1 : page.number - 1}+'&pageSize='+${page.size}}">Previous</a>
+                </li>
+                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, page.getTotalPages())}"
+                    th:class="${page.number + 1 == pageNumber ? 'page-item active' : 'page-item'}">
+                    <a class="text-light"
+                       th:href="@{'/admin/product/management?page='+${pageNumber - 1}+'&pageSize='+${page.size}}"
+                       th:text="${pageNumber}"><span class="page-link"></span></a>
+
+
+                </li>
+                <li class="page-item" th:if="${page.number < page.totalPages}">
+                    <a class="page-link"
+                       th:href="@{'/admin/product/management?page='+${page.number + 1 > page.totalPages - 1 ? 0 : page.number + 1}+'&pageSize='+${page.size}}">Next</a>
+                </li>
+            </ul>
+        </div>
     </div>
+
 </section>
 </body>
 </html>

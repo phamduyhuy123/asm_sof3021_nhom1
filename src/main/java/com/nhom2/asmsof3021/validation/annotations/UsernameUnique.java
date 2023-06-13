@@ -1,15 +1,10 @@
-package com.nhom2.asmsof3021.validation;
+package com.nhom2.asmsof3021.validation.annotations;
 
-import com.nhom2.asmsof3021.utils.PasswordConstraintValidator;
-import com.nhom2.asmsof3021.utils.UniqueEmailValidator;
-import com.nhom2.asmsof3021.utils.UserNameUniqueValidation;
+import com.nhom2.asmsof3021.validation.constraint.UserNameUniqueValidation;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
-
-import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Constraint(validatedBy = UserNameUniqueValidation.class)
 @Target(ElementType.FIELD)
