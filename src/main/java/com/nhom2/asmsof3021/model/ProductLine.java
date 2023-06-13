@@ -13,7 +13,8 @@ public class ProductLine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productLineId;
+    @Column(unique = true)
     private String name;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Brand brand;
 }

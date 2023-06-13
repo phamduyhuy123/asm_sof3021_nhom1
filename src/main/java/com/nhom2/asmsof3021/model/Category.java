@@ -17,7 +17,5 @@ public class Category {
     private Integer catalogId;
     private String name;
     private String entityClassName;
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
 }
 

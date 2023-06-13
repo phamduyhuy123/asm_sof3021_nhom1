@@ -54,6 +54,7 @@ public class ComputerController extends CrudMvcMethod<Computer, Integer> {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         Computer computer=repo.findById(id).orElseThrow();
+        System.out.println(repo.findById(id).orElseThrow());
         if(computer!=null){
             productService.delete(id);
         }

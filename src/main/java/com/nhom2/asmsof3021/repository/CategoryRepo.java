@@ -14,5 +14,4 @@ public interface CategoryRepo extends CrudRepository<Category,Integer> {
     @Query("SELECT c from Category  c where c.entityClassName is not null  ")
     List<Category> findAllByEntityClassNameExists();
 
-    Optional<List<Category>> findByName(String name);
 }

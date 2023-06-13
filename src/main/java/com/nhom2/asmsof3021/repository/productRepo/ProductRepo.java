@@ -39,5 +39,4 @@ public interface ProductRepo extends ProductRepoAbstract<Product> {
             @Param("productLineIds") List<Integer> productLineIds
     );
     void deleteById(Integer id);
-//    void updateById(Integer id);
 }

@@ -33,16 +33,16 @@ public abstract class Product {
     private boolean isSelected;
     @Transient
     private Integer quantity;
-    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,cascade = {CascadeType.ALL })
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JsonBackReference
     private List<ProductListImage> productListImages;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
     private Brand brand;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JsonBackReference
     private Category category;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonBackReference
     private ProductLine productLine;
 

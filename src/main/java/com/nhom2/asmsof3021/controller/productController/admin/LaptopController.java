@@ -29,6 +29,7 @@ public class LaptopController extends CrudMvcMethod<Laptop, Integer> {
         System.out.println("laptop productline: "+laptop.getProductLine());
         List<ProductListImage> productListImages = productService.saveFiles(images,photoImage, laptop);
         // Set the productListImages list to the monitor object
+        System.out.println("ListimageLaptop: "+productListImages);
         laptop.setProductListImages(productListImages);
 
         productService.save(laptop);
@@ -39,6 +40,7 @@ public class LaptopController extends CrudMvcMethod<Laptop, Integer> {
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         Laptop laptop = repo.findById(id).orElseThrow();
+        System.out.println(laptop);
         if (laptop != null) {
             productService.delete(id);
         }
