@@ -8,6 +8,10 @@ import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
 import com.nhom2.asmsof3021.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,7 +84,9 @@ public class RouteController {
             @RequestParam(required = false, name = "brandIds")List<Integer> brandId,
             @RequestParam(required = false, name = "productLineIds")List<Integer> productLineId,
             @RequestParam(required = false, name = "minPrice")Integer minPrice,
-            @RequestParam(required = false, name = "maxPrice")Integer maxPrice){
+            @RequestParam(required = false, name = "maxPrice")Integer maxPrice,
+            @RequestParam(required = false,name="page",defaultValue = "0")Integer page,
+            @RequestParam(required = false,name="pageSize")Integer pageSize){
         if (cateId == null) {
             cateId = new ArrayList<>();
         }
@@ -90,8 +96,11 @@ public class RouteController {
         if (productLineId == null) {
             productLineId = new ArrayList<>();
         }
-        List<Product> products=service.findProductsByFilters(cateId,brandId,productLineId);
-        model.addAttribute("products",products);
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+
+        Page<Product> products=service.findProductsByFilters(cateId,brandId,productLineId,pageable);
+        model.addAttribute("page",products);
         return "filter";
     }
 
