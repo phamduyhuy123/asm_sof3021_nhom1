@@ -48,13 +48,13 @@ a {
     text-decoration: none;
 }
 
-/* .dropdown:hover > .dropdown-menu {
+ .dropdown:hover > .dropdown-menu {
     display: block;
-} */
-/* .dropend:hover > .dropdown-sub-menu {
+}
+.dropend:hover > .dropdown-sub-menu {
     display: block;
 
-} */
+}
 
 .product-title {
     font-family: "Roboto", Sans-serif;

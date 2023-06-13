@@ -37,20 +37,13 @@ public class RouteController {
     @GetMapping({"/","/index"})
     public ModelAndView getHomePage(Principal principal){
         checkIsAuthenticated(principal,session,userRepository);
-
-        ModelAndView modelAndView=new ModelAndView("index");
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.setViewName("index");
         List<Product> laptops= repo.findByCategory_CatalogId(1);
         List<Product> monitors=repo.findByCategory_CatalogId(2);
-        for (Product p:laptops
-             ) {
-            if(p.getProductLine()!=null){
-                System.out.println(p.getProductLine().getName());
-            }
-
-        }
         Map<Integer,Object> objectMap=new HashMap<>();
-        objectMap.put(1,laptops);
-        objectMap.put(2,monitors);
+        objectMap.put(1,laptops.isEmpty() ? null : laptops);
+        objectMap.put(2,monitors.isEmpty()? null:monitors );
         modelAndView.addObject("products",objectMap);
         return modelAndView;
     }

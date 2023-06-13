@@ -112,7 +112,8 @@
 
     </div>
     <div class="">
-        <th:block th:each="p : ${products}">
+
+        <th:block th:each="p : ${products}" th:if="${p!=null}">
             <div th:if="${p.getKey() ==1}" class="row justify-content-between p-3 " style="background-color: #75070B">
                 <a th:href="@{'/category?categoryIds=1'}"
                    class="col-12 col-sm-2 col-md-3 col-lg-4 rounded-2 card ">
