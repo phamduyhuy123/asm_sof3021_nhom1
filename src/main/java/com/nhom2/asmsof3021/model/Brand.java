@@ -19,4 +19,11 @@ public class Brand {
     private List<Product> products;
     @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER)
     private List<ProductLine> productLines;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "brand_category",
+            joinColumns = @JoinColumn(name = "brand_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
 }
