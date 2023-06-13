@@ -67,15 +67,6 @@ public class ProductService {
 
         return page;
     }
-    public List<Product> searchProductResult(String searchTerm) {
-        List<Product> productsSearch;
-        if(searchTerm!=null || searchTerm.isEmpty()){
-           productsSearch= productRepo.searchProduct(searchTerm);
-            return productsSearch;
-        }else {
-            return null;
-        }
-    }
 
     private Long getTotalResults(List<Integer> categoryIds, List<Integer> brandIds, List<Integer> productLineIds) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
