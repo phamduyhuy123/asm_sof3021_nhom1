@@ -32,16 +32,16 @@ public abstract class Product {
     @Transient
     private Integer quantity;
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonBackReference
     private List<ProductListImage> productListImages;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JsonBackReference
     private Brand brand;
     @ManyToOne
     @JsonBackReference
     private Category category;
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
     @JsonBackReference
     private ProductLine productLine;
 }

@@ -23,23 +23,23 @@
         </h4>
 
         <!-- Basic Layout -->
-        <form class="row" id="myForm" th:object="${product}" action="#" method="post">
+        <form class="row" id="myForm" th:object="${product}" action="#" method="post" enctype="multipart/form-data">
             <div class="col-xl">
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Basic Layout</h5>
+                        <h5 class="mb-0">Danh mục sản phẩm</h5>
 
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
-                            Launch
-                        </button>
+<!--                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"-->
+<!--                                data-bs-target="#exampleModal" th:text="${categoryName}">-->
+<!--                            Danh mục-->
+<!--                        </button>-->
                         <button
                                 type="button"
                                 class="btn btn-primary"
                                 data-bs-toggle="modal"
                                 data-bs-target="#fullscreenModal"
                         >
-                            Launch modal
+                            Danh sách sản phẩm
                         </button>
 
                     </div>
@@ -56,7 +56,9 @@
 
                             </th:block>
                             <th:block th:if="${categoryViewName!=null}">
-                                <div th:if="${categoryViewName!=null}" id="inputFieldsContainer" th:include="~{${categoryViewName}}">
+                                <div th:if="${categoryViewName!=null}"
+                                     id="inputFieldsContainer"
+                                     th:include="~{${categoryViewName}}">
 
                                 </div>
                             </th:block>
@@ -88,10 +90,11 @@
                         <div class="modal-body">
                             <select th:onchange="'window.location.href = \'' + @{/admin/product/category/new} + '?categoryId=\' + this.value ' "
                                     id="selectCategories" th:field="*{category}"
-                                    class="form-select float-end w-25 sticky-top" aria-label="Default select example"
+                                    class="form-select sticky-top" aria-label="Default select example"
                             >
-                                <option selected value="">Categories</option>
-                                <option th:each="category : ${categories}" th:value="${category.catalogId}"
+<!--                                <option selected value="">Categories</option>-->
+                                <option th:each="category : ${categories}"
+                                        th:value="${category.catalogId}"
                                         th:text="${category.name}"
                                         data-bs-dismiss="modal"
                                 ></option>
@@ -159,9 +162,9 @@
                             </li>
                             <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, page.getTotalPages())}"
                                 th:class="${page.number + 1 == pageNumber ? 'page-item active' : 'page-item'}">
-                                <a class="text-light"
+                                <a class="text-light page-link"
                                    th:href="@{'/admin/product/management?page='+${pageNumber - 1}+'&pageSize='+${page.size}}"
-                                   th:text="${pageNumber}"><span class="page-link"></span></a>
+                                   th:text="${pageNumber}"></a>
 
 
                             </li>
