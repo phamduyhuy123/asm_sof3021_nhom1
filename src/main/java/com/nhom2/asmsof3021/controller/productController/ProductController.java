@@ -6,6 +6,7 @@ import com.nhom2.asmsof3021.model.Product;
 import com.nhom2.asmsof3021.repository.CategoryRepo;
 import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
 import com.nhom2.asmsof3021.repository.UserRepository;
+import com.nhom2.asmsof3021.service.ProductService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.metamodel.EntityType;
@@ -32,8 +33,17 @@ public class ProductController {
     private final ProductRepo productRepo;
     private final UserRepository userRepository;
     private final Map<Integer, ProductFactory> factoryMap;
-
-
+    private final ProductService productService;
+    @PostMapping("/search/api/product")
+    @ResponseBody
+    public ResponseEntity<List<Product>> fetchSearchProduct(@RequestParam("s") String searchText){
+        List<Product> products=productService.searchProductResult(searchText);
+        if(products==null || products.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }else {
+            return ResponseEntity.ok(products);
+        }
+    }
     @GetMapping("/admin/product/category/{id}")
     public String getCategory(@PathVariable Integer id, Model model, @RequestParam(defaultValue = "1") int page) {
         Category category = categoryRepository.findById(id)

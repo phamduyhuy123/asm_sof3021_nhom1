@@ -110,7 +110,7 @@ public class SecurityConfig {
                    httpSecurityLogoutConfigurer
                            .logoutUrl("/action_logout")
                            .deleteCookies("JSESSIOND")
-                           .logoutSuccessUrl("/login")
+                           .logoutSuccessUrl("/login?logout=true")
                            .logoutSuccessHandler(logoutSuccessHandler);
 
                }

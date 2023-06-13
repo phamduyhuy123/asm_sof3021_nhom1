@@ -64,8 +64,6 @@ public class RouteController {
             modelAndView.addObject("msg", error);
             return modelAndView;
         }
-
-
         return modelAndView;
     }
 

@@ -413,8 +413,22 @@ app.controller("registerController", function ($scope, $http, $rootScope) {
 
     };
 });
-app.controller("filterPage",function ($scope, $http, $rootScope){
+app.controller("SearchController",function ($scope, $http, $rootScope){
     $scope.productFilter=[];
+    $scope.searchText = '';
+    $scope.suggestions = [];
+
+    $scope.getAutocompleteSuggestions = function() {
+        $http.post('/search/api/product?s='+$scope.searchText).then(
+            (response)=>{
+                $scope.suggestions=response.data;
+            },
+            (reason)=>{
+                $scope.suggestions=[];
+            }
+        )
+    };
+
 });
 app.service('$cart', function ($http, $rootScope) {
     var cartItems = [];
