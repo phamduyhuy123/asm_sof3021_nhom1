@@ -20,23 +20,23 @@
         </ol>
     </nav>
     <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 p-3 align-items-center ">
-        <div   class="col p-2 card-product position-relative " th:each="laptop : ${products}">
+        <div   class="col p-2 card-product position-relative " th:each="p : ${page.content}">
 
-            <th:block th:if="${laptop.stock>0}">
-                <a  th:href="@{'/product/'+ ${laptop.id}}" >
+            <th:block th:if="${p.stock>0}">
+                <a  th:href="@{'/product/'+ ${p.id}}" >
                     <div class=" card m-0 shadow-sm">
-                        <span th:text="'-' +${laptop.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
+                        <span th:text="'-' +${p.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
 
                             <span class="visually-hidden">unread messages</span>
                         </span>
-                        <img class="card-img-top" th:src="@{/images/product/{img}(img=${laptop.image})}" alt="">
+                        <img class="card-img-top" th:src="@{/images/product/{img}(img=${p.image})}" alt="">
                         <div class="card-body  pb-1 ">
 
                             <div class="text-center">
-                                <h2 th:text="${laptop.name}" class="text-black product-title">
+                                <h2 th:text="${p.name}" class="text-black product-title">
                                 </h2>
-                                <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(laptop.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
-                                <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((laptop.price -(laptop.price * laptop.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
+                                <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(p.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
+                                <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((p.price -(p.price * p.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
                             </div>
                             <!--                                    <table class="table table-borderless table-active table-sm fw-bold mt-2" style="font-size: .8em;">-->
                             <!--                                        <tbody class="">-->
@@ -44,13 +44,13 @@
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-cpu"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td class="" th:text="${laptop.chip}">-->
+                            <!--                                            <td class="" th:text="${p.chip}">-->
 
                             <!--                                            </td>-->
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-gpu-card"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.card}">-->
+                            <!--                                            <td th:text="${p.card}">-->
 
                             <!--                                            </td>-->
                             <!--                                        </tr>-->
@@ -58,13 +58,13 @@
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-memory"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.ram}">-->
+                            <!--                                            <td th:text="${p.ram}">-->
 
                             <!--                                            </td>-->
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-device-ssd"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.hardDisk}">-->
+                            <!--                                            <td th:text="${p.hardDisk}">-->
 
                             <!--                                            </td>-->
                             <!--                                        </tr>-->
@@ -72,13 +72,13 @@
                             <!--                                            <td>-->
                             <!--                                                <i class="fa-solid fa-medal"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.baohanh}">-->
+                            <!--                                            <td th:text="${p.baohanh}">-->
 
                             <!--                                            </td>-->
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-slash-square"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.screenSize}">-->
+                            <!--                                            <td th:text="${p.screenSize}">-->
                             <!--                                            </td>-->
                             <!--                                        </tr>-->
                             <!--                                        </tbody>-->
@@ -88,9 +88,9 @@
                     </div>
                 </a>
                 <div  class="position-absolute bottom-0 start-50  btn-add-cart  z-5 w-75" style="transform: translate(-50%, -50%);">
-                    <a  class="btn btn-dark text-center text-primary w-100" th:href="@{'/product/'+ ${laptop.id}}">Xem chi tiết</a>
+                    <a  class="btn btn-dark text-center text-primary w-100" th:href="@{'/product/'+ ${p.id}}">Xem chi tiết</a>
                     <button  type="button"  class="btn btn-dark text-center mt-3 w-100 fs-6"
-                             th:attr="data-product-id=${laptop.id}" ng-click="addToCart($event,1)"
+                             th:attr="data-product-id=${p.id}" ng-click="addToCart($event,1)"
                     ><i class="bi bi-cart-plus-fill"></i>
                         <br>
                         Thêm vào giỏ hàng
@@ -98,21 +98,21 @@
                 </div>
 
             </th:block>
-            <th:block th:if="${laptop.stock<=0}">
-                <a  th:href="@{'/product/'+ ${laptop.id}}" >
+            <th:block th:if="${p.stock<=0}">
+                <a  th:href="@{'/product/'+ ${p.id}}" >
                     <div class=" card m-0 shadow-sm" style="filter: brightness(60%);">
-                        <span th:text="'-' +${laptop.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
+                        <span th:text="'-' +${p.disCount}+ '%'" class="position-absolute top-0 end-0  badge " style="background-color: rgb(42, 165, 83);">
 
                             <span class="visually-hidden">unread messages</span>
                         </span>
-                        <img class="card-img-top" th:src="@{/images/product/{img}(img=${laptop.image})}" alt="">
+                        <img class="card-img-top" th:src="@{/images/product/{img}(img=${p.image})}" alt="">
                         <div class="card-body  pb-1 ">
 
                             <div class="text-center">
-                                <h2 th:text="${laptop.name}" class="text-black product-title">
+                                <h2 th:text="${p.name}" class="text-black product-title">
                                 </h2>
-                                <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(laptop.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
-                                <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((laptop.price -(laptop.price * laptop.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
+                                <span class="text-black text-decoration-line-through" th:text="${#numbers.formatDecimal(p.price,3,'POINT',0,'COMMA')} + '₫'"><span></span></span>
+                                <span class="text-decoration-underline " style="color: red;" th:text="${#numbers.formatDecimal((p.price -(p.price * p.disCount / 100)),3,'POINT',0,'COMMA')} + '₫'"></span>
                             </div>
                             <!--                                    <table class="table table-borderless table-active table-sm fw-bold mt-2" style="font-size: .8em;">-->
                             <!--                                        <tbody class="">-->
@@ -120,13 +120,13 @@
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-cpu"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td class="" th:text="${laptop.chip}">-->
+                            <!--                                            <td class="" th:text="${p.chip}">-->
 
                             <!--                                            </td>-->
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-gpu-card"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.card}">-->
+                            <!--                                            <td th:text="${p.card}">-->
 
                             <!--                                            </td>-->
                             <!--                                        </tr>-->
@@ -134,13 +134,13 @@
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-memory"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.ram}">-->
+                            <!--                                            <td th:text="${p.ram}">-->
 
                             <!--                                            </td>-->
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-device-ssd"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.hardDisk}">-->
+                            <!--                                            <td th:text="${p.hardDisk}">-->
 
                             <!--                                            </td>-->
                             <!--                                        </tr>-->
@@ -148,13 +148,13 @@
                             <!--                                            <td>-->
                             <!--                                                <i class="fa-solid fa-medal"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.baohanh}">-->
+                            <!--                                            <td th:text="${p.baohanh}">-->
 
                             <!--                                            </td>-->
                             <!--                                            <td>-->
                             <!--                                                <i class="bi bi-slash-square"></i>-->
                             <!--                                            </td>-->
-                            <!--                                            <td th:text="${laptop.screenSize}">-->
+                            <!--                                            <td th:text="${p.screenSize}">-->
                             <!--                                            </td>-->
                             <!--                                        </tr>-->
                             <!--                                        </tbody>-->
@@ -164,7 +164,7 @@
                     </div>
                 </a>
                 <div  class="position-absolute bottom-0 start-50  d-block  z-5 w-75" style="transform: translate(-50%, -50%);">
-                    <a  class="btn btn-dark text-center text-primary w-100" th:href="@{'/product/'+ ${laptop.id}}">Xem chi tiết</a>
+                    <a  class="btn btn-dark text-center text-primary w-100" th:href="@{'/product/'+ ${p.id}}">Xem chi tiết</a>
                     <button  class="btn btn-danger text-center mt-3 w-100 fs-6"
                     >
                         Hết hàng
@@ -174,7 +174,27 @@
 
         </div>
 
+        <div>
+            <ul class="pagination justify-content-center">
 
+                <li class="page-item" th:if="${page.number >= 0}">
+                    <a class="page-link"
+                       th:href="@{'/admin/product/management?page='+${page.number - 1 < 0 ? page.totalPages -1 : page.number - 1}+'&pageSize='+${page.size}}">Previous</a>
+                </li>
+                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, page.getTotalPages())}"
+                    th:class="${page.number + 1 == pageNumber ? 'page-item active' : 'page-item'}">
+                    <a class="text-light"
+                       th:href="@{'/admin/product/management?page='+${pageNumber - 1}+'&pageSize='+${page.size}}"
+                       th:text="${pageNumber}"><span class="page-link"></span></a>
+
+
+                </li>
+                <li class="page-item" th:if="${page.number < page.totalPages}">
+                    <a class="page-link"
+                       th:href="@{'/admin/product/management?page='+${page.number + 1 > page.totalPages - 1 ? 0 : page.number + 1}+'&pageSize='+${page.size}}">Next</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
 </section>
