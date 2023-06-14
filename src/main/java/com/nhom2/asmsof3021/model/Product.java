@@ -41,7 +41,7 @@ public abstract class Product {
     @ManyToOne
     @JsonBackReference
     private Category category;
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JsonBackReference
     private ProductLine productLine;
 }

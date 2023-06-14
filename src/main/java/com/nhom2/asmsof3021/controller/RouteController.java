@@ -1,8 +1,8 @@
 package com.nhom2.asmsof3021.controller;
 
-import com.nhom2.asmsof3021.model.Monitor;
-import com.nhom2.asmsof3021.model.Product;
-import com.nhom2.asmsof3021.model.ProductLine;
+import com.nhom2.asmsof3021.model.*;
+import com.nhom2.asmsof3021.repository.CategoryRepo;
+import com.nhom2.asmsof3021.repository.ProductLineRepo;
 import com.nhom2.asmsof3021.repository.UserRepository;
 import com.nhom2.asmsof3021.repository.productRepo.ProductRepo;
 import com.nhom2.asmsof3021.service.ProductService;
@@ -38,6 +38,7 @@ public class RouteController {
 //
 //    }
     private final ProductRepo repo;
+    private final ProductLineRepo productLineRepo;
     private final ProductService service;
     private final HttpSession session;
     private final UserRepository userRepository;
@@ -49,11 +50,8 @@ public class RouteController {
         modelAndView.setViewName("index");
         List<Product> laptops = repo.findByCategory_CatalogId(1);
         List<Product> monitors = repo.findByCategory_CatalogId(2);
-        Map<Integer, Object> objectMap = new HashMap<>();
-        objectMap.put(1, laptops.isEmpty() ? null : laptops);
-        objectMap.put(2, monitors.isEmpty() ? null : monitors);
-        modelAndView.addObject("products", objectMap);
-
+        modelAndView.addObject("laptops", laptops);
+        modelAndView.addObject("monitor",monitors);
         return modelAndView;
     }
 
