@@ -39,7 +39,8 @@ public interface ProductRepo extends ProductRepoAbstract<Product> {
             @Param("productLineIds") List<Integer> productLineIds
     );
     void deleteById(Integer id);
-    @Query("select p from Product  p where p.name like %?1% or p.category.name like %?1% or p.brand.name like %?1% or p.productLine.name like %?1% order by p.name ")
+    @Query("SELECT p FROM Product p WHERE (p.name LIKE %?1% OR p.category.name LIKE %?1% OR p.brand.name LIKE %?1% OR p.productLine.name LIKE %?1% OR p.category.entityClassName LIKE %?1%) " +
+            "AND (TYPE(p) = Laptop OR TYPE(p) = Monitor)")
     List<Product> searchProduct(String search,Pageable pageable);
 
 //    Page<Product> findAll(Pageable pageable, Sort sort);
