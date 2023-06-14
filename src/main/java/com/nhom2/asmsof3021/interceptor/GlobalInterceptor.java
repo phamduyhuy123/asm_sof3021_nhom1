@@ -30,7 +30,10 @@ public class GlobalInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         String uri=request.getRequestURI();
         if(!uri.contains("admin")&&!uri.contains("api")){
-            request.setAttribute("categories",categoryRepo.findAll());
+            List<Category> categories=categoryRepo.findAll();
+
+            request.setAttribute("categories",categories);
+
         }
 
 

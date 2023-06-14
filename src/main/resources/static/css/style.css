@@ -78,7 +78,7 @@ a {
 }
 .dropend:hover > .dropdown-sub-menu {
     display: block;
-
+    --bs-dropdown-min-width: 0;
 }
 
 .product-title {
