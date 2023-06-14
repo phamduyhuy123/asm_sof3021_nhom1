@@ -74,9 +74,10 @@ public class ProductService {
             Sort sort = Sort.by(Sort.Direction.ASC, "name");
             Pageable pageable = PageRequest.of(0, 5, sort);
             productsSearch= productRepo.searchProduct(searchTerm,pageable);
+            System.out.println(productsSearch);
             return productsSearch;
         }else {
-            return null;
+            return new ArrayList<>();
         }
     }
 

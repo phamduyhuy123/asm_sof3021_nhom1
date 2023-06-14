@@ -23,9 +23,6 @@ public class Laptop extends Product{
     private String pin;
     private String weight;
     private String size;
-
-
     public Laptop() {
-
     }
 }
