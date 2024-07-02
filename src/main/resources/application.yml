@@ -1,28 +1,28 @@
-***REMOVED***
-***REMOVED***
-***REMOVED***
-      secret-key: 6E3272357538782F413F4428472B4B6250655368566D5971337336763979244226452948404D635166546A576E5A7234753777217A25432A462D4A614E645267
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+asmsof3021:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY:6E3272357538782F413F4428472B4B6250655368566D5971337336763979244226452948404D635166546A576E5A7234753777217A25432A462D4A614E645267}
+      expiration: 86400000
+      refresh-token:
+        expiration: 604800000
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/asmsof3021
+    username: phamduyhuy
+    password: tun8111474652
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+#  mvc:
+#    view:
+#      suffix: .jsp
+#      prefix: /WEB-INF/views/
+#  thymeleaf:
 
